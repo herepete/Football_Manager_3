@@ -1,0 +1,16 @@
+print squad niceley
+print squad summary
+add finance
+have option for squad focusing on youth or best avalible team
+build framework for season
+add draft
+	num rounds
+	move up and down
+add free agency
+save game feature
+load game feature
+add logging?
+add to ci/cd and some autotesting?
+
+
+
