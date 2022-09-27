@@ -1,5 +1,14 @@
 #!/usr/bin/python3
 
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("--verbosity", help="increase output verbosity")
+parser.add_argument("--benchmark", help="Create lots of players, a useful command is ./player_creation.py --benchmark | awk '{print $(NF-3),$(NF-2)}' | sort | uniq | wc -l ", action="store_true")
+args = parser.parse_args()
+#if args.verbosity:
+#    print("verbosity turned on")
+
+
 squad_of_players_list=[]
 
 class print_nicer_output():
@@ -27,8 +36,8 @@ class create_player():
 	global squad_of_players_list
 
 	def player_name(self):
-		first_name_list=["Peter","Bob","James","Tony","Aj","Bo","Nathan","Gibby","Tim","Anchor"]
-		last_name_list=["White","Mander","Bishop","Garrett","Winston","Mayfield","Shearer","Rooney","Tucker","Racker"]
+		first_name_list=["Peter","Bob","James","Tony","Aj","Bo","Nathan","Gibby","Tim","Anchor","Jimbo","Paul","Simon","Symon","See","Silver","Titch","Rambo","Robbie","TJ"]
+		last_name_list=["White","Mander","Bishop","Garrett","Winston","Mayfield","Shearer","Rooney","Tucker","Racker","Hutch","Kane","Del-Piero","Seemen","Locker","Teng","Tubert","Smith","Roberts","Curtis","Hammer"]
 		random_choice_first_name=self.random.choice(first_name_list)
 		random_choice_last_name=self.random.choice(last_name_list)
 		self.first_name=random_choice_first_name
@@ -106,10 +115,19 @@ class create_player():
 
 create_default_list=create_player()
 
-default_squad_GK=3
-default_squad_DEF=8
-default_squad_MID=7
-default_squad_ATA=4
+if args.benchmark:
+        default_squad_GK=100
+        default_squad_DEF=100
+        default_squad_MID=100
+        default_squad_ATA=100
+
+
+else:
+
+	default_squad_GK=3
+	default_squad_DEF=8
+	default_squad_MID=7
+	default_squad_ATA=4
 
 for j in range(1,default_squad_GK):
 	create_default_list.player_creation(play_position="GK")
