@@ -73,8 +73,10 @@ class create_player():
         if self.play_position=="GK":
             self.final_player_position=["GK"]
         elif self.play_position=="DEF":
-            #determine how many position a player can play
-            random_player_poistions=self.random.randint(1,3)
+            #determine how many position a player can play, the choices are weighted to make player in 3 positions quite rare
+            #random_player_poistions=self.random.randint(1,3)
+            random_player_poistions=self.random.choices([1,2,3], weights=(60, 30, 10), k=1)
+            random_player_poistions=random_player_poistions[0]
             for i in range(random_player_poistions):
                 #chose a position and remove it from the pre-defined list to remove duplicates
                 random_position_selected=self.random.choice(defender_choice_position)
@@ -82,8 +84,10 @@ class create_player():
                 defender_choice_position.remove(random_position_selected)
             self.final_player_position=player_selected_position
         elif self.play_position=="MID":
-            #determine how many position a player can play
-            random_player_poistions=self.random.randint(1,3)
+            #determine how many position a player can play,  the choices are weighted to make player in 3 positions quite rare
+            random_player_poistions=self.random.choices([1,2,3], weights=(60, 30, 10), k=1)
+            #random_player_poistions=self.random.randint(1,3)
+            random_player_poistions=random_player_poistions[0]
             for i in range(random_player_poistions):
                 #chose a position and remove it from the pre-defined list to remove duplicates
                 random_position_selected=self.random.choice(midfield_choice_position)
@@ -93,8 +97,11 @@ class create_player():
 
         else:
             #we are presuming a Sticker
-            #determine how many position a player can play
-            random_player_poistions=self.random.randint(1,2)
+            #determine how many position a player can play,  the choices are weighted to make player in 3 positions quite rare
+            random_player_poistions=self.random.choices([1,2], weights=(70, 30,), k=1)
+            random_player_poistions=random_player_poistions[0]
+
+            #random_player_poistions=self.random.randint(1,2)
             for i in range(random_player_poistions):
                 #chose a position and remove it from the pre-defined list to remove duplicates
                 random_position_selected=self.random.choice(attacker_choice_position)
