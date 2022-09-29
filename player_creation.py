@@ -1,18 +1,20 @@
 #!/usr/bin/python3
+"""
+Script to create and summarize a squad 
+"""
 
 import argparse
-import collections
 import os
+
 os.system('clear')
+print ("This is what your squad looks like...")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--verbosity", help="increase output verbosity")
 parser.add_argument("--benchmark", help="Create lots of players, a useful command is ./player_creation.py --benchmark | awk '{print $(NF-3),$(NF-2)}' | sort | uniq | wc -l ", action="store_true")
 args = parser.parse_args()
-#if args.verbosity:
-#	print("verbosity turned on")
 
-
+# squad_of_players_list is our squad of players
 squad_of_players_list=[]
 avalible_poistions=["GK","LB","RB","CB","LM","RM","CM","DM","AM","ST","LW","RW"]
 
@@ -27,24 +29,20 @@ class print_nicer_output():
                     temp_position=(k[0])
                 else:
                     temp_position=' '.join(k[0])
-                print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4])))
+                #print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4])))
+                print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}{:>5s}{:>5s}{:>5s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),k[5],k[6],k[7]))
             except:
-                import pdb
-                pdb.set_trace()
-
-    def test_print(self):
-        print('{:=<20}'.format('hello'))
-        print('{:_^20}'.format('hello'))
-        print('{:=>20}'.format('hello'))
-
+                breakpoint()
+            
 
 
 class create_player():
 
-    import random
     global squad_of_players_list
+    import random
 
     def player_name(self):
+        # create a random first and last name
         first_name_list=["Peter","Bob","James","Tony","Aj","Bo","Nathan","Gibby","Tim","Anchor","Jimbo","Paul","Simon","Symon","See","Silver","Titch","Rambo","Robbie","TJ"]
         last_name_list=["White","Mander","Bishop","Garrett","Winston","Mayfield","Shearer","Rooney","Tucker","Racker","Hutch","Kane","Del-Piero","Seemen","Locker","Teng","Tubert","Smith","Roberts","Curtis","Hammer"]
         random_choice_first_name=self.random.choice(first_name_list)
@@ -53,15 +51,18 @@ class create_player():
         self.last_name=random_choice_last_name
 
     def player_skill(self):
+        #give a random skill
         random_skill=self.random.randint(70,96)
         self.random_skill=random_skill
 
     def player_age(self):
+        #guve a random age
         random_age=self.random.randint(18,36)
         self.random_age=random_age
 
 
     def create_position(self):
+        #give a random position (some players get more than 1 position)
         defender_choice_position=["LB","RB","CB"]
         midfield_choice_position=["LM","RM","CM","DM","AM"]
         attacker_choice_position=["ST","LW","RW"]
@@ -72,15 +73,19 @@ class create_player():
         if self.play_position=="GK":
             self.final_player_position=["GK"]
         elif self.play_position=="DEF":
+            #determine how many position a player can play
             random_player_poistions=self.random.randint(1,3)
             for i in range(random_player_poistions):
+                #chose a position and remove it from the pre-defined list to remove duplicates
                 random_position_selected=self.random.choice(defender_choice_position)
                 player_selected_position.append(random_position_selected)
                 defender_choice_position.remove(random_position_selected)
             self.final_player_position=player_selected_position
         elif self.play_position=="MID":
+            #determine how many position a player can play
             random_player_poistions=self.random.randint(1,3)
             for i in range(random_player_poistions):
+                #chose a position and remove it from the pre-defined list to remove duplicates
                 random_position_selected=self.random.choice(midfield_choice_position)
                 player_selected_position.append(random_position_selected)
                 midfield_choice_position.remove(random_position_selected)
@@ -88,8 +93,10 @@ class create_player():
 
         else:
             #we are presuming a Sticker
+            #determine how many position a player can play
             random_player_poistions=self.random.randint(1,2)
             for i in range(random_player_poistions):
+                #chose a position and remove it from the pre-defined list to remove duplicates
                 random_position_selected=self.random.choice(attacker_choice_position)
                 player_selected_position.append(random_position_selected)
                 attacker_choice_position.remove(random_position_selected)
@@ -97,6 +104,7 @@ class create_player():
 
 
     def player_creation(self,play_position):
+        #Where all the magic happens to create a Squad
         global squad_of_players
         self.player_name()
         self.player_skill()
@@ -104,11 +112,11 @@ class create_player():
         self.play_position=play_position
         self.create_position()
         try:
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill]
+            # X Y and Z are added for future use
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,"X","Y","Z"]
             squad_of_players_list.append(temp_build)
         except:
-            import pdb
-            pdb.set_trace
+            breakpoint()
 
 class Squad_stats_and_feedback():
     def squad_feedback(self,squad_to_check):
@@ -133,21 +141,6 @@ class Squad_stats_and_feedback():
         average_skill= total_skill//len(squad_to_check)
         print ("Average age of squad is...",average_age)
         print ("Average skill of squad is...",average_skill)
-        #print(collections.Counter(build_squads_positions).most_common())
-        #print ("Team Layout")
-        #print ("       GK=3    ")
-        #print ("LB=2 , CB=5 ,RB=3")
-        #print ("       DM=2")
-        #print ("LM=2 , CM=5 , RM=3")
-        #print ("       AM=2")
-        #print ("LW=2   ST=3 , RW=4")
-        #print ("Highest Rated")
-        #print ("       GK=81    ")
-        #print ("LB=82 , CB=75 ,RB=84")
-        #print ("       DM=77")
-        #print ("LM=81 , CM=77 , RM=99")
-        #print ("       AM=56")
-        #print ("LW=73   ST=85 , RW=74")
         
     def players_per_position(self,squad_to_check):
         position_count=0
@@ -158,7 +151,6 @@ class Squad_stats_and_feedback():
                 if i in j[0]:
                     position_count+=1
             master_position_count[i] =  position_count
-            #print(i, position_count)
             position_count=0
         print ("Players per position")
         print ("         GK=",master_position_count.get("GK"))

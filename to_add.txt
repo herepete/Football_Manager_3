@@ -1,5 +1,10 @@
 print squad niceley
 print squad summary
+	average_age
+	average_skill
+	missing_position
+	weakest_position
+	strongest_position
 add finance
 have option for squad focusing on youth or best avalible team
 build framework for season
@@ -11,6 +16,13 @@ save game feature
 load game feature
 add logging?
 add to ci/cd and some autotesting?
+
+===============
+280922 run linter
+doucment
+add extra column for wage
+add another 2 extra columns for future use (dev speed?,personality?)
+
 
 
 
