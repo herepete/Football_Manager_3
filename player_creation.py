@@ -21,7 +21,9 @@ avalible_poistions=["GK","LB","RB","CB","LM","RM","CM","DM","AM","ST","LW","RW"]
 
 class print_nicer_output():
 
+
     def default_squad(self,squad_to_print):
+        print ("Position            First_name   Second_name    Age       Skill Cost Contract  TBC TBC")
         for k in squad_of_players_list:
             try:
                 #breakpoint()
@@ -30,7 +32,7 @@ class print_nicer_output():
                 else:
                     temp_position=' '.join(k[0])
                 #print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4])))
-                print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}{:>5s}{:>5s}{:>5s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),k[5],k[6],k[7]))
+                print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}{:>5s}{:>5s}{:>5s}{:>5s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8])))
             except:
                 breakpoint()
             
@@ -49,6 +51,12 @@ class create_player():
         random_choice_last_name=self.random.choice(last_name_list)
         self.first_name=random_choice_first_name
         self.last_name=random_choice_last_name
+
+
+    def random_contract(self):
+        random_contract_year=self.random.randint(1,4)
+        self.random_contract_year=random_contract_year
+
 
     def player_skill(self):
         #give a random skill
@@ -118,9 +126,10 @@ class create_player():
         self.player_age()
         self.play_position=play_position
         self.create_position()
+        self.random_contract()
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,"X","Y","Z"]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,"X",self.random_contract_year,"Z","A"]
             squad_of_players_list.append(temp_build)
         except:
             breakpoint()
@@ -159,7 +168,7 @@ class Squad_stats_and_feedback():
                     position_count+=1
             master_position_count[i] =  position_count
             position_count=0
-        print ("Players per position")
+        print ("\nPlayers per position")
         print ("         GK=",master_position_count.get("GK"))
         try:
             print('LB={:<5} CB={:<5} RB={:<5}'.format((master_position_count.get("LB")),master_position_count.get("CB"),master_position_count.get("RB")))
@@ -225,7 +234,7 @@ class Squad_stats_and_feedback():
                     s_highest_rating=i[4]
 
 
-        print ("Highest Rated")
+        print ("\nHighest Rated")
         print ("       GK=",gk_highest_rating)
         print ("LB={}  CB={}  RB={}".format(lb_highest_rating,cb_highest_rating,rb_highest_rating))
         print ("       DM={}".format(dm_highest_rating))
