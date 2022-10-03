@@ -68,7 +68,28 @@ class create_player():
         random_age=self.random.randint(18,36)
         self.random_age=random_age
 
-
+    def calc_player_wage(self):
+        #15 highest
+        #basic .600K
+        if self.random_skill > 94:
+            player_wage=15
+        elif self.random_skill > 92:
+            player_wage=12
+        elif self.random_skill > 92:
+            player_wage=10
+        elif self.random_skill > 90:
+            player_wage=9
+        elif self.random_skill > 87:
+            player_wage=8
+        elif self.random_skill > 83:
+            player_wage=7
+        elif self.random_skill > 80:
+            player_wage=6
+        else:
+            import random
+            player_wage=random.randint(1,6)
+        self.player_wage=player_wage
+        
     def create_position(self):
         #give a random position (some players get more than 1 position)
         defender_choice_position=["LB","RB","CB"]
@@ -127,14 +148,23 @@ class create_player():
         self.play_position=play_position
         self.create_position()
         self.random_contract()
+        self.calc_player_wage()
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,"X",self.random_contract_year,"Z","A"]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,"Z","A"]
             squad_of_players_list.append(temp_build)
         except:
             breakpoint()
 
 class Squad_stats_and_feedback():
+
+    def cost_of_squad(self,squad_to_check):
+        total_cost=0
+        for cost_of_player in squad_to_check:
+            temp_cost=int(cost_of_player[5])
+            total_cost+=temp_cost
+        print ("Total Squad Wages=",total_cost)
+
     def squad_feedback(self,squad_to_check):
         total_age=0
         total_skill=0
@@ -277,6 +307,7 @@ nicer_output=print_nicer_output()
 nicer_output.default_squad(squad_to_print=squad_of_players_list)
 squad_feedback_call=Squad_stats_and_feedback()
 squad_feedback_call.squad_feedback(squad_to_check=squad_of_players_list)
+squad_feedback_call.cost_of_squad(squad_to_check=squad_of_players_list)
 #remove duplicates from list
 
 
