@@ -11,7 +11,7 @@ print ("This is what your squad looks like...")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--verbosity", help="increase output verbosity")
-parser.add_argument("--benchmark", help="Create lots of players, a useful command is ./player_creation.py --benchmark | awk '{print $(NF-3),$(NF-2)}' | sort | uniq | wc -l ", action="store_true")
+parser.add_argument("--benchmark", help="Create lots of players, a useful command is ./player_creation.py --benchmark | head -3998 | awk '{print $(NF-7),$(NF-6)}' | sort | uniq | wc -l ", action="store_true")
 args = parser.parse_args()
 
 # squad_of_players_list is our squad of players
@@ -23,7 +23,7 @@ class print_nicer_output():
 
 
     def default_squad(self,squad_to_print):
-        print ("Position            First_name   Second_name    Age       Skill Cost Contract  TBC TBC")
+        print ("Position            First_name   Second_name    Age       Skill Cost Contract  Training_speed TBC")
         for k in squad_of_players_list:
             try:
                 #breakpoint()
@@ -32,7 +32,7 @@ class print_nicer_output():
                 else:
                     temp_position=' '.join(k[0])
                 #print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4])))
-                print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}{:>5s}{:>5s}{:>5s}{:>5s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8])))
+                print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8])))
             except:
                 breakpoint()
             
@@ -45,8 +45,8 @@ class create_player():
 
     def player_name(self):
         # create a random first and last name
-        first_name_list=["Peter","Bob","James","Tony","Aj","Bo","Nathan","Gibby","Tim","Anchor","Jimbo","Paul","Simon","Symon","See","Silver","Titch","Rambo","Robbie","TJ"]
-        last_name_list=["White","Mander","Bishop","Garrett","Winston","Mayfield","Shearer","Rooney","Tucker","Racker","Hutch","Kane","Del-Piero","Seemen","Locker","Teng","Tubert","Smith","Roberts","Curtis","Hammer"]
+        first_name_list=["Peter","Bob","James","Tony","Aj","Bo","Nathan","Gibby","Tim","Anchor","Jimbo","Paul","Simon","Symon","See","Silver","Titch","Rambo","Robbie","TJ","David","John","Michael","Paul","Andrew","David","Sero","Ian","Brian","Barry","Li","Omar","Junior","Blesing","Banele","Samkelo","Ross","Dylon","Master","Junior","Ung","Me","Nsoki","Zak","Banner","Tommie"]
+        last_name_list=["White","Mander","Bishop","Garrett","Winston","Mayfield","Shearer","Rooney","Tucker","Racker","Hutch","Kane","Del-Piero","Seemen","Locker","Teng","Tubert","Smith","Roberts","Curtis","Hammer","Wang","Chen","Smith","Zhang","Costa","Ribbenov","Stimer","Reize","Lemon","Jean","Mohammed","Ticker","Barrett","Manning","Rogan","Musk","Turing","Ali","Fatima","Hassan","Charles","Omar","Stansfield"]
         random_choice_first_name=self.random.choice(first_name_list)
         random_choice_last_name=self.random.choice(last_name_list)
         self.first_name=random_choice_first_name
@@ -67,6 +67,15 @@ class create_player():
         #guve a random age
         random_age=self.random.randint(18,36)
         self.random_age=random_age
+
+    def player_training_speed(self):
+        if self.random_age > 25:
+            random_player_personality=["***","**","*"]
+        else:
+            random_player_personality=["*****","****","***","**"]
+        random_personality_choice=self.random.choice(random_player_personality)
+        
+        self.random_personality=random_personality_choice
 
     def calc_player_wage(self):
         #15 highest
@@ -149,9 +158,10 @@ class create_player():
         self.create_position()
         self.random_contract()
         self.calc_player_wage()
+        self.player_training_speed()
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,"Z","A"]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,self.random_personality,"TBC"]
             squad_of_players_list.append(temp_build)
         except:
             breakpoint()
@@ -282,10 +292,10 @@ class Squad_stats_and_feedback():
 create_default_list=create_player()
 
 if args.benchmark:
-    default_squad_GK=100
-    default_squad_DEF=100
-    default_squad_MID=100
-    default_squad_ATA=100
+    default_squad_GK=1000
+    default_squad_DEF=1000
+    default_squad_MID=1000
+    default_squad_ATA=1000
 
 else:
     #i need to sort out numbering if is say 4 GK it will create 3
