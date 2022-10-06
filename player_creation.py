@@ -23,7 +23,7 @@ class print_nicer_output():
 
 
     def default_squad(self,squad_to_print):
-        print ("Position            First_name   Second_name    Age       Skill Cost Contract  Training_speed TBC")
+        print ("Position            First_name   Second_name    Age       Skill Cost Contract  Training_speed SS")
         for k in squad_of_players_list:
             try:
                 #breakpoint()
@@ -76,6 +76,19 @@ class create_player():
         random_personality_choice=self.random.choice(random_player_personality)
         
         self.random_personality=random_personality_choice
+
+    def special_traits(self):
+        special_traits_random_number=self.random.randint(1,10)
+        if special_traits_random_number==7:
+            player_special_trait="L"
+        elif special_traits_random_number==8:
+            player_special_trait="HW"
+        elif special_traits_random_number==9:
+             player_special_trait="5SR "
+        else:
+             player_special_trait="None"
+        self.player_special_trait=player_special_trait
+                
 
     def calc_player_wage(self):
         #15 highest
@@ -159,9 +172,10 @@ class create_player():
         self.random_contract()
         self.calc_player_wage()
         self.player_training_speed()
+        self.special_traits()
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,self.random_personality,"TBC"]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait]
             squad_of_players_list.append(temp_build)
         except:
             breakpoint()
