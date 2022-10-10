@@ -32,5 +32,42 @@ for i in opposition_teams:
 
 print ("Season record W D L")
 print ("        ",games_won,games_drawen,games_lost)
-        
+
+playof_needed=0
+straight_to_championship_game=0
+out_of_playoff=0
+play_off_won=0
+no_playoff=0
+
+if games_won < 10:
+    print ("Not good enough try again next season")
+    no_playoff=1
+elif games_won < 12:
+    playof_needed=1
+    play_off_won=0
+    straight_to_championship_game=0
+    out_of_playoff=0
+    print ("Play off needed")
+else:
+    playof_needed=0
+    straight_to_championship_game=2
+    out_of_playoff=0
+    #champtionship game
+    print ("Straight to Championship game nice")
+
+while True:
+
+    if out_of_playoff==1 or no_playoff:
+        print("Un lucky try again next season")
+        break
+    if playof_needed==1:
+        print("yeh you won")
+        playof_needed=0
+        play_off_won=1
+    if straight_to_championship_game or play_off_won:
+        print ("You won everything nice")
+        break
+
+    
+
 
