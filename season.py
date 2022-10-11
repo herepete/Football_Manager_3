@@ -1,6 +1,6 @@
-#!/usr/bin/python
-opposition_teams=["1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16","17","18","19","20"]
-print (opposition_teams)
+#!/usr/bin/python3.7
+opposition_teams=["Arsenal","Man City","Tottenham","Chelsea","Man United","Newcastle","Brighton","Bournemouth","Fulham","Liverpool","Brentford","Everton","West Ham","Leeds United","Crystal Palace","Aston Villa","Southampton","Wolves","Nottm Forest","Leicester City"]
+#print (opposition_teams)
 games_in_season=16
 my_defense=90
 my_attack=90
@@ -22,7 +22,7 @@ for i in opposition_teams:
     else:
         opp_goals=random.randint(0,2)
     
-    print ("Game " + i +" Score" + str(my_goals) +  " - " + str(opp_goals))
+    print ("Game " + i +" Score " + str(my_goals) +  " - " + str(opp_goals))
     if my_goals >  opp_goals:
         games_won+=1
     elif opp_goals > my_goals:
@@ -30,8 +30,9 @@ for i in opposition_teams:
     else:
         games_drawen+=1
 
-print ("Season record W D L")
-print ("        ",games_won,games_drawen,games_lost)
+print ("Season record")
+print ("W D L")
+print (games_won,games_drawen,games_lost)
 
 playof_needed=0
 straight_to_championship_game=0
@@ -40,7 +41,7 @@ play_off_won=0
 no_playoff=0
 
 if games_won < 10:
-    print ("Not good enough try again next season")
+    print ("Season Result - Not good enough try again next season")
     no_playoff=1
 elif games_won < 12:
     playof_needed=1
@@ -65,7 +66,7 @@ while True:
         playof_needed=0
         play_off_won=1
     if straight_to_championship_game or play_off_won:
-        print ("You won everything nice")
+        print ("Season Result - You won everything nice")
         break
 
     
