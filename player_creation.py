@@ -301,39 +301,41 @@ class Squad_stats_and_feedback():
         
         
 
+def core_run():
 
+    create_default_list=create_player()
 
-create_default_list=create_player()
-
-if args.benchmark:
-    default_squad_GK=1000
-    default_squad_DEF=1000
-    default_squad_MID=1000
-    default_squad_ATA=1000
-
-else:
-    #i need to sort out numbering if is say 4 GK it will create 3
     default_squad_GK=4
     default_squad_DEF=9
     default_squad_MID=9
     default_squad_ATA=6
 
-for j in range(1,default_squad_GK):
-    create_default_list.player_creation(play_position="GK")
-for k in range(1,default_squad_DEF):
-    create_default_list.player_creation(play_position="DEF")
-for k in range(1,default_squad_MID):
-    create_default_list.player_creation(play_position="MID")
-for k in range(1,default_squad_ATA):
-    create_default_list.player_creation(play_position="ATA")
+    for j in range(1,default_squad_GK):
+        create_default_list.player_creation(play_position="GK")
+    for k in range(1,default_squad_DEF):
+        create_default_list.player_creation(play_position="DEF")
+    for k in range(1,default_squad_MID):
+        create_default_list.player_creation(play_position="MID")
+    for k in range(1,default_squad_ATA):
+        create_default_list.player_creation(play_position="ATA")
 
-nicer_output=print_nicer_output()
-nicer_output.default_squad(squad_to_print=squad_of_players_list)
-squad_feedback_call=Squad_stats_and_feedback()
-squad_feedback_call.squad_feedback(squad_to_check=squad_of_players_list)
-squad_feedback_call.cost_of_squad(squad_to_check=squad_of_players_list)
-#remove duplicates from list
+    nicer_output=print_nicer_output()
+    nicer_output.default_squad(squad_to_print=squad_of_players_list)
+    squad_feedback_call=Squad_stats_and_feedback()
+    squad_feedback_call.squad_feedback(squad_to_check=squad_of_players_list)
+    squad_feedback_call.cost_of_squad(squad_to_check=squad_of_players_list)
+    #remove duplicates from list
 
 
-squad_feedback_call.players_per_position(squad_to_check=squad_of_players_list)
-squad_feedback_call.rating_per_position(squad_to_check=squad_of_players_list)
+    squad_feedback_call.players_per_position(squad_to_check=squad_of_players_list)
+    squad_feedback_call.rating_per_position(squad_to_check=squad_of_players_list)
+    return (squad_of_players_list)
+
+if __name__ == "__main__":
+    core_run()
+    if args.benchmark:
+        default_squad_GK=1000
+        default_squad_DEF=1000
+        default_squad_MID=1000
+        default_squad_ATA=1000
+
