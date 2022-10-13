@@ -20,4 +20,19 @@ print ("Each player can potentially play in a number of positions")
 input("Press enter to continue")
 import player_creation
 player_squad=player_creation.core_run()
+season_to_play=2
+input("Press enter to continue")
+
+for i in range (1,season_to_play):
+    os.system('clear')
+    print ("Start Season=",i)
+    import team_rating
+    season_formation=team_rating.team_formation()
+    type_of_team=team_rating.best_team()
+    print (season_formation)
+    print ("Lets start the season....")
+    import season
+    print ("End Season=",i)
+
+
 
