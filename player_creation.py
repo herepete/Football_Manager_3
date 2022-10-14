@@ -23,7 +23,7 @@ class print_nicer_output():
 
 
     def default_squad(self,squad_to_print):
-        print ("Position            First_name   Second_name    Age       Skill Cost Contract  Training_speed SS")
+        print ("Position    Name       Age       Skill Cost Contract  Training_speed SS Experience History")
         for k in squad_of_players_list:
             try:
                 #breakpoint()
@@ -32,7 +32,8 @@ class print_nicer_output():
                 else:
                     temp_position=' '.join(k[0])
                 #print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4])))
-                print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8])))
+                print('{:<12s}{:<3s}{}{:>10s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
+                #print('{:<12s}{:<3s}{:>6s}{:>10s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
             except:
                 breakpoint()
             
@@ -173,11 +174,14 @@ class create_player():
         self.calc_player_wage()
         self.player_training_speed()
         self.special_traits()
+        self.player_experience=0
+        self.player_history=""
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience,self.player_history]
             squad_of_players_list.append(temp_build)
         except:
+            print("oops something went wrong when creating the squad")
             breakpoint()
 
 class Squad_stats_and_feedback():
