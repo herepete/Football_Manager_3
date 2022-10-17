@@ -24,7 +24,6 @@ season_to_play=2
 input("Press enter to continue")
 
 for i in range (1,season_to_play):
-    os.system('clear')
     print ("Start Season=",i)
     import team_rating
     season_formation=team_rating.team_formation()

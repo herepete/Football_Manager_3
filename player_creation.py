@@ -23,7 +23,7 @@ class print_nicer_output():
 
 
     def default_squad(self,squad_to_print):
-        print ("Position    Name       Age       Skill Cost Contract  Training_speed SS Experience History")
+        print ("Position    Name                      Age Skill Cost CL    TS    SS   HI")
         for k in squad_of_players_list:
             try:
                 #breakpoint()
@@ -31,11 +31,22 @@ class print_nicer_output():
                     temp_position=(k[0])
                 else:
                     temp_position=' '.join(k[0])
-                #print('{:<20s}{:<10s}{:>10s}{:>10s}{:>10s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4])))
-                print('{:<12s}{:<3s}{}{:>10s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
-                #print('{:<12s}{:<3s}{:>6s}{:>10s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,k[1],k[2],str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
+                    player_name=k[1]+ " " +k[2]
+
+                #print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
+                print('{:<12s}{:<18s}{:>10s}{:>5s}{:>5s}{:>5s}{:>8s}{:>6s}{:>3s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
             except:
                 breakpoint()
+
+    def print_key(self):
+        print ("========")
+        print("CL=Contract Left")
+        print("TS=Training Speed (1 star is poor and 5 is superb")
+        print("SS=Special Skills (L=Leader,5SR=% Star Recruit,TP=Team Player,LB=Laid Back)")
+        print("HI=History")
+        print ("========")
+        
+
             
 
 
@@ -83,9 +94,11 @@ class create_player():
         if special_traits_random_number==7:
             player_special_trait="L"
         elif special_traits_random_number==8:
-            player_special_trait="HW"
+            player_special_trait="TP"
         elif special_traits_random_number==9:
-             player_special_trait="5SR "
+             player_special_trait="5SR"
+        elif special_traits_random_number==5:
+             player_special_trait="LB"
         else:
              player_special_trait="None"
         self.player_special_trait=player_special_trait
@@ -325,6 +338,7 @@ def core_run():
 
     nicer_output=print_nicer_output()
     nicer_output.default_squad(squad_to_print=squad_of_players_list)
+    nicer_output.print_key()
     squad_feedback_call=Squad_stats_and_feedback()
     squad_feedback_call.squad_feedback(squad_to_check=squad_of_players_list)
     squad_feedback_call.cost_of_squad(squad_to_check=squad_of_players_list)

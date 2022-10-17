@@ -3,9 +3,9 @@
 def team_formation():
     print ("Which formation do you want to choose for the season, You have the option of ...")
     print ("1 4-4-2 (default)")
-    print ("2 4-4-2 (attacking with 1 AM and 1 CM)")
-    print ("3 4-4-2 (defending with 1 DM and 1 CM)")
-    print ("4 4-3-3 (defending with 3 CM and 1 LW 1 S 1 RW)")
+    print ("2 4-4-2 (attacking with 1*AM and 1*CM)")
+    print ("3 4-4-2 (defending with 1*DM and 1*CM)")
+    print ("4 4-3-3 (with 3*CM and 1*LW 1*S 1*RW)")
     try:
         user_input=int(input())
         if user_input ==1:
@@ -18,8 +18,8 @@ def team_formation():
             print ("4-4-2-Defender")
             return ("4-4-2-Defender")
         elif user_input ==4:
-            print ("4-4-3-Normal")
-            return ("4-4-3-Normal")
+            print ("4-3-3-Normal")
+            return ("4-3-3-Normal")
         else:
             print ("Unrgonized number so defaulting to a 4-4-2-Normal")
             return ("4-4-2-Normal")
