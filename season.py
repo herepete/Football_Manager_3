@@ -60,13 +60,16 @@ while True:
 
     if out_of_playoff==1 or no_playoff:
         print("Un lucky try again next season")
+        input("Press enter to continue")
         break
     if playof_needed==1:
         print("yeh you won")
         playof_needed=0
         play_off_won=1
+        input("Press enter to continue")
     if straight_to_championship_game or play_off_won:
         print ("Season Result - You won everything nice")
+        input("Press enter to continue")
         break
 
     

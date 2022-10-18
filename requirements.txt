@@ -1,0 +1,4 @@
+python3
+#pip3 install colored
+pip3 install termcolor
+beacuse of the way the screen is cleared it must be a linux system system so the call os.system('clear') works
