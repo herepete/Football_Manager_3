@@ -24,14 +24,15 @@ season_to_play=2
 input("Press enter to continue")
 
 for i in range (1,season_to_play):
+    import  pre_season
     print ("Start Season=",i)
     import team_rating
     season_formation=team_rating.team_formation()
     type_of_team=team_rating.best_team()
     print (season_formation)
-    print ("Lets start the season....")
     import season
-    print ("End Season=",i)
+    import end_of_season_free_agency
+    import end_of_season_draft
 
 
 
