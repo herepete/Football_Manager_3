@@ -6,7 +6,7 @@ Script to create and summarize a squad
 import argparse
 import os
 
-os.system('clear')
+#os.system('clear')
 print ("This is what your squad looks like...")
 
 parser = argparse.ArgumentParser()
