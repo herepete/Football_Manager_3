@@ -1,3 +1,15 @@
+add header throughout the game (like the old game) so i can track where we are
+make clear in main.py what we are passing to the parameters and what we are expecting back
+
+
+
+
+work out formation logic
+work out team score 1 def 1 ata?
+
+get main running squad and 1 season
+
+
 have option for squad focusing on youth or best avalible team
 build framework for season
 add draft
