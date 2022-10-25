@@ -175,6 +175,12 @@ class create_player():
             self.final_player_position=player_selected_position
 
 
+    def player_id(self):
+        import random
+        self.random_player_id=random.randint (1,9999999)
+        #return random_player_id
+
+
     def player_creation(self,play_position):
         #Where all the magic happens to create a Squad
         global squad_of_players
@@ -187,11 +193,12 @@ class create_player():
         self.calc_player_wage()
         self.player_training_speed()
         self.special_traits()
+        self.player_id()
         self.player_experience=0
         self.player_history=""
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience,self.player_history]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience,self.player_history,self.random_player_id]
             squad_of_players_list.append(temp_build)
         except:
             print("oops something went wrong when creating the squad")
@@ -342,6 +349,7 @@ def core_run():
     squad_feedback_call=Squad_stats_and_feedback()
     squad_feedback_call.squad_feedback(squad_to_check=squad_of_players_list)
     squad_feedback_call.cost_of_squad(squad_to_check=squad_of_players_list)
+    breakpoint()
     #remove duplicates from list
 
 
