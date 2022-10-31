@@ -53,9 +53,24 @@ def find_player_position_in_team(list_to_check,playerid):
             return index_position
     print ("hmmm player not found based on playerid")
     breakpoint()
+
+def index_and_delete_player(players_chosen_in,squad_temp_in):
+
+    #for chosen_player in players_chosen_in:
+    try:
+        index_position_of_player=find_player_position_in_team(list_to_check=squad_temp_in,playerid=players_chosen_in[0][11])
+        del squad_temp_in[index_position_of_player]
+        print ("info=", players_chosen_in)
+    except Exception as e:
+        print ("oops something errored 222")
+        print ("ERROR=", e)
+        breakpoint()
+    return squad_temp_in
+
             
 
 def best_young_team_score():
+    import random
     global test_squad
     squad=test_squad
     team_built=[]
@@ -83,22 +98,54 @@ def best_young_team_score():
         #3)
         get_n = itemgetter(4)
         players_of_intrest_sorted=sorted(players_of_intrest, key=get_n,reverse=True)
-        if len(players_of_intrest_sorted) ==0:
-            print("{} position not found".format(position_in_need))
-            breakpoint()
-            # need logic here
-            #also need logic if say 2 strickers are needed and only 1 is found
+        if len(players_of_intrest_sorted) < num_players_needed:
+            #print ("branch 1")
+            print ("only found {} {} and we need {}".format(len(players_of_intrest_sorted),position_in_need,num_players_needed))
+            print("I will give you a random player")
+            #players_chosen=random.choice(players_of_intrest_sorted)
+            #print ("Player in Positon ...",players_chosen)
+            player_we_need=num_players_needed-len(players_of_intrest_sorted)
+            player_to_add=players_of_intrest_sorted[:num_players_needed]
+            team_chosen.append(player_to_add)
+            print ("Player in Positon ...",player_to_add)
+            #breakpoint()
+            for random_player in range(0,player_we_need):
+                print("Random player chosen...",players_chosen)
+                player_chosen=random.choice(players_of_intrest_sorted)
+                #breakpoint()
+                team_chosen.append(players_chosen)
+                #i am using square brackets on player chosen to de complicate the index and delete process
+                squad_temp=index_and_delete_player(players_chosen_in=[player_chosen],squad_temp_in=squad_temp)
 
-        num_players_picked=0
-        players_chosen=players_of_intrest_sorted[:num_players_needed]
-        print ("Player Chosen ...",players_chosen)
-        #4)
-        team_chosen.append(players_of_intrest_sorted[:num_players_needed])
-        #5)
-        for chosen_player in players_chosen:
-            index_position_of_player=find_player_position_in_team(list_to_check=squad_temp,playerid=chosen_player[11])
-            del squad_temp[index_position_of_player]
             
+           # 31/10/22 issue is player is potentially being chosen twice as player delete is only happening at the end
+            #need to tweak logic to choose players i can and if any gaps then randomize
+            
+        elif len(players_of_intrest_sorted) ==0:
+            #print ("branch 2")
+            print("{} position not found".format(position_in_need))
+            print("I will give you a random player")
+            players_chosen=random.choice(players_of_intrest_sorted)
+            print ("Player Chosen ...",players_chosen)
+            squad_temp=index_and_delete_player(players_chosen_in=player_chosen,squad_temp_in=squad_temp)
+            breakpoint()
+        else:
+            #print ("branch 3")
+            num_players_picked=0
+            players_chosen=players_of_intrest_sorted[:num_players_needed]
+            print ("Player Chosen ...",players_chosen)
+            #4)
+            try:
+                team_chosen.append(players_of_intrest_sorted[:num_players_needed])
+                squad_temp=index_and_delete_player(players_chosen_in=players_chosen,squad_temp_in=squad_temp)
+            except:
+                print ("Oops something went wrong 111")
+                breakpoint()
+            #5)
+            
+    print("chosen team=")
+    for player3 in team_chosen:
+        print(player3)
         
 def balanced_team_score():
     #aim for a 50 50 split across the team.
