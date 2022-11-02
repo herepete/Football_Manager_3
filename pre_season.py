@@ -15,7 +15,7 @@ formation_4_3_3={'GK':1,"LB":1,"RB":1,"CB":2,"DM":0,"CM":3,"LM":0,"RM":0,"AM":0,
 formation_4_3_3_just_needed={k:v for (k,v) in formation_4_3_3.items() if v > 0}
 formation_4_3_3_list_keys=list(formation_4_3_3_just_needed.keys())
 
-avaliable_formations=[formation_4_4_2,formation_4_3_3]
+avaliable_formations=[formation_4_4_2_just_needed,formation_4_3_3_just_needed]
 def formation_caculation():
 
     #    D         A 
@@ -69,7 +69,7 @@ def index_and_delete_player(players_chosen_in,squad_temp_in):
 
             
 
-def best_young_team_score():
+def best_team(formations_to_test=["formation_4_4_2_just_needed"]):
     import random
     global test_squad
     squad=test_squad
@@ -86,66 +86,78 @@ def best_young_team_score():
     # 5) delete player from squad_temp
 
     #1)
-    for needs in formation_4_4_2_just_needed.items():
-        position_in_need=needs[0]
-        num_players_needed=needs[1]
-        print ("We need {} position={} ".format(num_players_needed, position_in_need))
-        players_of_intrest=[]
-        #2)
-        for player in squad_temp:
-            if position_in_need in player[0]:
-                players_of_intrest.append(player)
-        #3)
-        get_n = itemgetter(4)
-        players_of_intrest_sorted=sorted(players_of_intrest, key=get_n,reverse=True)
-        if len(players_of_intrest_sorted) < num_players_needed:
-            #print ("branch 1")
-            print ("only found {} {} and we need {}".format(len(players_of_intrest_sorted),position_in_need,num_players_needed))
-            print("I will give you a random player")
-            #players_chosen=random.choice(players_of_intrest_sorted)
-            #print ("Player in Positon ...",players_chosen)
-            player_we_need=num_players_needed-len(players_of_intrest_sorted)
-            player_to_add=players_of_intrest_sorted[:num_players_needed]
-            team_chosen.append(player_to_add)
-            print ("Player in Positon ...",player_to_add)
-            #breakpoint()
-            for random_player in range(0,player_we_need):
-                print("Random player chosen...",players_chosen)
-                player_chosen=random.choice(players_of_intrest_sorted)
+    for needs in avaliable_formations:
+    #for needs in [formation_4_4_2_just_needed.items(),formation_4_3_3_just_needed.items()]:
+        print ("I am checking=",needs)
+        for bla in needs.items():
+            position_in_need=bla[0]
+            num_players_needed=bla[1]
+            
+            players_out_of_position_count=0
+            players_out_of_position={}
+            formation_option="442"
+            print ("We need {} position={} ".format(num_players_needed, position_in_need))
+            players_of_intrest=[]
+            #2)
+            for player in squad_temp:
+                if position_in_need in player[0]:
+                    players_of_intrest.append(player)
+            #3)
+            get_n = itemgetter(4)
+            players_of_intrest_sorted=sorted(players_of_intrest, key=get_n,reverse=True)
+            if len(players_of_intrest_sorted) < num_players_needed:
+                #print ("branch 1")
+                print ("only found {} {} and we need {}".format(len(players_of_intrest_sorted),position_in_need,num_players_needed))
+                print("I will give you a player with the best stats")
+                #players_chosen=random.choice(players_of_intrest_sorted)
+                #print ("Player in Positon ...",players_chosen)
+                player_we_need=num_players_needed-len(players_of_intrest_sorted)
+                player_to_add=players_of_intrest_sorted[:num_players_needed]
+                team_chosen.append(player_to_add)
+                print ("Player in Positon ...",player_to_add)
                 #breakpoint()
-                team_chosen.append(players_chosen)
-                #i am using square brackets on player chosen to de complicate the index and delete process
-                squad_temp=index_and_delete_player(players_chosen_in=[player_chosen],squad_temp_in=squad_temp)
+                for random_player in range(0,player_we_need):
+                    players_out_of_position_count+=1
+                    players_out_of_position[position_in_need]=1
+                    print("Best Avaliable player chosen for position...",players_chosen)
+                    player_chosen=random.choice(players_of_intrest_sorted)
+                    #breakpoint()
+                    team_chosen.append(players_chosen)
+                    #i am using square brackets on player chosen to de complicate the index and delete process
+                    squad_temp=index_and_delete_player(players_chosen_in=[player_chosen],squad_temp_in=squad_temp)
 
             
-           # 31/10/22 issue is player is potentially being chosen twice as player delete is only happening at the end
-            #need to tweak logic to choose players i can and if any gaps then randomize
+               # 31/10/22 issue is player is potentially being chosen twice as player delete is only happening at the end
+                #need to tweak logic to choose players i can and if any gaps then randomize
             
-        elif len(players_of_intrest_sorted) ==0:
-            #print ("branch 2")
-            print("{} position not found".format(position_in_need))
-            print("I will give you a random player")
-            players_chosen=random.choice(players_of_intrest_sorted)
-            print ("Player Chosen ...",players_chosen)
-            squad_temp=index_and_delete_player(players_chosen_in=player_chosen,squad_temp_in=squad_temp)
-            breakpoint()
-        else:
-            #print ("branch 3")
-            num_players_picked=0
-            players_chosen=players_of_intrest_sorted[:num_players_needed]
-            print ("Player Chosen ...",players_chosen)
-            #4)
-            try:
-                team_chosen.append(players_of_intrest_sorted[:num_players_needed])
-                squad_temp=index_and_delete_player(players_chosen_in=players_chosen,squad_temp_in=squad_temp)
-            except:
-                print ("Oops something went wrong 111")
+            elif len(players_of_intrest_sorted) ==0:
+                #print ("branch 2")
+                print("{} position not found".format(position_in_need))
+                print("I will give you a random player")
+                players_chosen=random.choice(players_of_intrest_sorted)
+                print ("Player Chosen ...",players_chosen)
+                squad_temp=index_and_delete_player(players_chosen_in=player_chosen,squad_temp_in=squad_temp)
+                players_out_of_position_count+=1
+                players_out_of_position[position_in_need]=1
                 breakpoint()
-            #5)
+            else:
+                #print ("branch 3")
+                num_players_picked=0
+                players_chosen=players_of_intrest_sorted[:num_players_needed]
+                print ("Player Chosen ...",players_chosen)
+                #4)
+                try:
+                    team_chosen.append(players_of_intrest_sorted[:num_players_needed])
+                    squad_temp=index_and_delete_player(players_chosen_in=players_chosen,squad_temp_in=squad_temp)
+                except:
+                    print ("Oops something went wrong 111")
+                    breakpoint()
+                #5)
             
-    print("chosen team=")
-    for player3 in team_chosen:
-        print(player3)
+        print("chosen team=")
+        for player3 in team_chosen:
+            print(player3)
+        #return(formation_option,players_out_of_position_count,players_out_of_position,team_chosen)
         
 def balanced_team_score():
     #aim for a 50 50 split across the team.
@@ -187,4 +199,4 @@ def starting_preseason(squad):
     print (season_formation)
 
 if __name__=="__main__":
-    best_young_team_score()
+    best_team()
