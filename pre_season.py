@@ -1,6 +1,15 @@
 #!/usr/bin/python3
 
 from operator import itemgetter
+import argparse
+parser=argparse.ArgumentParser()
+parser.add_argument("-v","--verbose",help="Verbose information",action="store_true")
+args =parser.parse_args()
+
+if args.verbose:
+    print("verbosity turned on")
+else:
+    print("verbosity not turned on")
 
 
 test_squad=[[['GK'], 'Junior', 'Mander', 25, 85, 7, 2, '**', 'TP', 0, '', 1484615], [['GK'], 'Bob', 'Shearer', 21, 80, 2, 3, '***', 'None', 0, '', 7791753], [['GK'], 'James', 'Charles', 24, 76, 4, 1, '****', 'None', 0, '', 4444531], [['CB'], 'Simon', 'Barrett', 26, 72, 6, 1, '**', 'None', 0, '', 6829857], [['LB', 'RB'], 'James', 'Zhang', 27, 81, 6, 3, '**', 'LB', 0, '', 4446501], [['CB', 'LB', 'RB'], 'Zak', 'Manning', 36, 77, 1, 4, '**', 'TP', 0, '', 4604175], [['LB'], 'Zak', 'Teng', 25, 78, 4, 4, '****', 'None', 0, '', 2624641], [['CB'], 'Bob', 'Manning', 35, 93, 12, 1, '***', 'L', 0, '', 3289916], [['LB'], 'Barry', 'Ali', 20, 91, 9, 3, '**', 'None', 0, '', 9289061], [['LB'], 'Symon', 'Teng', 27, 90, 8, 3, '**', 'None', 0, '', 8583758], [['CB'], 'Master', 'Smith', 28, 95, 15, 3, '***', 'LB', 0, '', 4158431], [['AM'], 'Me', 'Racker', 32, 89, 8, 2, '***', 'None', 0, '', 2049741], [['RM'], 'Paul', 'Roberts', 26, 82, 6, 4, '**', 'TP', 0, '', 5201992], [['CM', 'DM'], 'Silver', 'Curtis', 30, 71, 4, 2, '*', 'None', 0, '', 1916288], [['DM'], 'Tony', 'Bishop', 35, 74, 4, 3, '**', 'LB', 0, '', 699461], [['CM'], 'Paul', 'Garrett', 34, 87, 7, 1, '***', 'LB', 0, '', 401208], [['CM'], 'Nathan', 'Garrett', 18, 93, 12, 4, '****', 'None', 0, '', 8818879], [['LM'], 'Dylon', 'Tucker', 19, 83, 6, 1, '**', '5SR', 0, '', 7549736], [['DM'], 'Dylon', 'Zhang', 21, 90, 8, 1, '***', '5SR', 0, '', 2713236], [['RW'], 'Barry', 'Omar', 22, 71, 1, 3, '**', 'None', 0, '', 8199760], [['ST'], 'See', 'Hutch', 22, 86, 7, 3, '****', 'None', 0, '', 3850846], [['LW', 'RW'], 'Symon', 'Mayfield', 29, 76, 4, 2, '**', 'None', 0, '', 5050682], [['RW'], 'Li', 'Shearer', 20, 77, 1, 4, '**', 'None', 0, '', 3733897], [['RW'], 'Blesing', 'Garrett', 28, 90, 8, 2, '***', 'TP', 0, '', 5246984]]
@@ -51,7 +60,7 @@ def find_player_position_in_team(list_to_check,playerid):
         index_position+=1
         if players_to_check[11]==playerid:
             return index_position
-    print ("hmmm player not found based on playerid")
+    print ("ERROR - hmmm player not found based on playerid")
     breakpoint()
 
 def index_and_delete_player(players_chosen_in,squad_temp_in):
@@ -60,9 +69,10 @@ def index_and_delete_player(players_chosen_in,squad_temp_in):
     try:
         index_position_of_player=find_player_position_in_team(list_to_check=squad_temp_in,playerid=players_chosen_in[0][11])
         del squad_temp_in[index_position_of_player]
-        print ("info=", players_chosen_in)
+        if args.verbose:
+            print ("info=", players_chosen_in)
     except Exception as e:
-        print ("oops something errored 222")
+        print ("ERROR - oops something errored 222")
         print ("ERROR=", e)
         breakpoint()
     return squad_temp_in
@@ -88,15 +98,21 @@ def best_team(formations_to_test=["formation_4_4_2_just_needed"]):
     #1)
     for needs in avaliable_formations:
     #for needs in [formation_4_4_2_just_needed.items(),formation_4_3_3_just_needed.items()]:
-        print ("I am checking=",needs)
+        team_built=[]
+        team_chosen=[]
+        squad_temp=squad.copy()
+
+        if args.verbose:
+            print ("I am checking=",needs)
         for bla in needs.items():
             position_in_need=bla[0]
             num_players_needed=bla[1]
             
             players_out_of_position_count=0
             players_out_of_position={}
-            formation_option="442"
-            print ("We need {} position={} ".format(num_players_needed, position_in_need))
+            #formation_option="442"
+            if args.verbose:
+                print ("We need {} position={} ".format(num_players_needed, position_in_need))
             players_of_intrest=[]
             #2)
             for player in squad_temp:
@@ -107,20 +123,27 @@ def best_team(formations_to_test=["formation_4_4_2_just_needed"]):
             players_of_intrest_sorted=sorted(players_of_intrest, key=get_n,reverse=True)
             if len(players_of_intrest_sorted) < num_players_needed:
                 #print ("branch 1")
-                print ("only found {} {} and we need {}".format(len(players_of_intrest_sorted),position_in_need,num_players_needed))
-                print("I will give you a player with the best stats")
+                if args.verbose:
+                    print ("only found {} {} and we need {}".format(len(players_of_intrest_sorted),position_in_need,num_players_needed))
+                    print("I will give you a player with the best stats")
                 #players_chosen=random.choice(players_of_intrest_sorted)
                 #print ("Player in Positon ...",players_chosen)
                 player_we_need=num_players_needed-len(players_of_intrest_sorted)
                 player_to_add=players_of_intrest_sorted[:num_players_needed]
                 team_chosen.append(player_to_add)
-                print ("Player in Positon ...",player_to_add)
+                if args.verbose:
+                    print ("Player in Positon ...",player_to_add)
                 #breakpoint()
                 for random_player in range(0,player_we_need):
                     players_out_of_position_count+=1
                     players_out_of_position[position_in_need]=1
-                    print("Best Avaliable player chosen for position...",players_chosen)
-                    player_chosen=random.choice(players_of_intrest_sorted)
+                    if args.verbose:
+                        print("Best Avaliable player chosen for position...",players_chosen)
+                    try:
+                        player_chosen=random.choice(players_of_intrest_sorted)
+                    except Exception as e:
+                        print ("ERROR oops i errored ... =",e)
+                        breakpoint()
                     #breakpoint()
                     team_chosen.append(players_chosen)
                     #i am using square brackets on player chosen to de complicate the index and delete process
@@ -132,10 +155,12 @@ def best_team(formations_to_test=["formation_4_4_2_just_needed"]):
             
             elif len(players_of_intrest_sorted) ==0:
                 #print ("branch 2")
-                print("{} position not found".format(position_in_need))
-                print("I will give you a random player")
+                if args.verbose:
+                    print("{} position not found".format(position_in_need))
+                    print("I will give you a random player")
                 players_chosen=random.choice(players_of_intrest_sorted)
-                print ("Player Chosen ...",players_chosen)
+                if args.verbose:
+                    print ("Player Chosen ...",players_chosen)
                 squad_temp=index_and_delete_player(players_chosen_in=player_chosen,squad_temp_in=squad_temp)
                 players_out_of_position_count+=1
                 players_out_of_position[position_in_need]=1
@@ -144,13 +169,14 @@ def best_team(formations_to_test=["formation_4_4_2_just_needed"]):
                 #print ("branch 3")
                 num_players_picked=0
                 players_chosen=players_of_intrest_sorted[:num_players_needed]
-                print ("Player Chosen ...",players_chosen)
+                if args.verbose:
+                    print ("Player Chosen ...",players_chosen)
                 #4)
                 try:
                     team_chosen.append(players_of_intrest_sorted[:num_players_needed])
                     squad_temp=index_and_delete_player(players_chosen_in=players_chosen,squad_temp_in=squad_temp)
                 except:
-                    print ("Oops something went wrong 111")
+                    print ("ERROR Oops something went wrong 111")
                     breakpoint()
                 #5)
             
