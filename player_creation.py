@@ -16,14 +16,14 @@ args = parser.parse_args()
 
 # squad_of_players_list is our squad of players
 squad_of_players_list=[]
-avalible_poistions=["GK","LB","RB","CB","LM","RM","CM","DM","AM","ST","LW","RW"]
+avalible_poistions=["GK","LB","RB","CB","LM","RM","CM","ST"]
 
 
 class print_nicer_output():
 
 
     def default_squad(self,squad_to_print):
-        print ("Position    Name                      Age Skill Cost CL    TS    SS   HI")
+        print ("Position    Name                      Age  Gk   Ft   Pa   Ta  Pas  Sho Spe Ove Cost  CL    TS    SS   HI")
         for k in squad_of_players_list:
             try:
                 #breakpoint()
@@ -34,7 +34,7 @@ class print_nicer_output():
                     player_name=k[1]+ " " +k[2]
 
                 #print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
-                print('{:<12s}{:<18s}{:>10s}{:>5s}{:>5s}{:>5s}{:>8s}{:>6s}{:>3s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
+                print('{:<12s}{:<18s}{:>10s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>8s}{:>6s}{:>3s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10]),str(k[11]),str(k[12]),str(k[13]),str(k[14]),str(k[15]),str(k[16]),str(k[17]),str(k[18])))
             except:
                 breakpoint()
 
@@ -70,10 +70,29 @@ class create_player():
         self.random_contract_year=random_contract_year
 
 
-    def player_skill(self):
+    def player_skill_gk(self):
         #give a random skill
-        random_skill=self.random.randint(70,96)
-        self.random_skill=random_skill
+        random_skill=self.random.randint(5,20)
+        self.random_skill_gk=random_skill
+
+    def player_skill_fitness(self):
+        random_skill=self.random.randint(5,20)
+        self.random_skill_fitness=random_skill
+    def player_skill_pace(self):
+        random_skill=self.random.randint(5,20)
+        self.random_skill_pace=random_skill
+    def player_skill_tackle(self):
+        random_skill=self.random.randint(5,20)
+        self.random_skill_tackle=random_skill
+    def player_skill_passing(self):
+        random_skill=self.random.randint(5,20)
+        self.random_skill_passing=random_skill
+    def player_skill_shooting(self):
+        random_skill=self.random.randint(5,20)
+        self.random_skill_shooting=random_skill
+    def player_skill_special_skill(self):
+        random_skill=self.random.randint(3,5)
+        self.random_skill_special_skill=random_skill
 
     def player_age(self):
         #guve a random age
@@ -107,31 +126,35 @@ class create_player():
     def calc_player_wage(self):
         #15 highest
         #basic .600K
-        if self.random_skill > 94:
-            player_wage=15
-        elif self.random_skill > 92:
-            player_wage=12
-        elif self.random_skill > 92:
-            player_wage=10
-        elif self.random_skill > 90:
-            player_wage=9
-        elif self.random_skill > 87:
-            player_wage=8
-        elif self.random_skill > 83:
-            player_wage=7
-        elif self.random_skill > 80:
-            player_wage=6
-        else:
-            import random
-            player_wage=random.randint(1,6)
+        #if self.random_skill > 94:
+        #    player_wage=15
+        #elif self.random_skill > 92:
+        #    player_wage=12
+        #elif self.random_skill > 92:
+        #    player_wage=10
+        #elif self.random_skill > 90:
+        #    player_wage=9
+        #elif self.random_skill > 87:
+        #    player_wage=8
+        #elif self.random_skill > 83:
+        #    player_wage=7
+        #elif self.random_skill > 80:
+        #    player_wage=6
+        #else:
+        #    import random
+        #    player_wage=random.randint(1,6)
+        import random
+        player_wage=random.randint(1,6)
+        
         self.player_wage=player_wage
         
     def create_position(self):
         #give a random position (some players get more than 1 position)
         defender_choice_position=["LB","RB","CB"]
-        midfield_choice_position=["LM","RM","CM","DM","AM"]
-        attacker_choice_position=["ST","LW","RW"]
+        midfield_choice_position=["LM","RM","CM"]
+        attacker_choice_position=["ST"]
         player_selected_position=[]
+        import random
 
         global avalible_poistions
         
@@ -140,39 +163,15 @@ class create_player():
         elif self.play_position=="DEF":
             #determine how many position a player can play, the choices are weighted to make player in 3 positions quite rare
             #random_player_poistions=self.random.randint(1,3)
-            random_player_poistions=self.random.choices([1,2,3], weights=(60, 30, 10), k=1)
-            random_player_poistions=random_player_poistions[0]
-            for i in range(random_player_poistions):
-                #chose a position and remove it from the pre-defined list to remove duplicates
-                random_position_selected=self.random.choice(defender_choice_position)
-                player_selected_position.append(random_position_selected)
-                defender_choice_position.remove(random_position_selected)
-            self.final_player_position=player_selected_position
+            self.final_player_position=random.choice(defender_choice_position)
         elif self.play_position=="MID":
-            #determine how many position a player can play,  the choices are weighted to make player in 3 positions quite rare
-            random_player_poistions=self.random.choices([1,2,3], weights=(60, 30, 10), k=1)
-            #random_player_poistions=self.random.randint(1,3)
-            random_player_poistions=random_player_poistions[0]
-            for i in range(random_player_poistions):
-                #chose a position and remove it from the pre-defined list to remove duplicates
-                random_position_selected=self.random.choice(midfield_choice_position)
-                player_selected_position.append(random_position_selected)
-                midfield_choice_position.remove(random_position_selected)
-            self.final_player_position=player_selected_position
+            self.final_player_position=random.choice(midfield_choice_position)
 
         else:
             #we are presuming a Sticker
             #determine how many position a player can play,  the choices are weighted to make player in 3 positions quite rare
-            random_player_poistions=self.random.choices([1,2], weights=(70, 30,), k=1)
-            random_player_poistions=random_player_poistions[0]
-
-            #random_player_poistions=self.random.randint(1,2)
-            for i in range(random_player_poistions):
-                #chose a position and remove it from the pre-defined list to remove duplicates
-                random_position_selected=self.random.choice(attacker_choice_position)
-                player_selected_position.append(random_position_selected)
-                attacker_choice_position.remove(random_position_selected)
-            self.final_player_position=player_selected_position
+            #random_player_poistions=self.random.choices([1,2], weights=(70, 30,), k=1)
+            self.final_player_position="ST"
 
 
     def player_id(self):
@@ -185,7 +184,14 @@ class create_player():
         #Where all the magic happens to create a Squad
         global squad_of_players
         self.player_name()
-        self.player_skill()
+        self.player_skill_gk()
+        self.player_skill_pace()
+        self.player_skill_fitness()
+        self.player_skill_tackle()
+        self.player_skill_passing()
+        self.player_skill_shooting()
+        self.player_skill_special_skill()
+        
         self.player_age()
         self.play_position=play_position
         self.create_position()
@@ -198,7 +204,7 @@ class create_player():
         self.player_history=""
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience,self.player_history,self.random_player_id]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_fitness,self.random_skill_pace,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_special_skill,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience,self.player_history,self.random_player_id]
             squad_of_players_list.append(temp_build)
         except:
             print("oops something went wrong when creating the squad")
@@ -249,11 +255,10 @@ class Squad_stats_and_feedback():
         print ("\nPlayers per position")
         print ("         GK=",master_position_count.get("GK"))
         try:
-            print('LB={:<5} CB={:<5} RB={:<5}'.format((master_position_count.get("LB")),master_position_count.get("CB"),master_position_count.get("RB")))
-            print('         DM= {}'.format((master_position_count.get("DM"))))
-            print('LM={:<5} CM={:<5} RM={:<5}'.format((master_position_count.get("LM")),master_position_count.get("CM"),master_position_count.get("RM")))
-            print('         AM {}'.format((master_position_count.get("AM"))))
-            print('LW={:<5} ST={:<5} RW={:<5}'.format((master_position_count.get("LW")),master_position_count.get("ST"),master_position_count.get("RW")))
+            pass
+            #print('LB={:<5} CB={:<5} RB={:<5}'.format((master_position_count.get("LB")),master_position_count.get("CB"),master_position_count.get("RB")))
+            #print('LM={:<5} CM={:<5} RM={:<5}'.format((master_position_count.get("LM")),master_position_count.get("CM"),master_position_count.get("RM")))
+            #print('ST={:<5}'.format(master_position_count.get("ST"))
 
         except:
             breakpoint()
@@ -265,13 +270,9 @@ class Squad_stats_and_feedback():
         lb_highest_rating=0
         rb_highest_rating=0
         cb_highest_rating=0
-        dm_highest_rating=0
         lm_highest_rating=0
         rm_highest_rating=0
         cm_highest_rating=0
-        am_highest_rating=0
-        lw_highest_rating=0
-        rw_highest_rating=0
         s_highest_rating=0
         for i in squad_to_check:
             if "GK" in i[0]:
@@ -286,9 +287,6 @@ class Squad_stats_and_feedback():
             if "CB" in i[0]:
                 if i[4]>cb_highest_rating:
                     cb_highest_rating=i[4]
-            if "DM" in i[0]:
-                if i[4]>dm_highest_rating:
-                    dm_highest_rating=i[4]
             if "LM" in i[0]:
                 if i[4]>lm_highest_rating:
                     lm_highest_rating=i[4]
@@ -298,15 +296,6 @@ class Squad_stats_and_feedback():
             if "CM" in i[0]:
                 if i[4]>cm_highest_rating:
                     cm_highest_rating=i[4]
-            if "AM" in i[0]:
-                if i[4]>am_highest_rating:
-                    am_highest_rating=i[4]
-            if "LW" in i[0]:
-                if i[4]>lw_highest_rating:
-                    lw_highest_rating=i[4]
-            if "RW" in i[0]:
-                if i[4]>rw_highest_rating:
-                    rw_highest_rating=i[4]
             if "ST" in i[0]:
                 if i[4]>s_highest_rating:
                     s_highest_rating=i[4]
@@ -315,10 +304,8 @@ class Squad_stats_and_feedback():
         print ("\nHighest Rated")
         print ("       GK=",gk_highest_rating)
         print ("LB={}  CB={}  RB={}".format(lb_highest_rating,cb_highest_rating,rb_highest_rating))
-        print ("       DM={}".format(dm_highest_rating))
         print ("LM={}  CM={}  RM={}".format(lm_highest_rating,cm_highest_rating,rm_highest_rating))
-        print ("       AM={}".format(am_highest_rating))
-        print ("LW={}  ST={} RW={}".format(lw_highest_rating,s_highest_rating,rw_highest_rating))
+        print ("ST={}".format(s_highest_rating))
 
         
         
