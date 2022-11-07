@@ -10,9 +10,15 @@ import os
 print ("This is what your squad looks like...")
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--verbosity", help="increase output verbosity")
+parser.add_argument("-v","--verbose",help="Verbose information",action="store_true")
 parser.add_argument("--benchmark", help="Create lots of players, a useful command is ./player_creation.py --benchmark | head -3998 | awk '{print $(NF-7),$(NF-6)}' | sort | uniq | wc -l ", action="store_true")
 args = parser.parse_args()
+
+if args.verbose:
+    print("verbosity turned on")
+else:
+    print("verbosity not turned on")
+
 
 # squad_of_players_list is our squad of players
 squad_of_players_list=[]
@@ -35,7 +41,8 @@ class print_nicer_output():
 
                 #print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
                 print('{:<12s}{:<18s}{:>10s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>8s}{:>6s}{:>3s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10]),str(k[11]),str(k[12]),str(k[13]),str(k[14]),str(k[15]),str(k[16]),str(k[17]),str(k[18])))
-            except:
+            except Exception as e:
+                print ("Woops i errored=",e)
                 breakpoint()
 
     def print_key(self):
@@ -63,6 +70,8 @@ class create_player():
         random_choice_last_name=self.random.choice(last_name_list)
         self.first_name=random_choice_first_name
         self.last_name=random_choice_last_name
+        if args.verbose:
+            print("new player name created=",self.last_name)
 
 
     def random_contract(self):
@@ -70,10 +79,14 @@ class create_player():
         self.random_contract_year=random_contract_year
 
 
-    def player_skill_gk(self):
+    def player_skill_gk(self,out_of_position=0):
         #give a random skill
-        random_skill=self.random.randint(5,20)
-        self.random_skill_gk=random_skill
+        if out_of_position==0:
+            random_skill=self.random.randint(10,20)
+            self.random_skill_gk=random_skill
+        else:
+            random_skill=self.random.randint(1,3)
+            self.random_skill_gk=random_skill
 
     def player_skill_fitness(self):
         random_skill=self.random.randint(5,20)
@@ -184,7 +197,12 @@ class create_player():
         #Where all the magic happens to create a Squad
         global squad_of_players
         self.player_name()
-        self.player_skill_gk()
+        #self.create_position()
+        #breakpoint()
+        if play_position=="GK":
+            self.player_skill_gk(0)
+        else:
+            self.player_skill_gk(1)
         self.player_skill_pace()
         self.player_skill_fitness()
         self.player_skill_tackle()
@@ -204,7 +222,10 @@ class create_player():
         self.player_history=""
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_fitness,self.random_skill_pace,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_special_skill,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience,self.player_history,self.random_player_id]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_fitness,self.random_skill_pace,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_special_skill,15,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience,self.player_history,self.random_player_id]
+            if args.verbose:
+                print("Here is my temp build ... ",temp_build)
+            
             squad_of_players_list.append(temp_build)
         except:
             print("oops something went wrong when creating the squad")
