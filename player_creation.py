@@ -29,28 +29,40 @@ class print_nicer_output():
 
 
     def default_squad(self,squad_to_print):
-        print ("Position    Name                      Age  Gk   Ft   Pa   Ta  Pas  Sho Spe Ove Cost  CL    TS    SS   HI")
+        if args.verbose:
+            print("About to print...",squad_to_print)
+        print ("PST    Name                     AGE  GK   FT   PA   TA  PAS  SHO   SPE OVE   COS   CL   TS    CHA    EX HI")
         for k in squad_of_players_list:
             try:
                 #breakpoint()
+                if args.verbose:
+                    print ("working on...",k)
                 if type(k[0])== str:
                     temp_position=(k[0])
+                    player_name=k[1]+ " " +k[2]
+                    if args.verbose:
+                        print ("ko=",k[0])
+                        print("ko zero string hit")
                 else:
                     temp_position=' '.join(k[0])
                     player_name=k[1]+ " " +k[2]
+                    if args.verbose:
+                        print("ko zero string hit")
 
                 #print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
-                print('{:<12s}{:<18s}{:>10s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>8s}{:>6s}{:>3s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10]),str(k[11]),str(k[12]),str(k[13]),str(k[14]),str(k[15]),str(k[16]),str(k[17]),str(k[18])))
+                print('{:<6s}{:<18s}{:>10s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>6s}{:>8s}{:>5s}{:>3s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10]),str(k[11]),str(k[12]),str(k[13]),str(k[14]),str(k[15]),str(k[16]),str(k[17]),str(k[18])))
             except Exception as e:
                 print ("Woops i errored=",e)
                 breakpoint()
 
     def print_key(self):
         print ("========")
-        print("CL=Contract Left")
-        print("TS=Training Speed (1 star is poor and 5 is superb")
-        print("SS=Special Skills (L=Leader,5SR=% Star Recruit,TP=Team Player,LB=Laid Back)")
-        print("HI=History")
+        print("PST=Position")
+        print("GK=GoalKeeper Skills,TA=Tackling,PAS=Passing,SHO=Shooting")
+        print ("FT=Fitness,PA=Pace")
+        print ("OVE=Overall")
+        print("SPE=Special Skills (L=Leader,5SR=% Star Recruit,TP=Team Player,LB=Laid Back,Avg=Average Player)")
+        print("COS=Cost per season,CL=Contract Left per season,TS=Training Speec,CHA=Characteur,EX=Experience,HI=History")
         print ("========")
         
 
@@ -124,15 +136,21 @@ class create_player():
     def special_traits(self):
         special_traits_random_number=self.random.randint(1,10)
         if special_traits_random_number==7:
-            player_special_trait="L"
+            #Leader
+            player_special_trait="Leader"
         elif special_traits_random_number==8:
-            player_special_trait="TP"
+            #Team Player
+            player_special_trait="Team P"
         elif special_traits_random_number==9:
-             player_special_trait="5SR"
+            #% star recurit (high potential)
+             player_special_trait="5-Star"
         elif special_traits_random_number==5:
-             player_special_trait="LB"
+             #laid back
+             player_special_trait="Laid B"
+        elif special_traits_random_number==4:
+             player_special_trait="Fighter"
         else:
-             player_special_trait="None"
+             player_special_trait="Avg"
         self.player_special_trait=player_special_trait
                 
 
@@ -192,6 +210,57 @@ class create_player():
         self.random_player_id=random.randint (1,9999999)
         #return random_player_id
 
+    def player_experience(self,default):
+        if default=="1":
+            self.player_experience_level=0
+        else:
+            #not expecting this to hit but includding for future use
+            self.player_experience_level=10
+
+
+    def player_rating(self):
+        #work out score out of 100 and then /5 to give 
+        if self.final_player_position[0]=="GK":
+            # so 85% gk skill, and 
+            # 5% from fitness,passing and special skill
+            self.overall_score=int((self.random_skill_gk/20)*85+(self.random_skill_fitness/20)*5+(self.random_skill_passing/20)*5+ (self.random_skill_special_skill)    )
+        elif self.final_player_position=="LB" or self.final_player_position=="RB":
+            # so 37% from Tacking
+            # 20 from Pace and Passing
+            # 15 from Fitness
+            # 5 from Special skill
+            # 3 from Shooting
+            self.overall_score=int((self.random_skill_tackle/20)*37+(self.random_skill_fitness/20)*15+(self.random_skill_passing/20)*20+(self.random_skill_passing/20)*20+(self.random_skill_pace/20)*20 + (self.random_skill_special_skill)+(self.random_skill_shooting/20)*3)
+        elif self.final_player_position=="CB":
+            # so 40% from Tacking
+            # 18 from Fitness and Pace
+            # 13 from Passing
+            # 8 from Special skill
+            # 3 from Shooting
+            self.overall_score=int((self.random_skill_tackle/20)*40+(self.random_skill_fitness/20)*18+(self.random_skill_passing/20)*13+(self.random_skill_pace/20)*18 + (self.random_skill_special_skill/5)*8+(self.random_skill_shooting/20)*3)
+        elif self.final_player_position=="LM" or self.final_player_position=="RM":
+            # 25 from Fitness,passing and Pace
+            # 10 Tacking and Shooting
+            # 5 from Special skill
+            self.overall_score=int((self.random_skill_tackle/20)*10+(self.random_skill_fitness/20)*25+(self.random_skill_passing/20)*25+(self.random_skill_pace/20)*25 + (self.random_skill_special_skill)+(self.random_skill_shooting/20)*10)
+        elif self.final_player_position=="CM":
+            # 21 from Fitness 
+            # 18 Pace,Passing,Shooting
+            # 15 Tackling
+            # 10 from Special skill
+            self.overall_score=int((self.random_skill_tackle/20)*15+(self.random_skill_fitness/20)*21+(self.random_skill_passing/20)*18+(self.random_skill_pace/20)*18 + (self.random_skill_special_skill/5)*10+(self.random_skill_shooting/20)*18)
+        elif self.final_player_position=="ST":
+            # 50 from Shooting
+            # 19 Pace
+            # 14 Fitness
+            # 9 Passing
+            # 8 from Special skill
+            self.overall_score=int((self.random_skill_fitness/20)*14+(self.random_skill_passing/20)*9+(self.random_skill_pace/20)*19 + (self.random_skill_special_skill/5)*8+(self.random_skill_shooting/20)*50)
+        else:
+            print ("Unexpected player position=",self.final_player_position)
+            breakpoint()
+        
+
 
     def player_creation(self,play_position):
         #Where all the magic happens to create a Squad
@@ -218,11 +287,13 @@ class create_player():
         self.player_training_speed()
         self.special_traits()
         self.player_id()
-        self.player_experience=0
-        self.player_history=""
+        self.player_experience("1")
+        #self.player_experience=0
+        self.player_history="DP"
+        self.player_rating()
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_fitness,self.random_skill_pace,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_special_skill,15,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience,self.player_history,self.random_player_id]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_fitness,self.random_skill_pace,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_special_skill,self.overall_score,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience_level,self.player_history,self.random_player_id]
             if args.verbose:
                 print("Here is my temp build ... ",temp_build)
             
