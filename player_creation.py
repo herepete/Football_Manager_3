@@ -31,7 +31,9 @@ class print_nicer_output():
     def default_squad(self,squad_to_print):
         if args.verbose:
             print("About to print...",squad_to_print)
-        print ("PST    Name                     AGE  GK   FT   PA   TA  PAS  SHO   SPE OVE   COS   CL   TS    CHA    EX HI")
+        print ("PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    ")
+        print ("                                 |GK   TA   PAS  SHO |FT  PA  | OVE  |COS   CL | SPE    CHA   TS  | EX HI")
+        print ("================================================================================================================")
         for k in squad_of_players_list:
             try:
                 #breakpoint()
@@ -50,7 +52,8 @@ class print_nicer_output():
                         print("ko zero string hit")
 
                 #print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
-                print('{:<6s}{:<18s}{:>10s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>5s}{:>6s}{:>8s}{:>5s}{:>3s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10]),str(k[11]),str(k[12]),str(k[13]),str(k[14]),str(k[15]),str(k[16]),str(k[17]),str(k[18])))
+                print('{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}{:>5s}{:>5s}  |{:>2s}  {:>2s}  |{:>4s}  |{:>2s}{:>5s}  |{:>3s}{:>8s}{:>6s} |{:>3s}{:>3s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10]),str(k[11]),str(k[12]),str(k[13]),str(k[14]),str(k[15]),str(k[16]),str(k[17]),str(k[18])))
+                #breakpoint()
             except Exception as e:
                 print ("Woops i errored=",e)
                 breakpoint()
@@ -293,13 +296,35 @@ class create_player():
         self.player_rating()
         try:
             # X Y and Z are added for future use
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_fitness,self.random_skill_pace,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_special_skill,self.overall_score,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience_level,self.player_history,self.random_player_id]
+            #temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_fitness,self.random_skill_pace,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_special_skill,self.overall_score,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience_level,self.player_history,self.random_player_id]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_fitness,self.random_skill_pace,self.overall_score,self.player_wage,self.random_contract_year,self.random_skill_special_skill,self.player_special_trait,self.random_personality,self.player_experience_level,self.player_history,self.random_player_id]
             if args.verbose:
                 print("Here is my temp build ... ",temp_build)
+                print ("...Here is the breakdown of each variable...")
+                print ("self.final_player_position=",self.final_player_position)
+                print ("self.first_name=",self.first_name)
+                print ("self.last_name=",self.last_name)
+                print ("self.random_age=",self.random_age)
+                print ("self.random_skill_gk=",self.random_skill_gk)
+                print ("self.random_skill_tackle=",self.random_skill_tackle)
+                print ("self.random_skill_passing=",self.random_skill_passing)
+                print ("self.random_skill_shooting=",self.random_skill_shooting)
+                print ("self.random_skill_fitness=",self.random_skill_fitness)
+                print ("self.random_skill_pace=",self.random_skill_pace)
+                print ("self.overall_score=",self.overall_score)
+                print ("self.player_wage=",self.player_wage)
+                print ("self.random_contract_year=",self.random_contract_year)
+                print ("self.random_skill_special_skill=",self.random_skill_special_skill)
+                print ("self.player_special_trait=",self.player_special_trait)
+                print ("self.random_personality=",self.random_personality)
+                print ("self.player_experience_level=",self.player_experience_level)
+                print ("self.player_history=",self.player_history)
+                print ("self.random_player_id=",self.random_player_id)
             
             squad_of_players_list.append(temp_build)
-        except:
+        except Exception as e:
             print("oops something went wrong when creating the squad")
+            print ("Error reads=",e)
             breakpoint()
 
 class Squad_stats_and_feedback():
@@ -428,7 +453,7 @@ def core_run():
     squad_feedback_call=Squad_stats_and_feedback()
     squad_feedback_call.squad_feedback(squad_to_check=squad_of_players_list)
     squad_feedback_call.cost_of_squad(squad_to_check=squad_of_players_list)
-    breakpoint()
+    #breakpoint()
     #remove duplicates from list
 
 
