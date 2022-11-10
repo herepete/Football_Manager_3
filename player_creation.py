@@ -16,8 +16,8 @@ args = parser.parse_args()
 
 if args.verbose:
     print("verbosity turned on")
-else:
-    print("verbosity not turned on")
+#else:
+#    print("verbosity not turned on")
 
 
 # squad_of_players_list is our squad of players
@@ -61,11 +61,12 @@ class print_nicer_output():
     def print_key(self):
         print ("========")
         print("PST=Position")
-        print("GK=GoalKeeper Skills,TA=Tackling,PAS=Passing,SHO=Shooting")
-        print ("FT=Fitness,PA=Pace")
-        print ("OVE=Overall")
-        print("SPE=Special Skills (L=Leader,5SR=% Star Recruit,TP=Team Player,LB=Laid Back,Avg=Average Player)")
-        print("COS=Cost per season,CL=Contract Left per season,TS=Training Speec,CHA=Characteur,EX=Experience,HI=History")
+        print("SKILLS   - GK=GoalKeeper Skills,TA=Tackling,PAS=Passing,SHO=Shooting")
+        print("PHYSICAL - FT=Fitness,PA=Pace")
+        print("OVERAL   - OVE=Overall")
+        print("CONTRACT - COS=Cost per season,CL=Contract")
+        print("TRAINING - SPE=Special attributes (Experience+CHA), CHA=Special Skills (L=Leader,5SR=% Star Recruit,TP=Team Player,LB=Laid Back,Avg=Average Player), TS=Training Speed")
+        print("HISTORY  - EX=Experience,HI=History(DP=Default Player)")
         print ("========")
         
 
@@ -119,8 +120,24 @@ class create_player():
         random_skill=self.random.randint(5,20)
         self.random_skill_shooting=random_skill
     def player_skill_special_skill(self):
-        random_skill=self.random.randint(3,5)
-        self.random_skill_special_skill=random_skill
+        # default to 0
+        # + 1 fir various skill types
+        # if expereince is over 5 any extra year = + 1
+        # maximum of 5
+        temp_count=0
+        if ("Fighter") in self.player_special_trait:
+            temp_count+=1
+        if ("Leader") in self.player_special_trait:
+            temp_count+=1
+        if ("Team P") in self.player_special_trait:
+            temp_count+=1
+            #print(self.player_special_trait)
+            #breakpoint()
+        if self.player_experience_level >5:
+            temp_count=temp_count+ (self.player_experience_level % 5)
+        if temp_count > 5:
+            temp_count=5
+        self.random_skill_special_skill=temp_count
 
     def player_age(self):
         #guve a random age
@@ -145,8 +162,11 @@ class create_player():
             #Team Player
             player_special_trait="Team P"
         elif special_traits_random_number==9:
+            if self.random_age < 24:
             #% star recurit (high potential)
-             player_special_trait="5-Star"
+                 player_special_trait="5-Star"
+            else:
+                 player_special_trait="Avg"
         elif special_traits_random_number==5:
              #laid back
              player_special_trait="Laid B"
@@ -233,7 +253,7 @@ class create_player():
             # 15 from Fitness
             # 5 from Special skill
             # 3 from Shooting
-            self.overall_score=int((self.random_skill_tackle/20)*37+(self.random_skill_fitness/20)*15+(self.random_skill_passing/20)*20+(self.random_skill_passing/20)*20+(self.random_skill_pace/20)*20 + (self.random_skill_special_skill)+(self.random_skill_shooting/20)*3)
+            self.overall_score=int((self.random_skill_tackle/20)*37+(self.random_skill_fitness/20)*15+(self.random_skill_passing/20)*20+(self.random_skill_pace/20)*20 + (self.random_skill_special_skill)+(self.random_skill_shooting/20)*3)
         elif self.final_player_position=="CB":
             # so 40% from Tacking
             # 18 from Fitness and Pace
@@ -267,10 +287,9 @@ class create_player():
 
     def player_creation(self,play_position):
         #Where all the magic happens to create a Squad
+        # the order is quite important here as variables are reliant on previous functions
         global squad_of_players
         self.player_name()
-        #self.create_position()
-        #breakpoint()
         if play_position=="GK":
             self.player_skill_gk(0)
         else:
@@ -280,7 +299,7 @@ class create_player():
         self.player_skill_tackle()
         self.player_skill_passing()
         self.player_skill_shooting()
-        self.player_skill_special_skill()
+        #self.player_skill_special_skill()
         
         self.player_age()
         self.play_position=play_position
@@ -291,8 +310,8 @@ class create_player():
         self.special_traits()
         self.player_id()
         self.player_experience("1")
-        #self.player_experience=0
         self.player_history="DP"
+        self.player_skill_special_skill()
         self.player_rating()
         try:
             # X Y and Z are added for future use
@@ -332,7 +351,7 @@ class Squad_stats_and_feedback():
     def cost_of_squad(self,squad_to_check):
         total_cost=0
         for cost_of_player in squad_to_check:
-            temp_cost=int(cost_of_player[5])
+            temp_cost=int(cost_of_player[11])
             total_cost+=temp_cost
         print ("Total Squad Wages=",total_cost)
 
@@ -345,7 +364,7 @@ class Squad_stats_and_feedback():
 
         for player in squad_to_check:
             temp_age=player[3]
-            temp_skill=player[4]
+            temp_skill=player[10]
             total_age+=temp_age
             total_skill+=temp_skill
             temp_position=player[0]
@@ -369,16 +388,51 @@ class Squad_stats_and_feedback():
                     position_count+=1
             master_position_count[i] =  position_count
             position_count=0
-        print ("\nPlayers per position")
+        print("=======Players per position")
         print ("         GK=",master_position_count.get("GK"))
         try:
-            pass
-            #print('LB={:<5} CB={:<5} RB={:<5}'.format((master_position_count.get("LB")),master_position_count.get("CB"),master_position_count.get("RB")))
-            #print('LM={:<5} CM={:<5} RM={:<5}'.format((master_position_count.get("LM")),master_position_count.get("CM"),master_position_count.get("RM")))
-            #print('ST={:<5}'.format(master_position_count.get("ST"))
+            #pass
+            print('LB={:<5} CB={:<5} RB={:<5}'.format((master_position_count.get("LB")),master_position_count.get("CB"),master_position_count.get("RB")))
+            print('LM={:<5} CM={:<5} RM={:<5}'.format((master_position_count.get("LM")),master_position_count.get("CM"),master_position_count.get("RM")))
+            print('         ST={:<5}'.format((master_position_count.get("ST"))))
 
         except:
             breakpoint()
+
+
+    def char_of_team(self,squad_to_check):
+        avg_players=0
+        team_p_players=0
+        leader_players=0
+        fighter_player=0
+        five_star_player=0
+        laid_b_players=0
+        for player in squad_to_check:
+            if player[14] == "Team P":
+                team_p_players+=1
+            elif player[14] == "Avg":
+                avg_players+=1
+            elif player[14] == "Fighter":
+                fighter_player+=1
+            elif player[14] == "Leader":
+                leader_players+=1
+            elif player[14] == "5-Star":
+                five_star_player+=1
+            elif player[14] == "Laid B":
+                laid_b_players+=1
+            else:
+                print ("Whops odd char found")
+                breakpoint()
+        print("=======Charcteur of team...")
+        print ("Avg Players=",avg_players)
+        print ("Team Players=",team_p_players)
+        print ("Leaders=",leader_players)
+        print ("Fighters=",fighter_player)
+        print ("5 Star Recruits=",five_star_player)
+        print ("Laid back players=",laid_b_players)
+            
+
+            
 
 
     def rating_per_position(self,squad_to_check):
@@ -394,44 +448,112 @@ class Squad_stats_and_feedback():
         for i in squad_to_check:
             if "GK" in i[0]:
                 if i[4]>gk_highest_rating:
-                    gk_highest_rating=i[4]
-            if "LB" in i[0]:
+                    gk_highest_rating=i[10]
+            elif "LB" in i[0]:
                 if i[4]>lb_highest_rating:
-                    lb_highest_rating=i[4]
-            if "RB" in i[0]:
+                    lb_highest_rating=i[10]
+            elif "RB" in i[0]:
                 if i[4]>rb_highest_rating:
-                    rb_highest_rating=i[4]
-            if "CB" in i[0]:
+                    rb_highest_rating=i[10]
+            elif "CB" in i[0]:
                 if i[4]>cb_highest_rating:
-                    cb_highest_rating=i[4]
-            if "LM" in i[0]:
+                    cb_highest_rating=i[10]
+            elif "LM" in i[0]:
                 if i[4]>lm_highest_rating:
-                    lm_highest_rating=i[4]
-            if "RM" in i[0]:
+                    lm_highest_rating=i[10]
+            elif "RM" in i[0]:
                 if i[4]>rm_highest_rating:
-                    rm_highest_rating=i[4]
-            if "CM" in i[0]:
+                    rm_highest_rating=i[10]
+            elif "CM" in i[0]:
                 if i[4]>cm_highest_rating:
-                    cm_highest_rating=i[4]
-            if "ST" in i[0]:
+                    cm_highest_rating=i[10]
+            elif "ST" in i[0]:
                 if i[4]>s_highest_rating:
-                    s_highest_rating=i[4]
+                    s_highest_rating=i[10]
+            else:
+                print("who are you?")
+                breakpoint()
 
 
-        print ("\nHighest Rated")
+        #print("=======")
+        print ("======Highest Rated")
         print ("       GK=",gk_highest_rating)
         print ("LB={}  CB={}  RB={}".format(lb_highest_rating,cb_highest_rating,rb_highest_rating))
         print ("LM={}  CM={}  RM={}".format(lm_highest_rating,cm_highest_rating,rm_highest_rating))
-        print ("ST={}".format(s_highest_rating))
+        print ("       ST={}".format(s_highest_rating))
 
         
-        
+    def sort_squad(self): 
+        global squad_of_players_list
+        #group players by position (first into indvidual list and then combine them later on)
+        incoming_squad_in=squad_of_players_list
+        gk_list=[]
+        dl_list=[]
+        dr_list=[]
+        cb_list=[]
+        lm_list=[]
+        rm_list=[]
+        cm_list=[]
+        st_list=[]
+        rebuilt_team=[]
+        for player in incoming_squad_in:
+            if player[0][0]=="GK":
+                gk_list.append(player)
+            elif player[0]=="LB":
+                dl_list.append(player)
+            elif player[0]=="RB":
+                dr_list.append(player)
+            elif player[0]=="CB":
+                cb_list.append(player)
+            elif player[0]=="LM":
+                lm_list.append(player)
+            elif player[0]=="RM":
+                rm_list.append(player)
+            elif player[0]=="CM":
+                cm_list.append(player)
+            elif player[0]=="ST":
+                st_list.append(player)
+            else:
+                print("odd position input 2")
+                print (player)
+                breakpoint()
+
+        #sort by players overall rating 
+        gk_list=sorted(gk_list, key=lambda x: x[10],reverse=True)
+        dl_list=sorted(dl_list, key=lambda x: x[10],reverse=True)
+        dr_list=sorted(dr_list, key=lambda x: x[10],reverse=True)
+        cb_list=sorted(cb_list, key=lambda x: x[10],reverse=True)
+        lm_list=sorted(lm_list, key=lambda x: x[10],reverse=True)
+        rm_list=sorted(rm_list, key=lambda x: x[10],reverse=True)
+        cm_list=sorted(cm_list, key=lambda x: x[10],reverse=True)
+        st_list=sorted(st_list, key=lambda x: x[10],reverse=True)
+    
+        #rebuilt list after being sorted by position and overall value
+        for player_gk in (gk_list):
+            rebuilt_team.append(player_gk)
+        for player_dl in (dl_list):
+            rebuilt_team.append(player_dl)
+        for player_dr in (dr_list):
+            rebuilt_team.append(player_dr)
+        for player_cb in (cb_list):
+            rebuilt_team.append(player_cb)
+        for player_lm in (lm_list):
+            rebuilt_team.append(player_lm)
+        for player_rm in (rm_list):
+            rebuilt_team.append(player_rm)
+        for player_cm in (cm_list):
+            rebuilt_team.append(player_cm)
+        for player_st in (st_list):
+            rebuilt_team.append(player_st)
+        #overwrite our global varliable with our newley ordered squad 
+        squad_of_players_list=rebuilt_team
         
         
 
 def core_run():
 
     create_default_list=create_player()
+    squad_feedback_call=Squad_stats_and_feedback()
 
     default_squad_GK=4
     default_squad_DEF=9
@@ -447,16 +569,15 @@ def core_run():
     for k in range(1,default_squad_ATA):
         create_default_list.player_creation(play_position="ATA")
 
+    squad_feedback_call.sort_squad()
     nicer_output=print_nicer_output()
     nicer_output.default_squad(squad_to_print=squad_of_players_list)
     nicer_output.print_key()
-    squad_feedback_call=Squad_stats_and_feedback()
+    #reoder the squad to make it more readable
+    #squad_feedback_call.sort_squad()
     squad_feedback_call.squad_feedback(squad_to_check=squad_of_players_list)
     squad_feedback_call.cost_of_squad(squad_to_check=squad_of_players_list)
-    #breakpoint()
-    #remove duplicates from list
-
-
+    squad_feedback_call.char_of_team(squad_of_players_list)
     squad_feedback_call.players_per_position(squad_to_check=squad_of_players_list)
     squad_feedback_call.rating_per_position(squad_to_check=squad_of_players_list)
     return (squad_of_players_list)
@@ -468,4 +589,3 @@ if __name__ == "__main__":
         default_squad_DEF=1000
         default_squad_MID=1000
         default_squad_ATA=1000
-
