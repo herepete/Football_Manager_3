@@ -60,12 +60,12 @@ class print_nicer_output():
 
     def print_key(self):
         print ("========")
-        print("PST=Position")
-        print("SKILLS   - GK=GoalKeeper Skills,TA=Tackling,PAS=Passing,SHO=Shooting")
-        print("PHYSICAL - FT=Fitness,PA=Pace")
-        print("OVERAL   - OVE=Overall")
-        print("CONTRACT - COS=Cost per season,CL=Contract")
-        print("TRAINING - SPE=Special attributes (Experience+CHA), CHA=Special Skills (L=Leader,5SR=% Star Recruit,TP=Team Player,LB=Laid Back,Avg=Average Player), TS=Training Speed")
+        print("PST=Position",end= "|")
+        print("SKILLS   - GK=GoalKeeper Skills,TA=Tackling,PAS=Passing,SHO=Shooting",end="|")
+        print("PHYSICAL - FT=Fitness,PA=Pace",end="|")
+        print("OVERAL   - OVE=Overall",end="|")
+        print("CONTRACT - COS=Cost per season,CL=Contract",end="|")
+        print("TRAINING - SPE=Special attributes (Experience+CHA), CHA=Special Skills (L=Leader,5SR=% Star Recruit,TP=Team Player,LB=Laid Back,Avg=Average Player), TS=Training Speed",end="|")
         print("HISTORY  - EX=Experience,HI=History(DP=Default Player)")
         print ("========")
         
