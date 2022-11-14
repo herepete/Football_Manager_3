@@ -6,10 +6,22 @@ parser=argparse.ArgumentParser()
 parser.add_argument("-v","--verbose",help="Verbose information",action="store_true")
 args =parser.parse_args()
 
+import logging
+#logging.basicConfig(level=logging.INFO)
+#logging.debug('Debug alert')
+#logging.info('Info alert')
+#logging.warning('Warning alert')
+#logging.error('Error alert')
+#logging.critical('Critical alert')
+
+
 if args.verbose:
-    print("verbosity turned on")
+    #print("verbosity turned on")
+    logging.basicConfig(level=logging.INFO)
+    logging.info('Logging turned on')
 else:
-    print("verbosity not turned on")
+    #print("verbosity not turned on")
+    pass
 
 
 
@@ -40,7 +52,8 @@ def best_avliable_team():
             #players_found=0
             #breakpoint()
             #break out of this loop if we have all the players we need
-            print("loop details",position,num_players_needed)
+            logging.info('Loop details %s %s',position,num_players_needed)
+            #print("loop details",position,num_players_needed)
             if (num_players_needed == players_found) and players_found>0:
                 for delete_me_id in ids_to_delete:
                     del squad[delete_me_id]
@@ -51,20 +64,20 @@ def best_avliable_team():
                 #we have all the players we need
                 #breakpoint()
                 if num_players_needed == players_found:
-                    print ("num of players needed found")
+                    logging.info('num of players needed found')
                     break
                 else:
                     if (position in player[0][0]) or (position in player[0]):
-                        print("i want to add a player",position,position in player)
+                        logging.info('i want to add a player %s %s ',position,player)
                         #breakpoint()
                         best_team_chosen.append(player)
                         ids_to_delete.append(player_index_position)
-                        print ("Player added to team chosed=",player)
+                        logging.info('Players added to team chosen %s ',player)
                         players_found+=1
                         break
                 
                 player_index_position+=1
-
+    print("Got to bottom of the list")
     breakpoint()
     create_team_score(first_11)
     return()
