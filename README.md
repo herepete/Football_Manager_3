@@ -26,7 +26,3 @@ s = "Python syntax highlighting"
 print s
 ```
 
-```python
-s = "Python syntax highlighting"
-print s
-```
