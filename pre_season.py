@@ -358,7 +358,7 @@ def offer_choice_to_user():
     team_stats_chosen=[]
     while True:
         print ("Which formation do you want to choose")
-        user_input=input("Best Avliable Team(a) , Best Young Team (y) or Best Blended Team(b) ")
+        user_input=input("Best Avliable Team(a) , Best Young Team (y) or Best Blended Team(b) or Debug(x) ")
         if user_input == ("a"):
             team_chosen=first_11_best_team_chosen
             team_stats_chosen=first_11_best_team_chosen_team_rating
@@ -371,6 +371,9 @@ def offer_choice_to_user():
             team_chosen=first_11_best_blended_team_chosen
             team_stats_chosen=first_11_best_blended_team_chosen_team_rating
             break
+        elif user_input == ("x"):
+            print("dropping into debug")
+            breakpoint()
         else:
             print("Invalid option please choose again")
     

@@ -7,8 +7,9 @@ import os
 
 #intro >> pre season >> season >> playoff  >> free_agency >> draft
 
-def banner_status(colored_status):
+def banner_status(colored_status,season_num):
     os.system('clear')
+    print (f"Season {season_num}")
     if colored_status=="i":
         print(colored('Intro >>> ', 'green'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Free_Agency >>> ', 'red'), colored('Draft', 'red'))
     elif colored_status=="ps":
