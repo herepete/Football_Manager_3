@@ -8,6 +8,8 @@ args =parser.parse_args()
 
 import logging
 import random
+#https://blog.finxter.com/copy-list-of-lists-in-python-shallow-vs-deep/#:~:text=To%20create%20a%20shallow%20copy,the%20inner%20and%20outer%20lists.
+import copy
 
 """
 Trying to detail how the program flows
@@ -56,6 +58,15 @@ formation_4_4_2_list_keys=list(formation_4_4_2_just_needed.keys())
 
 #give me something to test locally
 test_squad=[[['GK'], 'Rambo', 'Kane', 20, 16, 9, 14, 20, 14, 14, 75, 2, 1, 0, 'Avg', '****', 0, 'DP', 821920], [['GK'], 'Li', 'Mayfield', 19, 12, 5, 19, 12, 18, 17, 61, 5, 4, 1, 'Leader', '*****', 0, 'DP', 607207], [['GK'], 'Paul', 'Roberts', 27, 13, 13, 7, 18, 19, 13, 61, 2, 4, 0, 'Avg', '*', 0, 'DP', 2791431], ['LB', 'Ross', 'Kane', 25, 3, 19, 19, 9, 19, 8, 78, 4, 2, 1, 'Fighter', '**', 0, 'DP', 5449644], ['LB', 'Gibby', 'Barrett', 29, 1, 15, 13, 6, 16, 20, 73, 4, 4, 0, 'Laid B', '**', 0, 'DP', 2472907], ['RB', 'Peter', 'Del-Piero', 32, 3, 13, 17, 14, 10, 9, 60, 6, 4, 1, 'Team P', '**', 0, 'DP', 7409013], ['RB', 'TJ', 'Mohammed', 19, 1, 9, 16, 12, 10, 6, 48, 1, 4, 1, 'Team P', '*****', 0, 'DP', 5781168], ['RB', 'See', 'Mander', 35, 1, 10, 7, 17, 15, 8, 47, 6, 1, 0, 'Avg', '***', 0, 'DP', 3548257], ['RB', 'Jimbo', 'Bishop', 31, 2, 10, 5, 8, 10, 12, 44, 3, 1, 0, 'Avg', '**', 0, 'DP', 8562484], ['CB', 'Samkelo', 'Bishop', 33, 3, 17, 16, 16, 7, 17, 68, 2, 3, 0, 'Avg', '***', 0, 'DP', 4235611], ['CB', 'Bo', 'Stimer', 24, 1, 14, 16, 5, 5, 17, 58, 3, 4, 0, 'Laid B', '*****', 0, 'DP', 3200970], ['LM', 'Simon', 'Ticker', 35, 1, 5, 5, 13, 16, 18, 57, 3, 1, 0, 'Avg', '*', 0, 'DP', 8290256], ['RM', 'Aj', 'Jean', 23, 3, 18, 16, 8, 6, 16, 60, 2, 4, 0, 'Avg', '*****', 0, 'DP', 2555510], ['RM', 'Bo', 'Hassan', 21, 1, 16, 12, 20, 7, 13, 59, 5, 4, 1, 'Leader', '***', 0, 'DP', 2835505], ['RM', 'Silver', 'Tubert', 25, 2, 17, 8, 10, 10, 13, 52, 1, 1, 0, 'Avg', '***', 0, 'DP', 2012292], ['RM', 'Ross', 'Stansfield', 31, 3, 14, 12, 9, 10, 7, 48, 1, 1, 1, 'Fighter', '***', 0, 'DP', 4849940], ['CM', 'Tommie', 'Reize', 19, 1, 16, 12, 18, 10, 12, 62, 3, 4, 1, 'Team P', '**', 0, 'DP', 8865693], ['CM', 'Banele', 'Bishop', 28, 3, 6, 12, 7, 11, 17, 48, 1, 1, 0, 'Avg', '***', 0, 'DP', 622877], ['CM', 'Banele', 'Tubert', 34, 3, 9, 8, 5, 5, 8, 30, 5, 2, 0, 'Avg', '*', 0, 'DP', 7566234], ['ST', 'Omar', 'Ribbenov', 19, 3, 17, 14, 16, 18, 7, 65, 5, 2, 0, 'Avg', '*****', 0, 'DP', 836487], ['ST', 'Banele', 'Del-Piero', 35, 1, 8, 20, 10, 20, 14, 61, 2, 2, 0, 'Avg', '*', 0, 'DP', 4112503], ['ST', 'Aj', 'Del-Piero', 27, 3, 17, 6, 17, 12, 5, 58, 4, 3, 0, 'Avg', '**', 0, 'DP', 3731537], ['ST', 'Barry', 'Smith', 35, 1, 18, 20, 8, 14, 16, 54, 2, 4, 0, 'Avg', '*', 0, 'DP', 5266273], ['ST', 'TJ', 'Smith', 20, 2, 20, 20, 11, 11, 6, 49, 5, 1, 0, 'Avg', '***', 0, 'DP', 7415303]]
+
+first_11_best_team_chosen=[]
+first_11_best_team_chosen_team_rating=[]
+first_11_best_young_team_chosen=[]
+first_11_best_young_team_chosen_team_rating=[]
+first_11_best_blended_team_chosen=[]
+first_11_best_blended_team_chosen_team_rating=[]
+
+
 
 def sort_team(incoming_squad):
     global squad_of_players_list
@@ -172,6 +183,11 @@ def best_avliable_team(localsquad):
     for i in localsquad:
         logging.info(i)
 
+    global first_11_best_team_chosen
+    global first_11_best_team_chosen_team_rating
+    first_11_best_team_chosen.append(best_team_chosen)
+    first_11_best_team_chosen_team_rating.append([gk_score,def_score,ata_score,fitness_score,special_score])
+
     return(gk_score,def_score,ata_score,fitness_score,special_score)
 def best_young_team(squad_in):
     # purporse: 
@@ -186,24 +202,41 @@ def best_young_team(squad_in):
     #look at best under 24 players and fill out the rest 
     #scoring system? age+skill+younger players get an increased score + training speed
     #then pop
-
-    temp_squad=squad_in.copy()
+    #temp_squad=squad_in.copy()
+    temp_squad=copy.deepcopy(squad_in)
     
-
     index_number=-1
-    for player in squad_in:
+    #for player in temp_squad:
+    for player in squad_in.copy():
         index_number+=1
-        create_score=random.randint(1,100)
+        create_score=0
+        if player[3]  < 21 :
+            create_score+=13
+        elif player[3]  < 24 :
+            create_score+=7
+        else:
+            pass
+        create_score+=player[10]
+
         temp_squad[index_number].append(create_score)
+        #breakpoint()
+    #ibreakpoint()
     #breakpoint()
     temp_squad=sort_team(temp_squad)
+    #breakpoint()
 
     logging.info("Print Best Young Team")
     for i in temp_squad:
         logging.info(i)
-
     best_team_chosen=pick_top_eleven(squad=temp_squad)
     gk_score,def_score,ata_score,fitness_score,special_score=create_team_score(first_11=best_team_chosen,type_of_team="Best Young Team   ")
+    
+    global first_11_best_young_team_chosen
+    global first_11_best_young_team_chosen_team_rating
+    first_11_best_young_team_chosen.append(best_team_chosen)
+    first_11_best_young_team_chosen_team_rating.append([gk_score,def_score,ata_score,fitness_score,special_score])
+
+
     return(gk_score,def_score,ata_score,fitness_score,special_score)
         
 def best_blended_team(squad_in_2):
@@ -213,13 +246,22 @@ def best_blended_team(squad_in_2):
 
     #need a scoring system like age+skill
     #then pop
-    temp_squad_2=squad_in_2.copy()
+    #temp_squad_2=squad_in_2.copy()
+    temp_squad_2=copy.deepcopy(squad_in_2)
 
 
     index_number=-1
     for player in squad_in_2:
         index_number+=1
-        create_score=random.randint(1,10000)
+        create_score=0
+        if player[3]  < 21 :
+            create_score+=8
+        elif player[3]  < 24 :
+            create_score+=5
+        else:
+            pass
+        create_score+=player[10]
+        
         temp_squad_2[index_number].append(create_score)
     #breakpoint()
     temp_squad_2=sort_team(temp_squad_2)
@@ -230,6 +272,14 @@ def best_blended_team(squad_in_2):
 
     best_team_chosen_2=pick_top_eleven(squad=temp_squad_2)
     gk_score2,def_score2,ata_score2,fitness_score2,special_score2=create_team_score(first_11=best_team_chosen_2,type_of_team="Best Blended Team ")
+
+    global first_11_best_blended_team_chosen
+    global first_11_best_blended_team_chosen_team_rating
+    first_11_best_blended_team_chosen.append(best_team_chosen_2)
+    first_11_best_blended_team_chosen_team_rating.append([gk_score2,def_score2,ata_score2,fitness_score2,special_score2])
+
+
+
     return(gk_score2,def_score2,ata_score2,fitness_score2,special_score2)
 
 def create_team_score(first_11,type_of_team):
@@ -276,7 +326,8 @@ def create_team_score(first_11,type_of_team):
     ata_score=int((ata_score/4))
     fitness_score=int((fitness_score/11))
     print (f"{type_of_team} {gk_score}  {def_score} {ata_score}  {fitness_score} {special_score}") 
-    
+    for i in first_11:
+        print(i)
     return(gk_score,def_score,ata_score,fitness_score,special_score)
 
 
@@ -301,18 +352,28 @@ def offer_choice_to_user():
     # purporse: 
     # in: 
     # return: 
-
-    print ("Which formation do you want to choose")
-    #print ("Average Team age, Average Overall team rating, gk rating, def overall, mid overall, ata overall,special overall")
-    #print ("1) youth -28,70,65,45,80,21,5 ")
-    #print ("2) best -55 ")
-    #print ("3) balanced -55 ")
-    input()
-    formation_methodology="Youth"
-    return (formation_methodology)
-
-
-
+    global team_chosen
+    global team_stats_chosen
+    team_chosen=[]
+    team_stats_chosen=[]
+    while True:
+        print ("Which formation do you want to choose")
+        user_input=input("Best Avliable Team(a) , Best Young Team (y) or Best Blended Team(b) ")
+        if user_input == ("a"):
+            team_chosen=first_11_best_team_chosen
+            team_stats_chosen=first_11_best_team_chosen_team_rating
+            break
+        elif user_input == ("y"):
+            team_chosen=first_11_best_young_team_chosen
+            team_stats_chosen=first_11_best_young_team_chosen_team_rating
+            break
+        elif user_input == ("b"):
+            team_chosen=first_11_best_blended_team_chosen
+            team_stats_chosen=first_11_best_blended_team_chosen_team_rating
+            break
+        else:
+            print("Invalid option please choose again")
+    
 def starting_preseason(squad):
 
     # purporse: 
@@ -320,9 +381,9 @@ def starting_preseason(squad):
     # return: 
 
     formation_choice(squad)
+    return (team_chosen,team_stats_chosen)
     #offer best avaliable v best young team v blend (scores)
     #give user choice
-    pass
 
 
 if __name__=="__main__":

@@ -29,11 +29,12 @@ input("Press enter to continue")
 for i in range (1,season_to_play):
     banner.banner_status(colored_status="ps")
     import  pre_season
-    pre_season.starting_preseason(squad=player_squad)
+    team_chosen,team_stats_chosen=pre_season.starting_preseason(squad=player_squad)
     #import team_rating
     #season_formation=team_rating.team_formation()
     #type_of_team=team_rating.best_team()
     #print (season_formation)
+    breakpoint()
     banner.banner_status(colored_status="s")
     import season
     banner.banner_status(colored_status="fa")
