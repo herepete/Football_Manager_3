@@ -24,6 +24,7 @@ if args.verbose:
 squad_of_players_list=[]
 avalible_poistions=["GK","LB","RB","CB","LM","RM","CM","ST"]
 
+Start_up_parameters={'age_min':'17','age_max':'37','skill_min':'10','skill_max':'20'}
 
 class print_nicer_output():
 
@@ -105,19 +106,19 @@ class create_player():
             self.random_skill_gk=random_skill
 
     def player_skill_fitness(self):
-        random_skill=self.random.randint(5,20)
+        random_skill=self.random.randint(skill_min,skill_max)
         self.random_skill_fitness=random_skill
     def player_skill_pace(self):
-        random_skill=self.random.randint(5,20)
+        random_skill=self.random.randint(skill_min,skill_max)
         self.random_skill_pace=random_skill
     def player_skill_tackle(self):
-        random_skill=self.random.randint(5,20)
+        random_skill=self.random.randint(skill_min,skill_max)
         self.random_skill_tackle=random_skill
     def player_skill_passing(self):
-        random_skill=self.random.randint(5,20)
+        random_skill=self.random.randint(skill_min,skill_max)
         self.random_skill_passing=random_skill
     def player_skill_shooting(self):
-        random_skill=self.random.randint(5,20)
+        random_skill=self.random.randint(skill_min,skill_max)
         self.random_skill_shooting=random_skill
     def player_skill_special_skill(self):
         # default to 0
@@ -141,7 +142,7 @@ class create_player():
 
     def player_age(self):
         #guve a random age
-        random_age=self.random.randint(18,36)
+        random_age=self.random.randint(age_min,age_max)
         self.random_age=random_age
 
     def player_training_speed(self):
@@ -178,27 +179,25 @@ class create_player():
                 
 
     def calc_player_wage(self):
-        #15 highest
-        #basic .600K
-        #if self.random_skill > 94:
-        #    player_wage=15
-        #elif self.random_skill > 92:
-        #    player_wage=12
-        #elif self.random_skill > 92:
-        #    player_wage=10
-        #elif self.random_skill > 90:
-        #    player_wage=9
-        #elif self.random_skill > 87:
-        #    player_wage=8
-        #elif self.random_skill > 83:
-        #    player_wage=7
-        #elif self.random_skill > 80:
-        #    player_wage=6
-        #else:
-        #    import random
-        #    player_wage=random.randint(1,6)
         import random
-        player_wage=random.randint(1,6)
+        if self.overall_score > 94:
+            player_wage=15
+        elif self.overall_score > 92:
+            player_wage=12
+        elif self.overall_score > 90:
+            player_wage=10
+        elif self.overall_score > 88:
+            player_wage=9
+        elif self.overall_score > 85:
+            player_wage=8
+        elif self.overall_score > 83:
+            player_wage=7
+        elif self.overall_score > 80:
+            player_wage=6
+        elif self.overall_score > 75:
+            player_wage=random.randint(1,6)
+        else:
+            player_wage=random.randint(1,6)
         
         self.player_wage=player_wage
         
@@ -285,9 +284,16 @@ class create_player():
         
 
 
-    def player_creation(self,play_position):
+    def player_creation(self,play_position,type_of_player):
         #Where all the magic happens to create a Squad
         # the order is quite important here as variables are reliant on previous functions
+        if type_of_player=="Start Up":
+            global age_min,age_max,skill_min,skill_max
+            age_min=int(Start_up_parameters['age_min'])
+            age_max=int(Start_up_parameters['age_max'])
+            skill_min=int(Start_up_parameters['skill_min'])
+            skill_max=int(Start_up_parameters['skill_max'])
+
         global squad_of_players
         self.player_name()
         if play_position=="GK":
@@ -305,7 +311,7 @@ class create_player():
         self.play_position=play_position
         self.create_position()
         self.random_contract()
-        self.calc_player_wage()
+        #self.calc_player_wage()
         self.player_training_speed()
         self.special_traits()
         self.player_id()
@@ -313,6 +319,7 @@ class create_player():
         self.player_history="DP"
         self.player_skill_special_skill()
         self.player_rating()
+        self.calc_player_wage()
         try:
             # X Y and Z are added for future use
             #temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_fitness,self.random_skill_pace,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_special_skill,self.overall_score,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience_level,self.player_history,self.random_player_id]
@@ -561,13 +568,13 @@ def core_run():
     default_squad_ATA=6
 
     for j in range(1,default_squad_GK):
-        create_default_list.player_creation(play_position="GK")
+        create_default_list.player_creation(play_position="GK",type_of_player="Start Up")
     for k in range(1,default_squad_DEF):
-        create_default_list.player_creation(play_position="DEF")
+        create_default_list.player_creation(play_position="DEF",type_of_player="Start Up")
     for k in range(1,default_squad_MID):
-        create_default_list.player_creation(play_position="MID")
+        create_default_list.player_creation(play_position="MID",type_of_player="Start Up")
     for k in range(1,default_squad_ATA):
-        create_default_list.player_creation(play_position="ATA")
+        create_default_list.player_creation(play_position="ATA",type_of_player="Start Up")
 
     squad_feedback_call.sort_squad()
     nicer_output=print_nicer_output()
