@@ -14,13 +14,13 @@ def create_free_agency():
     default_squad_ATA=6
 
     for j in range(1,default_squad_GK):
-        create_default_list.player_creation(play_position="GK")
+        create_default_list.player_creation(play_position="GK",type_of_player="Free Agency")
     for k in range(1,default_squad_DEF):
-        create_default_list.player_creation(play_position="DEF")
+        create_default_list.player_creation(play_position="DEF",type_of_player="Free Agency")
     for k in range(1,default_squad_MID):
-        create_default_list.player_creation(play_position="MID")
+        create_default_list.player_creation(play_position="MID",type_of_player="Free Agency")
     for k in range(1,default_squad_ATA):
-        create_default_list.player_creation(play_position="ATA")
+        create_default_list.player_creation(play_position="ATA",type_of_player="Free Agency")
     breakpoint()
 
 create_free_agency()

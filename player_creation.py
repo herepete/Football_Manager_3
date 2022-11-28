@@ -25,6 +25,7 @@ squad_of_players_list=[]
 avalible_poistions=["GK","LB","RB","CB","LM","RM","CM","ST"]
 
 Start_up_parameters={'age_min':'17','age_max':'37','skill_min':'10','skill_max':'20'}
+Free_Agency_parameters={'age_min':'24','age_max':'37','skill_min':'12','skill_max':'20'}
 
 class print_nicer_output():
 
@@ -287,12 +288,23 @@ class create_player():
     def player_creation(self,play_position,type_of_player):
         #Where all the magic happens to create a Squad
         # the order is quite important here as variables are reliant on previous functions
+        global age_min,age_max,skill_min,skill_max
         if type_of_player=="Start Up":
-            global age_min,age_max,skill_min,skill_max
             age_min=int(Start_up_parameters['age_min'])
             age_max=int(Start_up_parameters['age_max'])
             skill_min=int(Start_up_parameters['skill_min'])
             skill_max=int(Start_up_parameters['skill_max'])
+        elif type_of_player=="Free Agency":
+            age_min=int(Start_up_parameters['age_min'])
+            age_max=int(Start_up_parameters['age_max'])
+            skill_min=int(Start_up_parameters['skill_min'])
+            skill_max=int(Start_up_parameters['skill_max'])
+        else:
+            age_min=int(Start_up_parameters['age_min'])
+            age_max=int(Start_up_parameters['age_max'])
+            skill_min=int(Start_up_parameters['skill_min'])
+            skill_max=int(Start_up_parameters['skill_max'])
+
 
         global squad_of_players
         self.player_name()
@@ -575,6 +587,16 @@ def core_run():
         create_default_list.player_creation(play_position="MID",type_of_player="Start Up")
     for k in range(1,default_squad_ATA):
         create_default_list.player_creation(play_position="ATA",type_of_player="Start Up")
+
+    #quite hacky but make sure our default squad has at least enough players in each position
+    squad_of_players_list[3][0]="LB"
+    squad_of_players_list[4][0]="RB"
+    squad_of_players_list[5][0]="CB"
+    squad_of_players_list[6][0]="CB"
+    squad_of_players_list[11][0]="LM"
+    squad_of_players_list[12][0]="RM"
+    squad_of_players_list[13][0]="CM"
+    squad_of_players_list[14][0]="CM"
 
     squad_feedback_call.sort_squad()
     nicer_output=print_nicer_output()
