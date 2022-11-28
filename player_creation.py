@@ -12,10 +12,13 @@ print ("This is what your squad looks like...")
 parser = argparse.ArgumentParser()
 parser.add_argument("-v","--verbose",help="Verbose information",action="store_true")
 parser.add_argument("--benchmark", help="Create lots of players, a useful command is ./player_creation.py --benchmark | head -3998 | awk '{print $(NF-7),$(NF-6)}' | sort | uniq | wc -l ", action="store_true")
+parser.add_argument("-n","--namecheck", help="Check Logic on player names", action="store_true")
 args = parser.parse_args()
+
 
 if args.verbose:
     print("verbosity turned on")
+
 #else:
 #    print("verbosity not turned on")
 
@@ -26,6 +29,10 @@ avalible_poistions=["GK","LB","RB","CB","LM","RM","CM","ST"]
 
 Start_up_parameters={'age_min':'17','age_max':'37','skill_min':'10','skill_max':'20'}
 Free_Agency_parameters={'age_min':'24','age_max':'37','skill_min':'12','skill_max':'20'}
+
+first_name_list_memory=["Peter","Bob","James","Tony","Aj","Bo","Nathan","Gibby","Tim","Anchor","Jimbo","Paul","Simon","Symon","See","Silver","Titch","Rambo","Robbie","TJ","David","John","Michael","Paul","Andrew","David","Sero","Ian","Brian","Barry","Li","Omar","Junior","Blesing","Banele","Samkelo","Ross","Dylon","Master","Junior","Ung","Me","Nsoki","Zak","Banner","Tommie","Feix","Piero","Robert","Pervis","Xavier","Bruno","Joao","Kim","Hwang","Kieffer","Sorba","Ben","Rubin","Aaron","Haji","Josh","Sean","Shaq"]
+last_name_list_memory=["White","Mander","Bishop","Garrett","Winston","Mayfield","Shearer","Rooney","Tucker","Racker","Hutch","Kane","Del-Piero","Seemen","Locker","Teng","Tubert","Smith","Roberts","Curtis","Hammer","Wang","Chen","Smith","Zhang","Costa","Ribbenov","Stimer","Reize","Lemon","Jean","Mohammed","Ticker","Barrett","Manning","Rogan","Musk","Turing","Ali","Fatima","Hassan","Charles","Omar","Stansfield","Moore","Weah","Reyna","Dest","Foden","Callagher","Karimi","Jalali","Ahmed","Jong","Frimpong","Pacho","Blank","Olsen","Larsen","Skov","Rabiot","Thuram","Ifa","Skhiri","Dahmen","Draper","Oviedo","Ruiz","Lopez","Trapp","Muller","Brandt","Ito","Tanaka","Asano","Torres","Asensio","Fati","Faes","Witsel","Doku"]
+
 
 class print_nicer_output():
 
@@ -82,8 +89,8 @@ class create_player():
 
     def player_name(self):
         # create a random first and last name
-        first_name_list=["Peter","Bob","James","Tony","Aj","Bo","Nathan","Gibby","Tim","Anchor","Jimbo","Paul","Simon","Symon","See","Silver","Titch","Rambo","Robbie","TJ","David","John","Michael","Paul","Andrew","David","Sero","Ian","Brian","Barry","Li","Omar","Junior","Blesing","Banele","Samkelo","Ross","Dylon","Master","Junior","Ung","Me","Nsoki","Zak","Banner","Tommie"]
-        last_name_list=["White","Mander","Bishop","Garrett","Winston","Mayfield","Shearer","Rooney","Tucker","Racker","Hutch","Kane","Del-Piero","Seemen","Locker","Teng","Tubert","Smith","Roberts","Curtis","Hammer","Wang","Chen","Smith","Zhang","Costa","Ribbenov","Stimer","Reize","Lemon","Jean","Mohammed","Ticker","Barrett","Manning","Rogan","Musk","Turing","Ali","Fatima","Hassan","Charles","Omar","Stansfield"]
+        first_name_list=first_name_list_memory
+        last_name_list=first_name_list_memory
         random_choice_first_name=self.random.choice(first_name_list)
         random_choice_last_name=self.random.choice(last_name_list)
         self.first_name=random_choice_first_name
@@ -295,10 +302,10 @@ class create_player():
             skill_min=int(Start_up_parameters['skill_min'])
             skill_max=int(Start_up_parameters['skill_max'])
         elif type_of_player=="Free Agency":
-            age_min=int(Start_up_parameters['age_min'])
-            age_max=int(Start_up_parameters['age_max'])
-            skill_min=int(Start_up_parameters['skill_min'])
-            skill_max=int(Start_up_parameters['skill_max'])
+            age_min=int(Free_Agency_parameters['age_min'])
+            age_max=int(Free_Agency_parameters['age_max'])
+            skill_min=int(Free_Agency_parameters['skill_min'])
+            skill_max=int(Free_Agency_parameters['skill_max'])
         else:
             age_min=int(Start_up_parameters['age_min'])
             age_max=int(Start_up_parameters['age_max'])
@@ -364,6 +371,13 @@ class create_player():
             print("oops something went wrong when creating the squad")
             print ("Error reads=",e)
             breakpoint()
+        #we only return aim to return values if called by above scripts
+        if type_of_player=="Free Agency":
+            try:
+                return(squad_of_players_list)
+            except Exception as e:
+                print ("Woops i broke :( ")
+                breakpoint()
 
 class Squad_stats_and_feedback():
 
@@ -612,9 +626,19 @@ def core_run():
     return (squad_of_players_list)
 
 if __name__ == "__main__":
-    core_run()
     if args.benchmark:
         default_squad_GK=1000
         default_squad_DEF=1000
         default_squad_MID=1000
         default_squad_ATA=1000
+    if args.namecheck:
+        import itertools
+        initaite_cp=create_player()
+        initaite_cp.player_name()
+        print ("First names=", len(first_name_list_memory))
+        print ("Last names=", len(last_name_list_memory))
+        count_permutations=len(first_name_list_memory)*len(last_name_list_memory)
+        print ("Permutations on first and last name=",count_permutations)
+        exit()
+    core_run()
+
