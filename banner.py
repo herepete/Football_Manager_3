@@ -11,19 +11,19 @@ def banner_status(colored_status,season_num):
     os.system('clear')
     print (f"Season {season_num}")
     if colored_status=="i":
-        print(colored('Intro >>> ', 'green'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Free_Agency >>> ', 'red'), colored('Draft', 'red'))
+        print(colored('Intro >>> ', 'green'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Draft >>> ', 'red'), colored('Free_Agency', 'red'))
     elif colored_status=="ps":
-        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'green'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Free_Agency >>> ', 'red'), colored('Draft', 'red'))
+        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'green'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Draft >>> ', 'red'), colored('Free_Agency', 'red'))
     elif colored_status=="s":
-        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'green'), colored('Play-Off >>> ', 'red'),colored('Free_Agency >>> ', 'red'), colored('Draft', 'red'))
+        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'green'), colored('Play-Off >>> ', 'red'),colored('Draft >>> ', 'red'), colored('Free_Agency', 'red'))
     elif colored_status=="po":
-        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'green'),colored('Free_Agency >>> ', 'red'), colored('Draft', 'red'))
+        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'green'),colored('Draft >>> ', 'red'), colored('Free_Agency', 'red'))
     elif colored_status=="fa":
-        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Free_Agency >>> ', 'green'), colored('Draft', 'red'))
+        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Draft >>> ', 'green'), colored('Free_Agency', 'red'))
     elif colored_status=="d":
-        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Free_Agency >>> ', 'red'), colored('Draft', 'green'))
+        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Draft >>> ', 'red'), colored('Free_Agency', 'green'))
     else:
-        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Free_Agency >>> ', 'red'), colored('Draft', 'red'))
+        print(colored('Intro >>> ', 'red'), colored('Pre_season >>> ', 'red'),colored('Season >>> ', 'red'), colored('Play-Off >>> ', 'red'),colored('Draft >>> ', 'red'), colored('Free_Agency', 'red'))
 
 if __name__ =="__main__":
-    banner_status(colored_status="hi")
+    banner_status(colored_status="hi",season_num=1)
