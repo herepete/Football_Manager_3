@@ -34,35 +34,59 @@ def add_free_agency(fa_incoming_squad):
         elif  user_input== "n":
             break
         elif user_input== "y":
-            last_item=0
+            options_avaliable_fa=[]
             for index, item in enumerate(free_agency_list,start=0):
-                #add nicer print
+                #NEED add nicer print
+                #NEED print squad summary?
                 print(index,item)
-                last_item=index
-            get_player=input ("which player do you want to sign?")
-            #need logic for rubbish input
-            if int(get_player) > last_item:
-                input("Incorrect Value, please try again")
-                break
+                options_avaliable_fa.append(index)
+            #get and check the input
+            try:
+                get_player=input ("which player do you want to sign?")
+                if int(get_player) not in options_avaliable_fa:
+                    input("Incorrect Value, please try again")
+                    continue
+            except:
+                input("Invalid input detected,please press a button to continue")
+                continue
             get_player_position=free_agency_list[int(get_player)][0]
+            # GK are in a list so convert for ease of use later
+            if type(get_player_position) is list:
+                get_player_position=get_player_position[0]
+            options_avaliable=[] 
             for index, item in enumerate(fa_incoming_squad,start=0):
-                #need logic: 
-                #if get player position = GK offer up choices of GK
-                #if get player position = DL/RB/CB offer up choices of RB/LB/CB
-                #if get player position = ML/MR/CM offer up choices of RM/LM/S
-                #if get player position = ST offer up choices of ST
-                #we also need a check after choice that the squad has the minimum number of players
-                #at the moment it does a direct comparision but it errors on GK
+                #if an exact match print
                 if get_player_position in (item[0]):
                     print(index,item)
-                    #breakpoint()
+                    options_avaliable.append(index)
+                    continue
+                #if you are a defender of some sort print the other defenders
+                if (get_player_position == "LB" or get_player_position == "RB" or get_player_position == "CB") and (item[0] == "LB" or  item[0] == "RB" or  item[0] == "CB"):
+                    print(index,item)
+                    options_avaliable.append(index)
+                    continue
+                #if you are a midfielder of some sort print the other miedfielder
+                if (get_player_position == "LM" or get_player_position == "RM" or get_player_position == "CM") and (item[0] == "LM" or  item[0] == "RM" or  item[0] == "CM"):
+                    print(index,item)
+                    options_avaliable.append(index)
+                    continue
+            #get and check the input
+            try:
+                get_player1=int(input ("which player do you want to replace in your squad? (or press e to exit)"))
+                if  int(get_player1) not in options_avaliable:
+                    input("Incorrect Value, please try again")
+                    continue
                 else:
-                    pass
+                    # NEED check for minimum squad postions
+                    # NEED get final confirmatino from user
+                    print("player switched")
+                    # NEED logic to replace player
+                    # NEED logic to remove player from free agents list
+                    input()
+            except:
+                input("Bad input please try again")
+                continue
             
-            get_player=input ("which player do you want to replace in your squad? (or press e to exit)")
-            # get final confirmatino from user
-            # need logic to replace player
-            # need logic to remove player from free agents list
             if get_player=="e":
                 break
             else:
