@@ -40,6 +40,18 @@ player_squad=player_creation.core_run()
 season_to_play=5
 input("Press enter to continue")
 
+
+#Testing data#
+"""
+player_squad=[[['GK'], 'Sean', 'Robbie', 24, 19, 15, 12, 15, 16, 18, 88, 8, 4, 1, 'Leader', '****', 0, 'DP', 1910617], [['GK'], 'Banele', 'Bo', 36, 14, 20, 11, 15, 19, 16, 67, 5, 4, 0, 'Avg', '**', 0, 'DP', 3037073], [['GK'], 'Dylon', 'Sean', 26, 11, 18, 18, 13, 10, 14, 53, 1, 1, 0, 'Avg', '***', 0, 'DP', 2412897], ['LB', 'Josh', 'Master', 27, 3, 20, 14, 15, 11, 10, 71, 2, 1, 0, 'Avg', '*', 0, 'DP', 7226365], ['RB', 'Rambo', 'Haji', 30, 3, 12, 20, 13, 20, 13, 73, 6, 2, 1, 'Fighter', '**', 0, 'DP', 3460661], ['RB', 'Haji', 'Blesing', 27, 2, 12, 13, 18, 19, 16, 68, 5, 2, 0, 'Avg', '**', 0, 'DP', 3211062], ['RB', 'Peter', 'Me', 21, 1, 14, 11, 15, 10, 15, 61, 5, 1, 0, 'Avg', '*****', 0, 'DP', 5838499], ['CB', 'Robbie', 'Sean', 28, 2, 16, 13, 14, 20, 14, 73, 5, 4, 0, 'Avg', '**', 0, 'DP', 9144201], ['CB', 'Sero', 'Titch', 35, 1, 18, 14, 20, 11, 12, 68, 2, 2, 0, 'Avg', '*', 0, 'DP', 919944], ['CB', 'Ross', 'Brian', 24, 1, 14, 13, 12, 15, 18, 67, 3, 2, 0, 'Laid B', '****', 0, 'DP', 4651949], ['CB', 'Bob', 'Dylon', 18, 1, 10, 11, 19, 14, 16, 57, 4, 3, 0, 'Avg', '*****', 0, 'DP', 5424996], ['LM', 'Kim', 'Robbie', 36, 3, 14, 10, 15, 11, 16, 58, 5, 2, 0, 'Avg', '*', 0, 'DP', 1959844], ['RM', 'Titch', 'Haji', 27, 3, 10, 14, 18, 16, 16, 72, 6, 2, 1, 'Team P', '*', 0, 'DP', 1567118], ['RM', 'Blesing', 'Xavier', 19, 3, 17, 15, 11, 14, 17, 71, 4, 1, 0, 'Avg', '****', 0, 'DP', 8065792], ['RM', 'Bob', 'Blesing', 18, 3, 13, 10, 12, 14, 16, 63, 5, 4, 1, 'Fighter', '**', 0, 'DP', 4087000], ['RM', 'Zak', 'Silver', 26, 2, 11, 11, 12, 13, 14, 60, 2, 2, 1, 'Team P', '**', 0, 'DP', 2595306], ['CM', 'Haji', 'Robert', 29, 1, 19, 12, 15, 18, 17, 75, 2, 2, 0, 'Avg', '***', 0, 'DP', 5715328], ['CM', 'David', 'Robbie', 20, 1, 10, 16, 19, 14, 16, 73, 5, 1, 1, 'Team P', '***', 0, 'DP', 5923819], ['CM', 'Bo', 'Ung', 23, 1, 14, 20, 12, 19, 11, 71, 5, 2, 1, 'Leader', '***', 0, 'DP', 6908755], ['ST', 'Bruno', 'See', 36, 3, 11, 20, 19, 16, 13, 80, 6, 2, 0, 'Avg', '*', 0, 'DP', 7386474], ['ST', 'Banner', 'Titch', 24, 2, 19, 14, 16, 15, 18, 75, 6, 3, 1, 'Fighter', '****', 0, 'DP', 7491627], ['ST', 'Blesing', 'Tim', 22, 3, 14, 13, 17, 14, 13, 70, 5, 2, 0, 'Laid B', '***', 0, 'DP', 5232136], ['ST', 'See', 'Zak', 18, 3, 18, 17, 10, 14, 18, 61, 5, 1, 1, 'Fighter', '***', 0, 'DP', 7838432], ['ST', 'Piero', 'See', 37, 1, 16, 19, 11, 17, 12, 59, 6, 4, 0, 'Avg', '***', 0, 'DP', 772765]]
+
+team_stats_chosen=[[88, 70, 73, 15, 5]]
+
+team_chosen=[[[['GK'], 'Sean', 'Robbie', 24, 19, 15, 12, 15, 16, 18, 88, 8, 4, 1, 'Leader', '****', 0, 'DP', 1910617], ['LB', 'Josh', 'Master', 27, 3, 20, 14, 15, 11, 10, 71, 2, 1, 0, 'Avg', '*', 0, 'DP', 7226365], ['RB', 'Rambo', 'Haji', 30, 3, 12, 20, 13, 20, 13, 73, 6, 2, 1, 'Fighter', '**', 0, 'DP', 3460661], ['CB', 'Robbie', 'Sean', 28, 2, 16, 13, 14, 20, 14, 73, 5, 4, 0, 'Avg', '**', 0, 'DP', 9144201], ['CB', 'Sero', 'Titch', 35, 1, 18, 14, 20, 11, 12, 68, 2, 2, 0, 'Avg', '*', 0, 'DP', 919944], ['CM', 'Haji', 'Robert', 29, 1, 19, 12, 15, 18, 17, 75, 2, 2, 0, 'Avg', '***', 0, 'DP', 5715328], ['CM', 'David', 'Robbie', 20, 1, 10, 16, 19, 14, 16, 73, 5, 1, 1, 'Team P', '***', 0, 'DP', 5923819], ['LM', 'Kim', 'Robbie', 36, 3, 14, 10, 15, 11, 16, 58, 5, 2, 0, 'Avg', '*', 0, 'DP', 1959844], ['RM', 'Titch', 'Haji', 27, 3, 10, 14, 18, 16, 16, 72, 6, 2, 1, 'Team P', '*', 0, 'DP', 1567118], ['ST', 'Bruno', 'See', 36, 3, 11, 20, 19, 16, 13, 80, 6, 2, 0, 'Avg', '*', 0, 'DP', 7386474], ['ST', 'Banner', 'Titch', 24, 2, 19, 14, 16, 15, 18, 75, 6, 3, 1, 'Fighter', '****', 0, 'DP', 7491627]]]
+"""
+
+
+
 for i in range (1,season_to_play):
     banner.banner_status(colored_status="ps",season_num=i)
     import  pre_season
@@ -50,10 +62,10 @@ for i in range (1,season_to_play):
     #print (season_formation)
     banner.banner_status(colored_status="s",season_num=i)
     import season
-    season.main_run(team_stats_chosen_in=team_stats_chosen)
+    season.main_run(team_stats_chosen_in=team_stats_chosen,season_num_in=i)
     banner.banner_status(colored_status="cs",season_num=i)
-    import  end_of_season
-    end_of_season.main_run()
+    import   season_wind_down
+    season_wind_down.main_run(player_squad)
     banner.banner_status(colored_status="d",season_num=i)
     import end_of_season_draft
     banner.banner_status(colored_status="fa",season_num=i)

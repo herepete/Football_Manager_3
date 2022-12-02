@@ -387,8 +387,8 @@ class Squad_stats_and_feedback():
         for cost_of_player in squad_to_check:
             temp_cost=int(cost_of_player[11])
             total_cost+=temp_cost
-        print ("Total Squad Wages=",total_cost)
-
+        print ("Total Squad Wages      =",total_cost)
+#saas-security-dossier
     def squad_feedback(self,squad_to_check):
         total_age=0
         total_skill=0
@@ -409,8 +409,8 @@ class Squad_stats_and_feedback():
 
         average_age= total_age//len(squad_to_check)
         average_skill= total_skill//len(squad_to_check)
-        print ("Average age of squad is...",average_age)
-        print ("Average skill of squad is...",average_skill)
+        print ("Average age of Squad   =",average_age)
+        print ("Average skill of Squad =",average_skill)
         
     def players_per_position(self,squad_to_check):
         position_count=0
@@ -423,9 +423,12 @@ class Squad_stats_and_feedback():
             master_position_count[i] =  position_count
             position_count=0
         print("=======Players per position")
-        print ("         GK=",master_position_count.get("GK"))
+        #print ("       GK=",gk_highest_rating)
+        #print ("         GK="(int(master_position_count.get("GK")))
         try:
             #pass
+            print (f"         GK={master_position_count.get('GK')}")
+            #breakpoint()
             print('LB={:<5} CB={:<5} RB={:<5}'.format((master_position_count.get("LB")),master_position_count.get("CB"),master_position_count.get("RB")))
             print('LM={:<5} CM={:<5} RM={:<5}'.format((master_position_count.get("LM")),master_position_count.get("CM"),master_position_count.get("RM")))
             print('         ST={:<5}'.format((master_position_count.get("ST"))))
@@ -458,16 +461,11 @@ class Squad_stats_and_feedback():
                 print ("Whops odd char found")
                 breakpoint()
         print("=======Charcteur of team...")
-        print ("Avg Players=",avg_players)
-        print ("Team Players=",team_p_players)
-        print ("Leaders=",leader_players)
-        print ("Fighters=",fighter_player)
-        print ("5 Star Recruits=",five_star_player)
-        print ("Laid back players=",laid_b_players)
+        print ("Avg_Players | Team_Players | Leaders | Fighters | 5_Star_Recruits | Laid back players")
+        print ("=====================================================================================")
+        print ("{:<12}| {:<13}| {:<8}| {:<9}| {:<16}| {:<15}".format(avg_players,team_p_players,leader_players,fighter_player,five_star_player,laid_b_players))
+        #print (f"{avg_players}          |{team_p_players}             | {leader_players}       | {fighter_player}        |{five_star_player}            |{laid_b_players} ")
             
-
-            
-
 
     def rating_per_position(self,squad_to_check):
         global avalible_poistions
@@ -511,7 +509,7 @@ class Squad_stats_and_feedback():
 
         #print("=======")
         print ("======Highest Rated")
-        print ("       GK=",gk_highest_rating)
+        print (f"       GK={gk_highest_rating}")
         print ("LB={}  CB={}  RB={}".format(lb_highest_rating,cb_highest_rating,rb_highest_rating))
         print ("LM={}  CM={}  RM={}".format(lm_highest_rating,cm_highest_rating,rm_highest_rating))
         print ("       ST={}".format(s_highest_rating))
@@ -641,5 +639,9 @@ if __name__ == "__main__":
         count_permutations=len(first_name_list_memory)*len(last_name_list_memory)
         print ("Permutations on first and last name=",count_permutations)
         exit()
+    import os
+    os.system('clear')
+    import banner
+    banner.banner_status(colored_status="i",season_num=1)
     core_run()
 

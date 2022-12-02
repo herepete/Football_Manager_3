@@ -1,23 +1,13 @@
-add header throughout the game (like the old game) so i can track where we are
-make clear in main.py what we are passing to the parameters and what we are expecting back
-
-
-
-
-work out formation logic
-work out team score 1 def 1 ata?
-
-get main running squad and 1 season
-
-
-have option for squad focusing on youth or best avalible team
-build framework for season
-add draft
-	num rounds
-	move up and down
-add free agency
-save game feature
-load game feature
-add logging?
-add to ci/cd and some autotesting?
-
+free agent
+-add strucutre to code:
+	- start glueing stuff together
+	- default menu to large , 
+			maybe add more table like feedback on squad composition
+			feedback from coach (areas of strenth and weakness)
+			a filtered squad to only show not great players.
+			a menu option to show all squad
+		
+-need player ability to filter list
+-index working seems wonky (Replacing position 23 brings an error, position 3 replaces GK rather than LB)
+-get some end to end test working?
+-merge in to larger test case

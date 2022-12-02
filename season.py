@@ -2,9 +2,10 @@
 opposition_teams=["Arsenal","Man City","Tottenham","Chelsea","Man United","Newcastle","Brighton","Bournemouth","Fulham","Liverpool","Brentford","Everton","West Ham","Leeds United","Crystal Palace","Aston Villa","Southampton","Wolves","Nottm Forest","Leicester City"]
 #print (opposition_teams)
 games_in_season=16
+import time
 
 
-def main_run(team_stats_chosen_in):
+def main_run(team_stats_chosen_in,season_num_in):
     #format of input
     #gk_score,def_score,ata_score,fitness_score,special_score)
     #team_stats_chosen_in = [[88, 64, 61, 11, 2]]
@@ -20,8 +21,10 @@ def main_run(team_stats_chosen_in):
     games_won=0
     games_drawen=0
     games_lost=0
+    season_results=[]
 
     for i in opposition_teams:
+        time.sleep(1.5)
         opposition_gk=random.randint(80,100)
         opposition_def=random.randint(80,100)
         opposition_att=random.randint(80,100)
@@ -69,18 +72,26 @@ def main_run(team_stats_chosen_in):
         except:
             print("wooops goals error")
             breakpoint()
-    
-        print ("Game " + i +" Score " + str(my_goals) +  " - " + str(opp_goals))
+        temp_score="Game " + i +" Score " + str(my_goals) +  " - " + str(opp_goals)
+        season_results.append([temp_score])
+        #print ("Game " + i +" Score " + str(my_goals) +  " - " + str(opp_goals))
         if my_goals >  opp_goals:
             games_won+=1
         elif opp_goals > my_goals:
             games_lost+=1
         else:
             games_drawen+=1
-
-    print ("Season record")
-    print ("W D L")
-    print (games_won,games_drawen,games_lost)
+        import os
+        os.system('clear')
+        import banner
+        banner.banner_status(colored_status="s",season_num=season_num_in)
+        
+        for games in season_results:
+            print(games[0])
+        print("========")
+        print ("Season record")
+        print ("W D L")
+        print (games_won,games_drawen,games_lost)
 
     playof_needed=0
     straight_to_championship_game=0
@@ -121,4 +132,9 @@ def main_run(team_stats_chosen_in):
             break
     
 
-
+if __name__ == "__main__":
+    import os
+    import banner
+    os.system('clear')
+    banner.banner_status(colored_status="s",season_num=1)
+    main_run(team_stats_chosen_in=[[88, 70, 73, 15, 5]],season_num_in=1)

@@ -41,8 +41,8 @@ def squad_feedback(our_squad):
     initate_squad_feedback=player_creation.Squad_stats_and_feedback()
     initate_squad_feedback.cost_of_squad(squad_to_check=our_squad)
     initate_squad_feedback.squad_feedback(squad_to_check=our_squad)
-    initate_squad_feedback.players_per_position(squad_to_check=our_squad)
     initate_squad_feedback.char_of_team(squad_to_check=our_squad)
+    initate_squad_feedback.players_per_position(squad_to_check=our_squad)
     initate_squad_feedback.rating_per_position(squad_to_check=our_squad)
 
 
@@ -140,13 +140,13 @@ def add_free_agency(fa_incoming_squad):
     while True:
         print("To find...") 
         print ("G for GK")
-        print ("LB for LB , RB for RB , CB for CB")
+        #print ("LB for LB , RB for RB , CB for CB")
         print ("D for Defender")
         print ("M for Midfielers")
         print ("S for Stickers")
-        print ("D for Best players avaliable")
+        print ("B for Best players avaliable")
         print ("Y for Good Youth prospects")
-        print ("SS for Special Skills")
+        print ("P for Special Skills")
 
         user_input=input("Do you wish to sign a free agent?(y/n)") 
         Current_Squad_cost=check_current_squad_cost(fa_incoming_squad,return_or_print="r")
@@ -270,7 +270,7 @@ def main_run(our_squad):
     rv1,rv2=safety_check_squad_size(our_squad)
     #print(f"***Squad check is {rv1} and feedback is {rv2}****")
     create_free_agency()
-    check_current_squad_cost(our_squad,return_or_print="p")
+    check_current_squad_cost(our_squad,return_or_print="r")
     add_free_agency(our_squad)
     print ("Allowed Squad Cost=",allowed_squad_cost)
     print ("Wage Left=",allowed_squad_cost-current_squad_cost)

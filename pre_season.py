@@ -326,8 +326,8 @@ def create_team_score(first_11,type_of_team):
     ata_score=int((ata_score/4))
     fitness_score=int((fitness_score/11))
     print (f"{type_of_team} {gk_score}  {def_score} {ata_score}  {fitness_score} {special_score}") 
-    for i in first_11:
-        print(i)
+    #for i in first_11:
+    #    print(i)
     return(gk_score,def_score,ata_score,fitness_score,special_score)
 
 
@@ -394,6 +394,10 @@ if __name__=="__main__":
     # purporse:
     # in: 
     # return: 
+    import os
+    import banner
+    os.system('clear')
+    banner.banner_status(colored_status="ps",season_num=1)
 
     global squad
     squad=test_squad
