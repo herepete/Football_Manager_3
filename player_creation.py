@@ -43,7 +43,8 @@ class print_nicer_output():
         print ("PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    ")
         print ("                                 |GK   TA   PAS  SHO |FT  PA  | OVE  |COS   CL | SPE    CHA   TS  | EX HI")
         print ("================================================================================================================")
-        for k in squad_of_players_list:
+        for k in squad_to_print:
+        #for k in squad_of_players_list:
             try:
                 #breakpoint()
                 if args.verbose:
