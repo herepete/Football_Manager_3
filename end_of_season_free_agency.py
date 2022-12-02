@@ -138,6 +138,16 @@ def check_current_squad_cost(incoming_squad,return_or_print):
 def add_free_agency(fa_incoming_squad):
    
     while True:
+        print("To find...") 
+        print ("G for GK")
+        print ("LB for LB , RB for RB , CB for CB")
+        print ("D for Defender")
+        print ("M for Midfielers")
+        print ("S for Stickers")
+        print ("D for Best players avaliable")
+        print ("Y for Good Youth prospects")
+        print ("SS for Special Skills")
+
         user_input=input("Do you wish to sign a free agent?(y/n)") 
         Current_Squad_cost=check_current_squad_cost(fa_incoming_squad,return_or_print="r")
         if Current_Squad_cost < 0:
@@ -224,7 +234,7 @@ def add_free_agency(fa_incoming_squad):
 
     pass
 
-def create_free_agency(incoming_squad):
+def create_free_agency():
 
     global free_agency_list
     create_default_list=player_creation.create_player()
@@ -242,28 +252,32 @@ def create_free_agency(incoming_squad):
         rv3=create_default_list.player_creation(play_position="MID",type_of_player="Free Agency")
     for k in range(1,default_squad_ATA):
         free_agency_list=create_default_list.player_creation(play_position="ATA",type_of_player="Free Agency")
-    for i in free_agency_list:
-        print(i)
+    #for i in free_agency_list:
+    #    print(i)
     return 
 
 #create_free_agency()
 # i need to create a way to call create player and have 3 variables
 # random (for new team) 
 # draft (age 17-24) skill 60-96
-# Free Agency (age 24-36) skill 70-100 
+# Free Agency (age 24-36) skill 70-100
+
+def main_run(our_squad):
+
+    print ("Here is our squad, lets look at free agencey for some replacements...")
+    print_our_squad(our_squad)
+    squad_feedback(our_squad)
+    rv1,rv2=safety_check_squad_size(our_squad)
+    #print(f"***Squad check is {rv1} and feedback is {rv2}****")
+    create_free_agency()
+    check_current_squad_cost(our_squad,return_or_print="p")
+    add_free_agency(our_squad)
+    print ("Allowed Squad Cost=",allowed_squad_cost)
+    print ("Wage Left=",allowed_squad_cost-current_squad_cost)
 
 if __name__ == "__main__":
     our_squad=test_incoming_squad
     os.system('clear')
     import banner
     banner.banner_status(colored_status="fa",season_num=1)
-    print ("Here is our squad, lets look at free agencey for some replacements...")
-    print_our_squad(our_squad)
-    squad_feedback(our_squad)
-    rv1,rv2=safety_check_squad_size(our_squad)
-    print(f"***Squad check is {rv1} and feedback is {rv2}****")
-    create_free_agency(test_incoming_squad)
-    check_current_squad_cost(test_incoming_squad,return_or_print="p")
-    add_free_agency(test_incoming_squad)
-    print ("Allowed Squad Cost=",allowed_squad_cost)
-    print ("Wage Left=",allowed_squad_cost-current_squad_cost)
+    main_run(our_squad)

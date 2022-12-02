@@ -23,6 +23,7 @@ def main_run():
     print ("renew contracts non renew player get replace by a random")
     print ("Sell players")
     print ("Buy players?")
+    input()
 
 
 if __name__=="__main__":

@@ -37,11 +37,15 @@ for i in range (1,season_to_play):
     banner.banner_status(colored_status="s",season_num=i)
     import season
     season.main_run(team_stats_chosen_in=team_stats_chosen)
+    banner.banner_status(colored_status="cs",season_num=i)
+    import  end_of_season
+    end_of_season.main_run()
     banner.banner_status(colored_status="d",season_num=i)
     import end_of_season_draft
     banner.banner_status(colored_status="fa",season_num=i)
     import end_of_season_free_agency
-    player_squad=end_of_season_free_agency.create_free_agency(player_squad)
+    #player_squad=end_of_season_free_agency.create_free_agency(player_squad)
+    player_squad=end_of_season_free_agency.main_run(our_squad=player_squad)
 
 
 
