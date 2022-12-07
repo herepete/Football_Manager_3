@@ -188,22 +188,23 @@ class create_player():
                 
 
     def calc_player_wage(self):
+        global overall_score
         import random
-        if self.overall_score > 94:
+        if overall_score > 94:
             player_wage=15
-        elif self.overall_score > 92:
+        elif overall_score > 92:
             player_wage=12
-        elif self.overall_score > 90:
+        elif overall_score > 90:
             player_wage=10
-        elif self.overall_score > 88:
+        elif overall_score > 88:
             player_wage=9
-        elif self.overall_score > 85:
+        elif overall_score > 85:
             player_wage=8
-        elif self.overall_score > 83:
+        elif overall_score > 83:
             player_wage=7
-        elif self.overall_score > 80:
+        elif overall_score > 80:
             player_wage=6
-        elif self.overall_score > 75:
+        elif overall_score > 75:
             player_wage=random.randint(1,6)
         else:
             player_wage=random.randint(1,6)
@@ -248,55 +249,59 @@ class create_player():
             #not expecting this to hit but includding for future use
             self.player_experience_level=10
 
+    #using Kwargs to allow this to be called from outside this script
+    #def player_rating(self,**kwargs):
+    def player_rating(final_player_position_in,random_skill_gk_in,random_skill_tackle_in,random_skill_passing_in,random_skill_shooting_in,random_skill_fitness_in,random_skill_pace_in,random_skill_special_skill_in):
+        #work out score out of 100 and then /5 to give
+        #print("am i being called")
+        #breakpoint() 
+        global overall_score 
+        
 
-    def player_rating(self):
-        #work out score out of 100 and then /5 to give 
-        if self.final_player_position[0]=="GK":
+        if final_player_position_in[0]=="GK":
             # so 85% gk skill, and 
             # 5% from fitness,passing and special skill
-            self.overall_score=int((self.random_skill_gk/20)*85+(self.random_skill_fitness/20)*5+(self.random_skill_passing/20)*5+ (self.random_skill_special_skill)    )
-        elif self.final_player_position=="LB" or self.final_player_position=="RB":
+            overall_score=int((random_skill_gk_in/20)*85+(random_skill_fitness_in/20)*5+(random_skill_passing_in/20)*5+ (random_skill_special_skill_in)    )
+        elif final_player_position_in=="LB" or final_player_position_in=="RB":
             # so 37% from Tacking
             # 20 from Pace and Passing
             # 15 from Fitness
             # 5 from Special skill
             # 3 from Shooting
-            self.overall_score=int((self.random_skill_tackle/20)*37+(self.random_skill_fitness/20)*15+(self.random_skill_passing/20)*20+(self.random_skill_pace/20)*20 + (self.random_skill_special_skill)+(self.random_skill_shooting/20)*3)
-        elif self.final_player_position=="CB":
+            overall_score=int((random_skill_tackle_in/20)*37+(random_skill_fitness_in/20)*15+(random_skill_passing_in/20)*20+(random_skill_pace_in/20)*20 + (random_skill_special_skill_in)+(random_skill_shooting_in/20)*3)
+        elif final_player_position_in=="CB":
             # so 40% from Tacking
             # 18 from Fitness and Pace
             # 13 from Passing
             # 8 from Special skill
             # 3 from Shooting
-            self.overall_score=int((self.random_skill_tackle/20)*40+(self.random_skill_fitness/20)*18+(self.random_skill_passing/20)*13+(self.random_skill_pace/20)*18 + (self.random_skill_special_skill/5)*8+(self.random_skill_shooting/20)*3)
-        elif self.final_player_position=="LM" or self.final_player_position=="RM":
+            overall_score=int((random_skill_tackle_in/20)*40+(random_skill_fitness_in/20)*18+(random_skill_passing_in/20)*13+(random_skill_pace_in/20)*18 + (random_skill_special_skill_in/5)*8+(random_skill_shooting_in/20)*3)
+        elif final_player_position_in=="LM" or final_player_position_in=="RM":
             # 25 from Fitness,passing and Pace
             # 10 Tacking and Shooting
             # 5 from Special skill
-            self.overall_score=int((self.random_skill_tackle/20)*10+(self.random_skill_fitness/20)*25+(self.random_skill_passing/20)*25+(self.random_skill_pace/20)*25 + (self.random_skill_special_skill)+(self.random_skill_shooting/20)*10)
-        elif self.final_player_position=="CM":
+            overall_score=int((random_skill_tackle_in/20)*10+(random_skill_fitness_in/20)*25+(random_skill_passing_in/20)*25+(random_skill_pace_in/20)*25 + (random_skill_special_skill_in)+(random_skill_shooting_in/20)*10)
+        elif final_player_position_in=="CM":
             # 21 from Fitness 
             # 18 Pace,Passing,Shooting
             # 15 Tackling
             # 10 from Special skill
-            self.overall_score=int((self.random_skill_tackle/20)*15+(self.random_skill_fitness/20)*21+(self.random_skill_passing/20)*18+(self.random_skill_pace/20)*18 + (self.random_skill_special_skill/5)*10+(self.random_skill_shooting/20)*18)
-        elif self.final_player_position=="ST":
+            overall_score=int((random_skill_tackle_in/20)*15+(random_skill_fitness_in/20)*21+(random_skill_passing_in/20)*18+(random_skill_pace_in/20)*18 + (random_skill_special_skill_in/5)*10+(random_skill_shooting_in/20)*18)
+        elif final_player_position_in=="ST":
             # 50 from Shooting
             # 19 Pace
             # 14 Fitness
             # 9 Passing
             # 8 from Special skill
-            self.overall_score=int((self.random_skill_fitness/20)*14+(self.random_skill_passing/20)*9+(self.random_skill_pace/20)*19 + (self.random_skill_special_skill/5)*8+(self.random_skill_shooting/20)*50)
+            overall_score=int((random_skill_fitness_in/20)*14+(random_skill_passing_in/20)*9+(random_skill_pace_in/20)*19 + (random_skill_special_skill_in/5)*8+(random_skill_shooting_in/20)*50)
         else:
-            print ("Unexpected player position=",self.final_player_position)
+            print ("Unexpected player position=",final_player_position_in)
             breakpoint()
-        
-
 
     def player_creation(self,play_position,type_of_player):
         #Where all the magic happens to create a Squad
         # the order is quite important here as variables are reliant on previous functions
-        global age_min,age_max,skill_min,skill_max
+        global age_min,age_max,skill_min,skill_max,overall_score
         if type_of_player=="Start Up":
             age_min=int(Start_up_parameters['age_min'])
             age_max=int(Start_up_parameters['age_max'])
@@ -338,12 +343,19 @@ class create_player():
         self.player_experience("1")
         self.player_history="DP"
         self.player_skill_special_skill()
-        self.player_rating()
+        try:
+            #self.player_rating(position_in=self.final_player_position,random_skill_gk_in=self.random_skill_gk,random_skill_tackle_in=self.random_skill_tackle,random_skill_passing_in=self.random_skill_passing,random_skill_shooting_in=self.random_skill_shooting,random_skill_fitness_in=self.random_skill_fitness,random_skill_pace_in=self.random_skill_pace,random_skill_special_skill_in=self.random_skill_special_skill)
+            #self.player_rating(final_player_position_in="GK",random_skill_gk_in=self.random_skill_gk,random_skill_tackle_in=self.random_skill_tackle,random_skill_passing_in=self.random_skill_passing,random_skill_shooting_in=self.random_skill_shooting,random_skill_fitness_in=self.random_skill_fitness,random_skill_pace_in=self.random_skill_pace,random_skill_special_skill_in=self.random_skill_special_skill)
+            create_player.player_rating(final_player_position_in=self.final_player_position,random_skill_gk_in=self.random_skill_gk,random_skill_tackle_in=self.random_skill_tackle,random_skill_passing_in=self.random_skill_passing,random_skill_shooting_in=self.random_skill_shooting,random_skill_fitness_in=self.random_skill_fitness,random_skill_pace_in=self.random_skill_pace,random_skill_special_skill_in=self.random_skill_special_skill)
+        except:
+            print ("my bad something went wrong")
+            self.player_rating("GK",15,13,11,9,7,5)
+            breakpoint()
         self.calc_player_wage()
         try:
             # X Y and Z are added for future use
             #temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_fitness,self.random_skill_pace,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_special_skill,self.overall_score,self.player_wage,self.random_contract_year,self.random_personality,self.player_special_trait,self.player_experience_level,self.player_history,self.random_player_id]
-            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_fitness,self.random_skill_pace,self.overall_score,self.player_wage,self.random_contract_year,self.random_skill_special_skill,self.player_special_trait,self.random_personality,self.player_experience_level,self.player_history,self.random_player_id]
+            temp_build=[self.final_player_position,self.first_name,self.last_name,self.random_age,self.random_skill_gk,self.random_skill_tackle,self.random_skill_passing,self.random_skill_shooting,self.random_skill_fitness,self.random_skill_pace,overall_score,self.player_wage,self.random_contract_year,self.random_skill_special_skill,self.player_special_trait,self.random_personality,self.player_experience_level,self.player_history,self.random_player_id]
             if args.verbose:
                 print("Here is my temp build ... ",temp_build)
                 print ("...Here is the breakdown of each variable...")
@@ -357,7 +369,7 @@ class create_player():
                 print ("self.random_skill_shooting=",self.random_skill_shooting)
                 print ("self.random_skill_fitness=",self.random_skill_fitness)
                 print ("self.random_skill_pace=",self.random_skill_pace)
-                print ("self.overall_score=",self.overall_score)
+                print ("self.overall_score=",overall_score)
                 print ("self.player_wage=",self.player_wage)
                 print ("self.random_contract_year=",self.random_contract_year)
                 print ("self.random_skill_special_skill=",self.random_skill_special_skill)
