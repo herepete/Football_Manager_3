@@ -7,7 +7,6 @@ import argparse
 import os
 
 #os.system('clear')
-print ("This is what your squad looks like...")
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v","--verbose",help="Verbose information",action="store_true")
