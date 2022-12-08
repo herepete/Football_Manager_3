@@ -116,7 +116,7 @@ def safety_check_squad_size(our_squad):
         return (1,"Not Enough ST found")
     else:
         return(0,"Everything looks good")
-    
+     
     breakpoint()
     
 
@@ -220,6 +220,8 @@ def add_free_agency(fa_incoming_squad):
                     
             except Exception as e:
                 input("Bad input please try again")
+                raise Exception ("101 i Errored - i expected a different input")
+                
                 breakpoint()
                 print(e)
                 continue

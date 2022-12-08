@@ -99,11 +99,8 @@ def sort_team(incoming_squad):
         elif player[0]=="ST":
             st_list.append(player)
         else:
-            print("odd position input 2")
-            print (player)
-            breakpoint()
+            raise Exception ("105 odd position input 2 player=",player)
         #sort by players overall rating
-        #breakpoint()
     gk_list=sorted(gk_list, key=lambda x: x[19],reverse=True)
     dl_list=sorted(dl_list, key=lambda x: x[19],reverse=True)
     dr_list=sorted(dr_list, key=lambda x: x[19],reverse=True)
@@ -131,7 +128,6 @@ def sort_team(incoming_squad):
     for player_st in (st_list):
         rebuilt_team.append(player_st)
     #overwrite our global varliable with our newley ordered squad
-    #breakpoint()
     return (rebuilt_team)
 
 def pick_top_eleven(squad):
@@ -177,7 +173,6 @@ def best_avliable_team(localsquad):
     # return: (team ratings)
     best_team_chosen=pick_top_eleven(squad=localsquad)
     #get team score
-    #breakpoint()
     gk_score,def_score,ata_score,fitness_score,special_score=create_team_score(first_11=best_team_chosen,type_of_team="Best Avliable Team")
     logging.info("Print Best Avaliable Team")
     for i in localsquad:
@@ -219,11 +214,7 @@ def best_young_team(squad_in):
         create_score+=player[10]
 
         temp_squad[index_number].append(create_score)
-        #breakpoint()
-    #ibreakpoint()
-    #breakpoint()
     temp_squad=sort_team(temp_squad)
-    #breakpoint()
 
     logging.info("Print Best Young Team")
     for i in temp_squad:
@@ -263,7 +254,6 @@ def best_blended_team(squad_in_2):
         create_score+=player[10]
         
         temp_squad_2[index_number].append(create_score)
-    #breakpoint()
     temp_squad_2=sort_team(temp_squad_2)
 
     logging.info("Print Best Blended Team")
@@ -318,8 +308,7 @@ def create_team_score(first_11,type_of_team):
             fitness_score+=player[8]
             special_score+=player[13]
         else:
-            print("unexpected player found while trying to score team...")
-            breakpoint()
+            raise Exception ("106 unexpected player found while trying to score team... player=",player)
     # average out score 6 is (4 full defenders) + 2 Midfielders-50% of each Mid counts) 
     # average out score 4 is (2 full STK) + 2 Midfielders-50% of each Mid counts) 
     def_score=int((def_score/6))
@@ -343,8 +332,7 @@ def formation_choice(squad):
         best_blended_team(squad)
         offer_choice_to_user()
     except Exception as e:
-        print(e)
-        breakpoint()
+        raise Exception ("106 - while trying to create team from squad failed ,squad=",squad)
 
 
 def offer_choice_to_user():

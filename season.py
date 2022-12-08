@@ -71,7 +71,7 @@ def main_run(team_stats_chosen_in,season_num_in):
             opp_goals=random.randint(0,int(difference_opp_att_our_gk))
         except:
             print("wooops goals error")
-            breakpoint()
+            raise Exception ("102 i Errored - Goals Error")
         temp_score="Game " + i +" Score " + str(my_goals) +  " - " + str(opp_goals)
         season_results.append([temp_score])
         #print ("Game " + i +" Score " + str(my_goals) +  " - " + str(opp_goals))

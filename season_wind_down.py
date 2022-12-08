@@ -76,7 +76,7 @@ def main_run(my_squad,my_firstx1,season_result):
             except Exception as e:
                 print(e)
                 print("Woops")
-                breakpoint()
+                raise Exception ("103 i Errored - player id seems to be missing")
         #squad player
         if player_found==0:
             if season_result=="np":
@@ -104,7 +104,6 @@ def main_run(my_squad,my_firstx1,season_result):
 
         #print(player)
     print("experience applied to all players")
-        #breakpoint()
 
     #age+1 and contract-1
     for player in my_squad:
@@ -139,7 +138,8 @@ def main_run(my_squad,my_firstx1,season_result):
             build_player_score-=1
         else:
             print("pass not sure what char you are...")
-            breakpoint()
+            raise Exception ("104 i Errored - Unexpected Player Charastric player=",player_training)
+            print ()
         #check length but could of also done if player_training_speed="*":
         if len(player_training_speed)==1:
             build_player_score-=1

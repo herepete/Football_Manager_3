@@ -46,7 +46,6 @@ class print_nicer_output():
         for k in squad_to_print:
         #for k in squad_of_players_list:
             try:
-                #breakpoint()
                 if args.verbose:
                     print ("working on...",k)
                 if type(k[0])== str:
@@ -63,10 +62,8 @@ class print_nicer_output():
 
                 #print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
                 print('{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}{:>5s}{:>5s}  |{:>2s}  {:>2s}  |{:>4s}  |{:>2s}{:>5s}  |{:>3s}{:>8s}{:>6s} |{:>3s}{:>3s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10]),str(k[11]),str(k[12]),str(k[13]),str(k[14]),str(k[15]),str(k[16]),str(k[17]),str(k[18])))
-                #breakpoint()
             except Exception as e:
-                print ("Woops i errored=",e)
-                breakpoint()
+                raise Exception ("107 i errored - printing squad output player=",k)
 
     def print_key(self):
         print ("========")
@@ -142,7 +139,6 @@ class create_player():
         if ("Team P") in self.player_special_trait:
             temp_count+=1
             #print(self.player_special_trait)
-            #breakpoint()
         if self.player_experience_level >5:
             temp_count=temp_count+ (self.player_experience_level % 5)
         if temp_count > 5:
@@ -254,7 +250,6 @@ class create_player():
     def player_rating(final_player_position_in,random_skill_gk_in,random_skill_tackle_in,random_skill_passing_in,random_skill_shooting_in,random_skill_fitness_in,random_skill_pace_in,random_skill_special_skill_in):
         #work out score out of 100 and then /5 to give
         #print("am i being called")
-        #breakpoint() 
         global overall_score 
         
 
@@ -296,7 +291,7 @@ class create_player():
             overall_score=int((random_skill_fitness_in/20)*14+(random_skill_passing_in/20)*9+(random_skill_pace_in/20)*19 + (random_skill_special_skill_in/5)*8+(random_skill_shooting_in/20)*50)
         else:
             print ("Unexpected player position=",final_player_position_in)
-            breakpoint()
+            raise Exception ("108 i Errored - Unexpected player position=",final_player_position_in )
 
     def player_creation(self,play_position,type_of_player):
         #Where all the magic happens to create a Squad
@@ -348,9 +343,8 @@ class create_player():
             #self.player_rating(final_player_position_in="GK",random_skill_gk_in=self.random_skill_gk,random_skill_tackle_in=self.random_skill_tackle,random_skill_passing_in=self.random_skill_passing,random_skill_shooting_in=self.random_skill_shooting,random_skill_fitness_in=self.random_skill_fitness,random_skill_pace_in=self.random_skill_pace,random_skill_special_skill_in=self.random_skill_special_skill)
             create_player.player_rating(final_player_position_in=self.final_player_position,random_skill_gk_in=self.random_skill_gk,random_skill_tackle_in=self.random_skill_tackle,random_skill_passing_in=self.random_skill_passing,random_skill_shooting_in=self.random_skill_shooting,random_skill_fitness_in=self.random_skill_fitness,random_skill_pace_in=self.random_skill_pace,random_skill_special_skill_in=self.random_skill_special_skill)
         except:
-            print ("my bad something went wrong")
-            self.player_rating("GK",15,13,11,9,7,5)
-            breakpoint()
+            #self.player_rating("GK",15,13,11,9,7,5)
+            raise Exception ("109 i Errored - creating player" )
         self.calc_player_wage()
         try:
             # X Y and Z are added for future use
@@ -383,14 +377,14 @@ class create_player():
         except Exception as e:
             print("oops something went wrong when creating the squad")
             print ("Error reads=",e)
-            breakpoint()
+            raise Exception ("115 i Errored - something went wrong when creating the squad" )
         #we only return aim to return values if called by above scripts
         if type_of_player=="Free Agency":
             try:
                 return(squad_of_players_list)
             except Exception as e:
                 print ("Woops i broke :( ")
-                breakpoint()
+                raise Exception ("110 i Errored - Type of player =Free agencey and i could returned squad of players list" )
 
 class Squad_stats_and_feedback():
 
@@ -400,7 +394,6 @@ class Squad_stats_and_feedback():
             temp_cost=int(cost_of_player[11])
             total_cost+=temp_cost
         print ("Total Squad Wages      =",total_cost)
-#saas-security-dossier
     def squad_feedback(self,squad_to_check):
         total_age=0
         total_skill=0
@@ -415,7 +408,6 @@ class Squad_stats_and_feedback():
             total_skill+=temp_skill
             temp_position=player[0]
             #number of players in each position
-            #breakpoint()
             for player_position in temp_position:
                 build_squads_positions.append(player_position)
 
@@ -440,13 +432,12 @@ class Squad_stats_and_feedback():
         try:
             #pass
             print (f"         GK={master_position_count.get('GK')}")
-            #breakpoint()
             print('LB={:<5} CB={:<5} RB={:<5}'.format((master_position_count.get("LB")),master_position_count.get("CB"),master_position_count.get("RB")))
             print('LM={:<5} CM={:<5} RM={:<5}'.format((master_position_count.get("LM")),master_position_count.get("CM"),master_position_count.get("RM")))
             print('         ST={:<5}'.format((master_position_count.get("ST"))))
 
         except:
-            breakpoint()
+            raise Exception ("111 i Errored - while trying to create players per position summary i errored")
 
 
     def char_of_team(self,squad_to_check):
@@ -471,7 +462,7 @@ class Squad_stats_and_feedback():
                 laid_b_players+=1
             else:
                 print ("Whops odd char found")
-                breakpoint()
+                raise Exception ("112 i Errored - i found an odd char, player = ",player)
         print("=======Charcteur of team...")
         print ("Avg_Players | Team_Players | Leaders | Fighters | 5_Star_Recruits | Laid back players")
         print ("=====================================================================================")
@@ -516,7 +507,7 @@ class Squad_stats_and_feedback():
                     s_highest_rating=i[10]
             else:
                 print("who are you?")
-                breakpoint()
+                raise Exception ("113 i Errored - i found an odd position, player = ",i)
 
 
         #print("=======")
@@ -560,7 +551,7 @@ class Squad_stats_and_feedback():
             else:
                 print("odd position input 2")
                 print (player)
-                breakpoint()
+                raise Exception ("114 i Errored - odd position found player = ",player)
 
         #sort by players overall rating 
         gk_list=sorted(gk_list, key=lambda x: x[10],reverse=True)
