@@ -234,7 +234,20 @@ class create_player():
 
     def player_id(self):
         import random
-        self.random_player_id=random.randint (1,9999999)
+        import time
+        #self.random_player_id=random.randint (1,9999999)
+        #get 2 value 1 millisec & a random number
+        millisec = int(time.time()*100000000)
+        random_number=random.randint(1,999999)
+
+        #combine value into 1 string
+        string_value=str(millisec)  + str (random_number)
+    
+        #use just the last 12 chars as it could be 24 chars at max
+        string_value=string_value[12:]
+        self.random_player_id=string_value
+
+
         #return random_player_id
 
     def player_experience(self,default):
