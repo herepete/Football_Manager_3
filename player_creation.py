@@ -5,198 +5,46 @@ Script to create and summarize a squad
 
 import argparse
 import os
+import random
+import time
+import game_settings
 
-# os.system('clear')
-
-parser = argparse.ArgumentParser()
-parser.add_argument("-v", "--verbose", help="Verbose information", action="store_true")
-parser.add_argument(
-    "--benchmark",
-    help="Create lots of players, a useful command is ./player_creation.py --benchmark | head -3998 | awk '{print $(NF-7),$(NF-6)}' | sort | uniq | wc -l ",
-    action="store_true",
-)
-parser.add_argument(
-    "-n", "--namecheck", help="Check Logic on player names", action="store_true"
-)
-args = parser.parse_args()
-
-
-if args.verbose:
-    print("verbosity turned on")
-
-# else:
-#    print("verbosity not turned on")
-
+#importing setting from game_settings file
+wage_limit=game_settings.Total_Wage_Limit
+avalible_poistions=game_settings.avalible_poistions
+Start_up_parameters=game_settings.Start_up_parameters
+Free_Agency_parameters=game_settings.Free_Agency_parameters
+first_name_list_memory=game_settings.first_name_list_memory
+last_name_list_memory=game_settings.last_name_list_memory
 
 # squad_of_players_list is our squad of players
 squad_of_players_list = []
-avalible_poistions = ["GK", "LB", "RB", "CB", "LM", "RM", "CM", "ST"]
 
-Start_up_parameters = {
-    "age_min": "17",
-    "age_max": "37",
-    "skill_min": "10",
-    "skill_max": "20",
-}
-Free_Agency_parameters = {
-    "age_min": "24",
-    "age_max": "37",
-    "skill_min": "12",
-    "skill_max": "20",
-}
+def argparse_calls():
+    # a function to setup argparse for us
 
-first_name_list_memory = [
-    "Peter",
-    "Bob",
-    "James",
-    "Tony",
-    "Aj",
-    "Bo",
-    "Nathan",
-    "Gibby",
-    "Tim",
-    "Anchor",
-    "Jimbo",
-    "Paul",
-    "Simon",
-    "Symon",
-    "See",
-    "Silver",
-    "Titch",
-    "Rambo",
-    "Robbie",
-    "TJ",
-    "David",
-    "John",
-    "Michael",
-    "Paul",
-    "Andrew",
-    "David",
-    "Sero",
-    "Ian",
-    "Brian",
-    "Barry",
-    "Li",
-    "Omar",
-    "Junior",
-    "Blesing",
-    "Banele",
-    "Samkelo",
-    "Ross",
-    "Dylon",
-    "Master",
-    "Junior",
-    "Ung",
-    "Me",
-    "Nsoki",
-    "Zak",
-    "Banner",
-    "Tommie",
-    "Feix",
-    "Piero",
-    "Robert",
-    "Pervis",
-    "Xavier",
-    "Bruno",
-    "Joao",
-    "Kim",
-    "Hwang",
-    "Kieffer",
-    "Sorba",
-    "Ben",
-    "Rubin",
-    "Aaron",
-    "Haji",
-    "Josh",
-    "Sean",
-    "Shaq",
-]
-last_name_list_memory = [
-    "White",
-    "Mander",
-    "Bishop",
-    "Garrett",
-    "Winston",
-    "Mayfield",
-    "Shearer",
-    "Rooney",
-    "Tucker",
-    "Racker",
-    "Hutch",
-    "Kane",
-    "Del-Piero",
-    "Seemen",
-    "Locker",
-    "Teng",
-    "Tubert",
-    "Smith",
-    "Roberts",
-    "Curtis",
-    "Hammer",
-    "Wang",
-    "Chen",
-    "Smith",
-    "Zhang",
-    "Costa",
-    "Ribbenov",
-    "Stimer",
-    "Reize",
-    "Lemon",
-    "Jean",
-    "Mohammed",
-    "Ticker",
-    "Barrett",
-    "Manning",
-    "Rogan",
-    "Musk",
-    "Turing",
-    "Ali",
-    "Fatima",
-    "Hassan",
-    "Charles",
-    "Omar",
-    "Stansfield",
-    "Moore",
-    "Weah",
-    "Reyna",
-    "Dest",
-    "Foden",
-    "Callagher",
-    "Karimi",
-    "Jalali",
-    "Ahmed",
-    "Jong",
-    "Frimpong",
-    "Pacho",
-    "Blank",
-    "Olsen",
-    "Larsen",
-    "Skov",
-    "Rabiot",
-    "Thuram",
-    "Ifa",
-    "Skhiri",
-    "Dahmen",
-    "Draper",
-    "Oviedo",
-    "Ruiz",
-    "Lopez",
-    "Trapp",
-    "Muller",
-    "Brandt",
-    "Ito",
-    "Tanaka",
-    "Asano",
-    "Torres",
-    "Asensio",
-    "Fati",
-    "Faes",
-    "Witsel",
-    "Doku",
-]
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-v", "--verbose", help="Verbose information", action="store_true")
+    parser.add_argument(
+        "--benchmark",
+        help="Create lots of players, a useful command is ./player_creation.py --benchmark | head -3998 | awk '{print $(NF-7),$(NF-6)}' | sort | uniq | wc -l ",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-n", "--namecheck", help="Check Logic on player names", action="store_true"
+    )
+    args = parser.parse_args()
 
+
+    if args.verbose:
+        print("verbosity turned on")
+    try:
+        return args()
+    except:
+        pass
 
 def print_nicer_output_default_squad(squad_to_print):
+        #a function to print the squad into a nice format
         if args.verbose:
             print("About to print...", squad_to_print)
         print(
@@ -252,6 +100,7 @@ def print_nicer_output_default_squad(squad_to_print):
                 raise Exception("107 i errored - printing squad output player=", k)
 
 def print_nicer_output_print_key():
+        #a function to print the squad key
         print("========")
         print("PST=Position", end="|")
         print(
@@ -270,9 +119,6 @@ def print_nicer_output_print_key():
 
 
 
-global squad_of_players_list
-import random
-
 def create_player_player_name():
         # create a random first and last name
         first_name_list = first_name_list_memory
@@ -284,11 +130,12 @@ def create_player_player_name():
             print("new player name created=", last_name)
 
 def create_player_random_contract():
+        #create a random contract length
         random_contract_year = random.randint(1, 4)
         return random_contract_year
 
 def create_player_player_skill_gk(out_of_position=0):
-        # give a random skill
+        # give a random gk skill
         if out_of_position == 0:
             random_skill = random.randint(10, 20)
             random_skill_gk = random_skill
@@ -298,31 +145,37 @@ def create_player_player_skill_gk(out_of_position=0):
         return (random_skill_gk)
 
 def create_player_player_skill_fitness():
+        # give a random fitness  skill
         random_skill = random.randint(skill_min, skill_max)
         random_skill_fitness = random_skill
         return random_skill_fitness
 
-def create_player_player_skill_pace():
+def create_player_player_skill_pace(): 
+        # give a random pace skill
         random_skill = random.randint(skill_min, skill_max)
         random_skill_pace = random_skill
         return (random_skill_pace)
 
 def create_player_player_skill_tackle():
+        # give a random tackle skill
         random_skill = random.randint(skill_min, skill_max)
         random_skill_tackle = random_skill
         return (random_skill_tackle)
 
 def create_player_player_skill_passing():
+        # give a random passing skill
         random_skill = random.randint(skill_min, skill_max)
         random_skill_passing = random_skill
         return (random_skill_passing)
 
 def create_player_player_skill_shooting():
+        # give a random shooting skill
         random_skill = random.randint(skill_min, skill_max)
         random_skill_shooting = random_skill
         return (random_skill_shooting)
 
 def create_player_player_skill_special_skill():
+        # calculate specical skill
         # default to 0
         # + 1 fir various skill types
         # if expereince is over 5 any extra year = + 1
@@ -342,12 +195,12 @@ def create_player_player_skill_special_skill():
         return (random_skill_special_skill)
 
 def create_player_player_age():
-        # guve a random age
+        # give a random age
         random_age = random.randint(age_min, age_max)
-        random_age = random_age
-        return (random_age = random_age)
+        return (random_age)
 
 def player_training_speed():
+        #calculate a semi random training speed 
         if random_age > 25:
             random_player_personality = ["***", "**", "*"]
         else:
@@ -358,6 +211,7 @@ def player_training_speed():
         return(random_personality)
 
 def create_player_special_traits():
+        #calculate a random special trait
         special_traits_random_number = random.randint(1, 10)
         if special_traits_random_number == 7:
             # Leader
@@ -382,8 +236,8 @@ def create_player_special_traits():
         return (player_special_trait)
 
 def create_player_calc_player_wage():
+        #calculate player overall wage
         global overall_score
-        import random
 
         if overall_score > 94:
             player_wage = 15
@@ -407,12 +261,11 @@ def create_player_calc_player_wage():
         return(player_wage)
 
 def create_player_create_position():
-        # give a random position (some players get more than 1 position)
+        # give a random position
         defender_choice_position = ["LB", "RB", "CB"]
         midfield_choice_position = ["LM", "RM", "CM"]
         attacker_choice_position = ["ST"]
         player_selected_position = []
-        import random
 
         global avalible_poistions
 
@@ -432,8 +285,7 @@ def create_player_create_position():
         return(final_player_position)
 
 def create_player_player_id():
-        import random
-        import time
+        #create a hopefully unique player id (used as a unqiue identifier)
 
         # get 2 value 1 millisec & a random number
         millisec = int(time.time() * 100000000)
@@ -450,6 +302,7 @@ def create_player_player_id():
         # return random_player_id
 
 def create_player_player_experience(default):
+        #create a default players experience
         if default == "1":
             player_experience_level = 0
         else:
@@ -679,6 +532,7 @@ def create_player_player_creation(play_position, type_of_player):
 
 
 def Squad_stats_and_feedback_cost_of_squad(squad_to_check):
+        #print cost of squad
         total_cost = 0
         for cost_of_player in squad_to_check:
             temp_cost = int(cost_of_player[11])
@@ -686,6 +540,7 @@ def Squad_stats_and_feedback_cost_of_squad(squad_to_check):
         print("Total Squad Wages      =", total_cost)
 
 def Squad_stats_and_feedback_squad_feedback(squad_to_check):
+        #print stats on squad
         total_age = 0
         total_skill = 0
         global avalible_poistions
@@ -708,6 +563,7 @@ def Squad_stats_and_feedback_squad_feedback(squad_to_check):
         print("Average skill of Squad =", average_skill)
 
 def Squad_stats_and_feedback_players_per_position(squad_to_check):
+        #print feedback on squad per position
         position_count = 0
         master_position_count = {}
         global avalible_poistions
@@ -745,6 +601,7 @@ def Squad_stats_and_feedback_players_per_position(squad_to_check):
             )
 
 def Squad_stats_and_feedback_char_of_team(squad_to_check):
+        #print charactuer of squad
         avg_players = 0
         team_p_players = 0
         leader_players = 0
@@ -789,6 +646,7 @@ def Squad_stats_and_feedback_char_of_team(squad_to_check):
         # print (f"{avg_players}          |{team_p_players}             | {leader_players}       | {fighter_player}        |{five_star_player}            |{laid_b_players} ")
 
 def Squad_stats_and_feedback_rating_per_position(squad_to_check):
+        #print rating per position
         global avalible_poistions
         gk_highest_rating = 0
         lb_highest_rating = 0
@@ -843,6 +701,7 @@ def Squad_stats_and_feedback_rating_per_position(squad_to_check):
         print("       ST={}".format(s_highest_rating))
 
 def Squad_stats_and_feedback_sort_squad():
+        #sort squad by overall rating
         global squad_of_players_list
         # group players by position (first into indvidual list and then combine them later on)
         incoming_squad_in = squad_of_players_list
@@ -909,6 +768,8 @@ def Squad_stats_and_feedback_sort_squad():
 
 
 def core_run():
+    # the main call in the script
+    # glues everything together
 
     create_default_list = create_player()
     squad_feedback_call = Squad_stats_and_feedback()
@@ -960,25 +821,24 @@ def core_run():
 
 
 if __name__ == "__main__":
-    if args.benchmark:
-        default_squad_GK = 1000
-        default_squad_DEF = 1000
-        default_squad_MID = 1000
-        default_squad_ATA = 1000
-    if args.namecheck:
-        import itertools
+    argparse_calls()
+    #breakpoint()
+    #if args.benchmark:
+    #    default_squad_GK = 1000
+    #    default_squad_DEF = 1000
+    #    default_squad_MID = 1000
+    #    default_squad_ATA = 1000
+    #if args.namecheck:
+    #    import itertools
 
-        initaite_cp = create_player()
-        initaite_cp.player_name()
-        print("First names=", len(first_name_list_memory))
-        print("Last names=", len(last_name_list_memory))
-        count_permutations = len(first_name_list_memory) * len(last_name_list_memory)
-        print("Permutations on first and last name=", count_permutations)
-        exit()
+    #    print("First names=", len(first_name_list_memory))
+    #    print("Last names=", len(last_name_list_memory))
+    #    count_permutations = len(first_name_list_memory) * len(last_name_list_memory)
+    #    print("Permutations on first and last name=", count_permutations)
+    #    exit()
     import os
-
-    os.system("clear")
     import banner
 
+    os.system("clear")
     banner.banner_status(colored_status="i", season_num=1)
     core_run()
