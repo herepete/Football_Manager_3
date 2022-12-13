@@ -1,11 +1,8 @@
 #!/usr/bin/python3
+
+#can be changed
 Total_Wage_Limit = 200
 
-
-
-
-
-avalible_poistions = ["GK", "LB", "RB", "CB", "LM", "RM", "CM", "ST"]
 Start_up_parameters = {
     "age_min": "17",
     "age_max": "37",
@@ -18,6 +15,7 @@ Free_Agency_parameters = {
     "skill_min": "12",
     "skill_max": "20",
 }
+
 first_name_list_memory = [
     "Peter",
     "Bob",
@@ -167,6 +165,14 @@ last_name_list_memory = [
     "Witsel",
     "Doku",
 ]
+
+#should not be changed
+avalible_poistions = ["GK", "LB", "RB", "CB", "LM", "RM", "CM", "ST"]
+default_squad_GK = 4
+default_squad_DEF = 9
+default_squad_MID = 9
+default_squad_ATA = 6
+
 
 
 if __name__ == "__main__":

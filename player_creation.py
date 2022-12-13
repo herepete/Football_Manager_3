@@ -9,6 +9,9 @@ import random
 import time
 import game_settings
 
+__version__ = '1.0.0'
+__author__ = 'Peter White'
+
 #importing setting from game_settings file
 wage_limit=game_settings.Total_Wage_Limit
 avalible_poistions=game_settings.avalible_poistions
@@ -21,7 +24,10 @@ last_name_list_memory=game_settings.last_name_list_memory
 squad_of_players_list = []
 
 def argparse_calls():
-    # a function to setup argparse for us
+    """a function to setup argparse for us
+       input =None
+       return=args
+        """
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-v", "--verbose", help="Verbose information", action="store_true")
@@ -44,7 +50,10 @@ def argparse_calls():
         pass
 
 def print_nicer_output_default_squad(squad_to_print):
-        #a function to print the squad into a nice format
+        """a function to print the squad into a nice format
+           input = List of players to print
+           output =  print to screen
+        """
         if args.verbose:
             print("About to print...", squad_to_print)
         print(
@@ -100,7 +109,10 @@ def print_nicer_output_default_squad(squad_to_print):
                 raise Exception("107 i errored - printing squad output player=", k)
 
 def print_nicer_output_print_key():
-        #a function to print the squad key
+        """a function to print the squad key
+           input = none
+           output = print to screen
+    """
         print("========")
         print("PST=Position", end="|")
         print(
@@ -120,7 +132,10 @@ def print_nicer_output_print_key():
 
 
 def create_player_player_name():
-        # create a random first and last name
+        """create a random first and last name
+           input = none
+           return = a random combination of first name and last name
+"""
         first_name_list = first_name_list_memory
         last_name_list = first_name_list_memory
         random_choice_first_name = random.choice(first_name_list)
@@ -130,12 +145,16 @@ def create_player_player_name():
             print("new player name created=", last_name)
 
 def create_player_random_contract():
-        #create a random contract length
+        """create a random contract length
+           input = none 
+           return = a random contract year between 1 and 4 """
         random_contract_year = random.randint(1, 4)
         return random_contract_year
 
 def create_player_player_skill_gk(out_of_position=0):
-        # give a random gk skill
+        """give a random gk skill
+            input = out_of_position if GK = 0 else 1
+            return = random_skill_gk -dependant on input score will be between 1 and 20"""
         if out_of_position == 0:
             random_skill = random.randint(10, 20)
             random_skill_gk = random_skill
@@ -145,41 +164,63 @@ def create_player_player_skill_gk(out_of_position=0):
         return (random_skill_gk)
 
 def create_player_player_skill_fitness():
-        # give a random fitness  skill
+        """give a random fitness  skill
+           input  = none
+           return = random skill fitness take setting from game_settings.py but typically between 10 and 20
+
+"""
         random_skill = random.randint(skill_min, skill_max)
         random_skill_fitness = random_skill
         return random_skill_fitness
 
 def create_player_player_skill_pace(): 
-        # give a random pace skill
+        """give a random pace skill
+           input = none
+           return = random skill pace take setting from game_settings.py but typically between 10 and 20
+"""
         random_skill = random.randint(skill_min, skill_max)
         random_skill_pace = random_skill
         return (random_skill_pace)
 
 def create_player_player_skill_tackle():
-        # give a random tackle skill
+        """give a random tackle skill
+           input = none
+           return = random skill tackle take setting from game_settings.py but typically between 10 and 20
+"""
         random_skill = random.randint(skill_min, skill_max)
         random_skill_tackle = random_skill
         return (random_skill_tackle)
 
 def create_player_player_skill_passing():
-        # give a random passing skill
+        """give a random passing skill
+           input = none
+           return = random skill passing take setting from game_settings.py but typically between 10 and 20
+"""
         random_skill = random.randint(skill_min, skill_max)
         random_skill_passing = random_skill
         return (random_skill_passing)
 
 def create_player_player_skill_shooting():
-        # give a random shooting skill
+        """give a random shooting skill
+           input = none
+           return = random skill shooting take setting from game_settings.py but typically between 10 and 20
+
+"""
         random_skill = random.randint(skill_min, skill_max)
         random_skill_shooting = random_skill
         return (random_skill_shooting)
 
 def create_player_player_skill_special_skill():
-        # calculate specical skill
-        # default to 0
-        # + 1 fir various skill types
-        # if expereince is over 5 any extra year = + 1
-        # maximum of 5
+        """calculate specical skill
+         default to 0
+         + 1 for various skill types
+         if expereince is over 5 any extra year = + 1
+         maximum of 5
+
+         input = none
+         return = random skill player special skill based on player experience and special traits
+
+"""
         temp_count = 0
         if ("Fighter") in player_special_trait:
             temp_count += 1
@@ -195,12 +236,19 @@ def create_player_player_skill_special_skill():
         return (random_skill_special_skill)
 
 def create_player_player_age():
-        # give a random age
+        """ give a random age
+            input = none
+           return = random age take setting from game_settings.py but typically 17 and 27
+
+"""
         random_age = random.randint(age_min, age_max)
         return (random_age)
 
 def player_training_speed():
-        #calculate a semi random training speed 
+        """ calculate a semi random training speed 
+            input  = none
+            return = based on age and some randomness you will get a "*" rating where * is the worst and ****** is the best
+"""
         if random_age > 25:
             random_player_personality = ["***", "**", "*"]
         else:
@@ -211,7 +259,9 @@ def player_training_speed():
         return(random_personality)
 
 def create_player_special_traits():
-        #calculate a random special trait
+        """calculate a random special trait
+           input = none 
+           output = special trait based on random choice you can either be "AVG" (average) , Leader, Team Player, 5-Star , Laid back or Fighter """
         special_traits_random_number = random.randint(1, 10)
         if special_traits_random_number == 7:
             # Leader
@@ -236,7 +286,9 @@ def create_player_special_traits():
         return (player_special_trait)
 
 def create_player_calc_player_wage():
-        #calculate player overall wage
+        """calculate player overall wage
+        input = none 
+        output = based on players overall score create a wage"""
         global overall_score
 
         if overall_score > 94:
@@ -261,7 +313,9 @@ def create_player_calc_player_wage():
         return(player_wage)
 
 def create_player_create_position():
-        # give a random position
+        """give a random position
+            input = none 
+            return = position choice"""
         defender_choice_position = ["LB", "RB", "CB"]
         midfield_choice_position = ["LM", "RM", "CM"]
         attacker_choice_position = ["ST"]
@@ -285,7 +339,9 @@ def create_player_create_position():
         return(final_player_position)
 
 def create_player_player_id():
-        #create a hopefully unique player id (used as a unqiue identifier)
+        """create a hopefully unique player id (used as a unqiue identifier)
+            input = none 
+            return = player id which is a combo of the current millisecond time and a random number """
 
         # get 2 value 1 millisec & a random number
         millisec = int(time.time() * 100000000)
@@ -302,7 +358,8 @@ def create_player_player_id():
         # return random_player_id
 
 def create_player_player_experience(default):
-        #create a default players experience
+        """Create a default players experience
+            input = default if '1' experience = 0 else experience = 10 (not sure if the else will ever be hit but it seemed sensible to script for it) """
         if default == "1":
             player_experience_level = 0
         else:
@@ -322,8 +379,9 @@ def create_player_player_rating(
         random_skill_pace_in,
         random_skill_special_skill_in,
     ):
-        # work out score out of 100 and then /5 to give
-        # print("am i being called")
+        """ work out score out of 100 
+            input = position, then gk,tackle,passing,shooting,fitness,pace and special skills
+            output = depending on input do some number crunching and produce a score out of 100 """
         global overall_score
 
         if final_player_position_in[0] == "GK":
@@ -410,8 +468,10 @@ def create_player_player_rating(
         
 
 def create_player_player_creation(play_position, type_of_player):
-        # Where all the magic happens to create a Squad
-        # the order is quite important here as variables are reliant on previous functions
+        """ Where all the magic happens to create a Squad
+         the order is quite important here as variables are reliant on previous functions 
+        input = play_position i.e GK, type_of_player (Start Up,Free Agency or else) to determine parameters
+        output = a squad of players """
         global age_min, age_max, skill_min, skill_max, overall_score
         if type_of_player == "Start Up":
             age_min = int(Start_up_parameters["age_min"])
@@ -532,7 +592,9 @@ def create_player_player_creation(play_position, type_of_player):
 
 
 def Squad_stats_and_feedback_cost_of_squad(squad_to_check):
-        #print cost of squad
+        """ print cost of squad 
+            input = Squad to check
+            output = print total squad wages"""
         total_cost = 0
         for cost_of_player in squad_to_check:
             temp_cost = int(cost_of_player[11])
@@ -540,7 +602,10 @@ def Squad_stats_and_feedback_cost_of_squad(squad_to_check):
         print("Total Squad Wages      =", total_cost)
 
 def Squad_stats_and_feedback_squad_feedback(squad_to_check):
-        #print stats on squad
+        """ print stats on squad 
+            input = squad to check
+            output = print average age and skill of squad
+"""
         total_age = 0
         total_skill = 0
         global avalible_poistions
@@ -563,7 +628,9 @@ def Squad_stats_and_feedback_squad_feedback(squad_to_check):
         print("Average skill of Squad =", average_skill)
 
 def Squad_stats_and_feedback_players_per_position(squad_to_check):
-        #print feedback on squad per position
+        """ print feedback on squad per position 
+            input  = squad to check
+            ouput = print number of players per position"""
         position_count = 0
         master_position_count = {}
         global avalible_poistions
@@ -601,7 +668,10 @@ def Squad_stats_and_feedback_players_per_position(squad_to_check):
             )
 
 def Squad_stats_and_feedback_char_of_team(squad_to_check):
-        #print charactuer of squad
+        """ print charactuer of squad 
+            input = squad to check
+            output = print chareacr of team
+"""
         avg_players = 0
         team_p_players = 0
         leader_players = 0
@@ -646,7 +716,9 @@ def Squad_stats_and_feedback_char_of_team(squad_to_check):
         # print (f"{avg_players}          |{team_p_players}             | {leader_players}       | {fighter_player}        |{five_star_player}            |{laid_b_players} ")
 
 def Squad_stats_and_feedback_rating_per_position(squad_to_check):
-        #print rating per position
+        """ print rating per position 
+            input = none 
+            output = print highest rating per position"""
         global avalible_poistions
         gk_highest_rating = 0
         lb_highest_rating = 0
@@ -701,7 +773,9 @@ def Squad_stats_and_feedback_rating_per_position(squad_to_check):
         print("       ST={}".format(s_highest_rating))
 
 def Squad_stats_and_feedback_sort_squad():
-        #sort squad by overall rating
+        """ sort squad by overall rating 
+            input = none
+            output = none  """
         global squad_of_players_list
         # group players by position (first into indvidual list and then combine them later on)
         incoming_squad_in = squad_of_players_list
@@ -768,21 +842,28 @@ def Squad_stats_and_feedback_sort_squad():
 
 
 def core_run():
-    # the main call in the script
-    # glues everything together
+    """ the main call in the script
+     glues everything together 
+    input = none
+    output = our team """
+    
+    #create_player_player_creation()
+    #create_default_list = create_player()
+    #squad_feedback_call = Squad_stats_and_feedback()
 
-    create_default_list = create_player()
-    squad_feedback_call = Squad_stats_and_feedback()
+    import game_settings
+    default_squad_GK = game_settings.default_squad_GK
+    default_squad_DEF = game_settings.default_squad_DEF
+    default_squad_MID = game_settings.default_squad_MID
+    default_squad_ATA = game_settings.default_squad_ATA
 
-    default_squad_GK = 4
-    default_squad_DEF = 9
-    default_squad_MID = 9
-    default_squad_ATA = 6
+    
 
     for j in range(1, default_squad_GK):
-        create_default_list.player_creation(
+        create_player_player_creation(
             play_position="GK", type_of_player="Start Up"
         )
+        breakpoint()
     for k in range(1, default_squad_DEF):
         create_default_list.player_creation(
             play_position="DEF", type_of_player="Start Up"
