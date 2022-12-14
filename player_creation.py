@@ -54,8 +54,9 @@ def print_nicer_output_default_squad(squad_to_print):
            input = List of players to print
            output =  print to screen
         """
-        if args.verbose:
-            print("About to print...", squad_to_print)
+        #if False:
+        #if args.verbose:
+        #    print("About to print...", squad_to_print)
         print(
             "PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    "
         )
@@ -68,19 +69,19 @@ def print_nicer_output_default_squad(squad_to_print):
         for k in squad_to_print:
             # for k in squad_of_players_list:
             try:
-                if args.verbose:
-                    print("working on...", k)
+                #if args.verbose:
+                #    print("working on...", k)
                 if type(k[0]) == str:
                     temp_position = k[0]
                     player_name = k[1] + " " + k[2]
-                    if args.verbose:
-                        print("ko=", k[0])
-                        print("ko zero string hit")
+                    #if args.verbose:
+                    #    print("ko=", k[0])
+                    #    print("ko zero string hit")
                 else:
                     temp_position = " ".join(k[0])
                     player_name = k[1] + " " + k[2]
-                    if args.verbose:
-                        print("ko zero string hit")
+                    #if args.verbose:
+                     #   print("ko zero string hit")
 
                 # print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
                 print(
@@ -106,6 +107,7 @@ def print_nicer_output_default_squad(squad_to_print):
                     )
                 )
             except Exception as e:
+                print("Error=",e)
                 raise Exception("107 i errored - printing squad output player=", k)
 
 def print_nicer_output_print_key():
@@ -210,14 +212,14 @@ def create_player_player_skill_shooting():
         random_skill_shooting = random_skill
         return (random_skill_shooting)
 
-def create_player_player_skill_special_skill():
+def create_player_player_skill_special_skill(player_special_trait,player_experience_level):
         """calculate specical skill
          default to 0
          + 1 for various skill types
          if expereince is over 5 any extra year = + 1
          maximum of 5
 
-         input = none
+         input =  player_special_trait i.e 'Fighter',player_experience_level i.e '1'
          return = random skill player special skill based on player experience and special traits
 
 """
@@ -244,12 +246,12 @@ def create_player_player_age():
         random_age = random.randint(age_min, age_max)
         return (random_age)
 
-def player_training_speed():
+def create_player_player_training_speed(random_age_in):
         """ calculate a semi random training speed 
-            input  = none
+            input  = random_age_in i.e '27'
             return = based on age and some randomness you will get a "*" rating where * is the worst and ****** is the best
 """
-        if random_age > 25:
+        if random_age_in > 25:
             random_player_personality = ["***", "**", "*"]
         else:
             random_player_personality = ["*****", "****", "***", "**"]
@@ -258,9 +260,9 @@ def player_training_speed():
         random_personality = random_personality_choice
         return(random_personality)
 
-def create_player_special_traits():
+def create_player_special_traits(random_age):
         """calculate a random special trait
-           input = none 
+           input = random_age i.e '27'
            output = special trait based on random choice you can either be "AVG" (average) , Leader, Team Player, 5-Star , Laid back or Fighter """
         special_traits_random_number = random.randint(1, 10)
         if special_traits_random_number == 7:
@@ -285,11 +287,11 @@ def create_player_special_traits():
         player_special_trait = player_special_trait
         return (player_special_trait)
 
-def create_player_calc_player_wage():
+def create_player_calc_player_wage(overall_score):
         """calculate player overall wage
         input = none 
         output = based on players overall score create a wage"""
-        global overall_score
+        #global overall_score
 
         if overall_score > 94:
             player_wage = 15
@@ -312,16 +314,16 @@ def create_player_calc_player_wage():
 
         return(player_wage)
 
-def create_player_create_position():
+def create_player_create_position(play_position):
         """give a random position
-            input = none 
+            input = play_position i.e 'GK'
             return = position choice"""
         defender_choice_position = ["LB", "RB", "CB"]
         midfield_choice_position = ["LM", "RM", "CM"]
         attacker_choice_position = ["ST"]
         player_selected_position = []
 
-        global avalible_poistions
+        #global avalible_poistions
 
         if play_position == "GK":
             final_player_position = ["GK"]
@@ -381,8 +383,8 @@ def create_player_player_rating(
     ):
         """ work out score out of 100 
             input = position, then gk,tackle,passing,shooting,fitness,pace and special skills
-            output = depending on input do some number crunching and produce a score out of 100 """
-        global overall_score
+            output = overall_score depending on input do some number crunching and produce a score out of 100 i.e '92' """
+        #global overall_score
 
         if final_player_position_in[0] == "GK":
             # so 85% gk skill, and
@@ -490,88 +492,89 @@ def create_player_player_creation(play_position, type_of_player):
             skill_max = int(Start_up_parameters["skill_max"])
 
         global squad_of_players
-        player_name()
+        first_name_created,second_name_created=create_player_player_name()
         if play_position == "GK":
-            player_skill_gk(0)
+            gk_skill_created=create_player_player_skill_gk(0)
         else:
-            player_skill_gk(1)
-        player_skill_pace()
-        player_skill_fitness()
-        player_skill_tackle()
-        player_skill_passing()
-        player_skill_shooting()
+            gk_skill_created=create_player_player_skill_gk(1)
+        pace_skill_created=create_player_player_skill_pace()
+        fitness_skill_created=create_player_player_skill_fitness()
+        tackle_skill_created=create_player_player_skill_tackle()
+        passing_skill_created=create_player_player_skill_passing()
+        shooting_skill_created=create_player_player_skill_shooting()
 
-        player_age()
-        play_position = play_position
-        create_position()
-        random_contract()
-        player_training_speed()
-        special_traits()
-        player_id()
-        player_experience("1")
-        player_history = "DP"
-        player_skill_special_skill()
+        age_created=create_player_player_age()
+        #play_position = play_position
+        player_position_created=create_player_create_position(play_position)
+        player_contract_created=create_player_random_contract()
+        training_speed_created=create_player_player_training_speed(age_created)
+        special_trait_skill_created=create_player_special_traits(age_created)
+        player_id_created=create_player_player_id()
+        player_experience_created=create_player_player_experience("1")
+        player_history_created=create_player_player_history = "DP"
+        player_special_skill_created=create_player_player_skill_special_skill(special_trait_skill_created,player_experience_created)
         try:
-            create_player.player_rating(
-                final_player_position_in=final_player_position,
-                random_skill_gk_in=random_skill_gk,
-                random_skill_tackle_in=random_skill_tackle,
-                random_skill_passing_in=random_skill_passing,
-                random_skill_shooting_in=random_skill_shooting,
-                random_skill_fitness_in=random_skill_fitness,
-                random_skill_pace_in=random_skill_pace,
-                random_skill_special_skill_in=random_skill_special_skill,
+            player_overall_score_created=create_player_player_rating(
+                final_player_position_in= player_position_created,
+                random_skill_gk_in=gk_skill_created,
+                random_skill_tackle_in=tackle_skill_created,
+                random_skill_passing_in=passing_skill_created,
+                random_skill_shooting_in=shooting_skill_created,
+                random_skill_fitness_in=fitness_skill_created,
+                random_skill_pace_in=pace_skill_created,
+                random_skill_special_skill_in=player_special_skill_created,
             )
-        except:
-            raise Exception("109 i Errored - creating player")
-        calc_player_wage()
+        except Exception as e:
+            raise Exception("109 i Errored - creating player, error=",e)
+            
+        player_wage_created=create_player_calc_player_wage(player_overall_score_created)
         try:
-            # X Y and Z are added for future use
             temp_build = [
-                final_player_position,
-                first_name,
-                last_name,
-                random_age,
-                random_skill_gk,
-                random_skill_tackle,
-                random_skill_passing,
-                random_skill_shooting,
-                random_skill_fitness,
-                random_skill_pace,
-                overall_score,
-                player_wage,
-                random_contract_year,
-                random_skill_special_skill,
-                player_special_trait,
-                random_personality,
-                player_experience_level,
-                player_history,
-                random_player_id,
+                player_position_created,
+                first_name_created,
+                second_name_created,
+                age_created,
+                gk_skill_created,
+                tackle_skill_created,
+                passing_skill_created,
+                shooting_skill_created,
+                fitness_skill_created,
+                pace_skill_created,
+                player_overall_score_created,
+                player_wage_created,
+                player_contract_created,
+                player_special_skill_created,
+                special_trait_skill_created,
+                training_speed_created,
+                player_experience_created,
+                player_history_created,
+                 player_id_created,
             ]
-            if args.verbose:
+            if False:
+            #if args.verbose:
                 print("Here is my temp build ... ", temp_build)
                 print("...Here is the breakdown of each variable...")
-                print("final_player_position=", final_player_position)
-                print("first_name=", first_name)
-                print("last_name=", last_name)
-                print("random_age=", random_age)
-                print("random_skill_gk=", random_skill_gk)
-                print("random_skill_tackle=", random_skill_tackle)
-                print("random_skill_passing=", random_skill_passing)
-                print("random_skill_shooting=", random_skill_shooting)
-                print("random_skill_fitness=", random_skill_fitness)
-                print("random_skill_pace=", random_skill_pace)
-                print("overall_score=", overall_score)
-                print("player_wage=", player_wage)
-                print("random_contract_year=", random_contract_year)
+                print("final_player_position=", player_position_created)
+                print("first_name=", first_name_created)
+                print("last_name=",  second_name_created)
+                print("random_age=", age_created)
+                print("random_skill_gk=", gk_skill_created)
+                print("random_skill_tackle=", tackle_skill_created)
+                print("random_skill_passing=", passing_skill_created)
+                print("random_skill_shooting=", shooting_skill_created)
+                print("random_skill_fitness=", fitness_skill_created)
+                print("random_skill_pace=",  pace_skill_created)
+                print("overall_score=", player_overall_score_created)
+                print("player_wage=",  player_wage_created)
+                print("random_contract_year=", player_contract_created)
                 print(
-                    "random_skill_special_skill=", random_skill_special_skill
+                    "random_skill_special_skill=",  player_special_skill_created
                 )
-                print("player_special_trait=", player_special_trait)
-                print("random_personality=", random_personality)
-                print("player_experience_level=", player_experience_level)
-                print("player_history=", player_history)
-                print("random_player_id=", random_player_id)
+                print("player_special_trait=", special_trait_skill_created)
+                print("random_personality=",  random_personality)
+                print("player_experience_level=", player_experience_created)
+                print("player_history=", player_history_created)
+                print("random_player_id=", player_id_created)
 
             squad_of_players_list.append(temp_build)
         except Exception as e:
@@ -772,10 +775,10 @@ def Squad_stats_and_feedback_rating_per_position(squad_to_check):
         )
         print("       ST={}".format(s_highest_rating))
 
-def Squad_stats_and_feedback_sort_squad():
+def Squad_stats_and_feedback_sort_squad(squad_in):
         """ sort squad by overall rating 
-            input = none
-            output = none  """
+            input = squad 
+            output = squad_of_players_list - a sorted squad  """
         global squad_of_players_list
         # group players by position (first into indvidual list and then combine them later on)
         incoming_squad_in = squad_of_players_list
@@ -839,6 +842,7 @@ def Squad_stats_and_feedback_sort_squad():
             rebuilt_team.append(player_st)
         # overwrite our global varliable with our newley ordered squad
         squad_of_players_list = rebuilt_team
+        return(squad_of_players_list)
 
 
 def core_run():
@@ -863,20 +867,20 @@ def core_run():
         create_player_player_creation(
             play_position="GK", type_of_player="Start Up"
         )
-        breakpoint()
     for k in range(1, default_squad_DEF):
-        create_default_list.player_creation(
+        create_player_player_creation(
             play_position="DEF", type_of_player="Start Up"
         )
     for k in range(1, default_squad_MID):
-        create_default_list.player_creation(
+        create_player_player_creation(
             play_position="MID", type_of_player="Start Up"
         )
     for k in range(1, default_squad_ATA):
-        create_default_list.player_creation(
+        create_player_player_creation(
             play_position="ATA", type_of_player="Start Up"
         )
-
+    #breakpoint()
+    #print_nicer_output_default_squad(squad_of_players_list)
     # quite hacky but make sure our default squad has at least enough players in each position
     squad_of_players_list[3][0] = "LB"
     squad_of_players_list[4][0] = "RB"
@@ -887,17 +891,16 @@ def core_run():
     squad_of_players_list[13][0] = "CM"
     squad_of_players_list[14][0] = "CM"
 
-    squad_feedback_call.sort_squad()
-    nicer_output = print_nicer_output()
-    nicer_output.default_squad(squad_to_print=squad_of_players_list)
-    nicer_output.print_key()
+    Squad_stats_and_feedback_sort_squad(squad_of_players_list)
+    print_nicer_output_default_squad(squad_of_players_list)
+    print_nicer_output_print_key()
     # reoder the squad to make it more readable
     # squad_feedback_call.sort_squad()
-    squad_feedback_call.squad_feedback(squad_to_check=squad_of_players_list)
-    squad_feedback_call.cost_of_squad(squad_to_check=squad_of_players_list)
-    squad_feedback_call.char_of_team(squad_of_players_list)
-    squad_feedback_call.players_per_position(squad_to_check=squad_of_players_list)
-    squad_feedback_call.rating_per_position(squad_to_check=squad_of_players_list)
+    Squad_stats_and_feedback_squad_feedback(squad_of_players_list)
+    Squad_stats_and_feedback_cost_of_squad(squad_of_players_list)
+    Squad_stats_and_feedback_char_of_team(squad_of_players_list)
+    Squad_stats_and_feedback_players_per_position(squad_of_players_list)
+    Squad_stats_and_feedback_rating_per_position(squad_of_players_list)
     return squad_of_players_list
 
 
