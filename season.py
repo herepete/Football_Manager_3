@@ -24,6 +24,7 @@ opposition_teams = [
 # print (opposition_teams)
 games_in_season = 16
 import time
+import game_settings
 
 
 def main_run(team_stats_chosen_in, season_num_in):
@@ -45,7 +46,7 @@ def main_run(team_stats_chosen_in, season_num_in):
     season_results = []
 
     for i in opposition_teams:
-        time.sleep(1.5)
+        time.sleep(game_settings.time_out_between_games)
         opposition_gk = random.randint(80, 100)
         opposition_def = random.randint(80, 100)
         opposition_att = random.randint(80, 100)

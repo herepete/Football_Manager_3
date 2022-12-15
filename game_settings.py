@@ -2,6 +2,18 @@
 
 #can be changed
 Total_Wage_Limit = 200
+time_out_between_games=1
+
+#at the moemnt only min values are used during testing but i expect a random number to be created beween min and max
+free_agency_gk_min =2
+free_agency_d_min =2
+free_agency_m_min =2
+free_agency_a_min =2
+
+free_agency_gk_max =4
+free_agency_d_max =4
+free_agency_m_max =4
+free_agency_a_max =4
 
 Start_up_parameters = {
     "age_min": "17",

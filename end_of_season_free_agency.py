@@ -7,7 +7,7 @@ import os
 import sys
 import argparse
 import logging
-
+import player_creation
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="Verbose information", action="store_true")
@@ -536,22 +536,35 @@ test_incoming_squad = [
 
 
 def print_our_squad(our_squad):
-    initatie_player_creation = player_creation.print_nicer_output()
-    initatie_player_creation.default_squad(squad_to_print=our_squad)
-    initatie_player_creation.print_key()
+    """ Print our Squad
+        Input =Our Squad
+        Output= Print squad,print key
+    """
+    player_creation.print_nicer_output_default_squad(our_squad)
+    player_creation.print_nicer_output_print_key()
 
 
 def squad_feedback(our_squad):
-
-    initate_squad_feedback = player_creation.Squad_stats_and_feedback()
-    initate_squad_feedback.cost_of_squad(squad_to_check=our_squad)
-    initate_squad_feedback.squad_feedback(squad_to_check=our_squad)
-    initate_squad_feedback.char_of_team(squad_to_check=our_squad)
-    initate_squad_feedback.players_per_position(squad_to_check=our_squad)
-    initate_squad_feedback.rating_per_position(squad_to_check=our_squad)
+    
+    """
+    get squad feedback
+    input=our_squad
+    output=print to screen cost of squad,feedback,character,players,per_position,rating per position
+    """
+    player_creation.Squad_stats_and_feedback_cost_of_squad(squad_to_check=our_squad)
+    player_creation.Squad_stats_and_feedback_squad_feedback(squad_to_check=our_squad)
+    player_creation.Squad_stats_and_feedback_char_of_team(squad_to_check=our_squad)
+    player_creation.Squad_stats_and_feedback_players_per_position(squad_to_check=our_squad)
+    player_creation.Squad_stats_and_feedback_rating_per_position(squad_to_check=our_squad)
 
 
 def safety_check_squad_size(our_squad):
+
+    """
+    safety check on squad
+    input =our_squad
+    return= 0 everything is good, 1 there is a problem
+    """
     # check squad size is correct
     # check we have enough players at each position:
     # min 3 GK
@@ -625,6 +638,12 @@ def safety_check_squad_size(our_squad):
 
 
 def check_current_squad_cost(incoming_squad, return_or_print):
+    
+    """
+    check current squad cost
+    input =squad, return or print variable
+    output= print Squad cost
+    """
     global current_squad_cost
     for player_cost in incoming_squad:
         current_squad_cost += int(player_cost[11])
@@ -635,6 +654,10 @@ def check_current_squad_cost(incoming_squad, return_or_print):
 
 
 def add_free_agency(fa_incoming_squad):
+
+    """menu for free agencey
+    input = free agents
+    output =a lot """
 
     while True:
         print("To find...")
@@ -758,28 +781,31 @@ def add_free_agency(fa_incoming_squad):
 
 def create_free_agency():
 
-    global free_agency_list
-    create_default_list = player_creation.create_player()
+    """create the Free agencey players
+    input =none 
+    output = free agencey players """
 
-    default_squad_GK = 2
-    default_squad_DEF = 2
-    default_squad_MID = 2
-    default_squad_ATA = 2
+    global free_agency_list
+    
+    default_squad_GK = game_settings.free_agency_gk_min
+    default_squad_DEF = game_settings.free_agency_d_min
+    default_squad_MID = game_settings.free_agency_m_min
+    default_squad_ATA = game_settings.free_agency_a_min
 
     for j in range(1, default_squad_GK):
-        rv1 = create_default_list.player_creation(
+        rv1 = player_creation.create_player_player_creation(
             play_position="GK", type_of_player="Free Agency"
         )
     for k in range(1, default_squad_DEF):
-        rv2 = create_default_list.player_creation(
+        rv2 =  player_creation.create_player_player_creation(
             play_position="DEF", type_of_player="Free Agency"
         )
     for k in range(1, default_squad_MID):
-        rv3 = create_default_list.player_creation(
+        rv3 =  player_creation.create_player_player_creation(
             play_position="MID", type_of_player="Free Agency"
         )
     for k in range(1, default_squad_ATA):
-        free_agency_list = create_default_list.player_creation(
+        free_agency_list =  player_creation.create_player_player_creation(
             play_position="ATA", type_of_player="Free Agency"
         )
     # for i in free_agency_list:
@@ -795,6 +821,11 @@ def create_free_agency():
 
 
 def main_run(our_squad):
+    
+    """core run
+    input= our squad
+    output=  a lot 
+    """
 
     print("Here is our squad, lets look at free agencey for some replacements...")
     print_our_squad(our_squad)
