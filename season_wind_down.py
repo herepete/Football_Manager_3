@@ -1,6 +1,9 @@
 #!/usr/bin/python3
 import argparse
 import logging
+import player_creation
+from termcolor import colored
+
 
 parser = argparse.ArgumentParser()
 parser.add_argument("-v", "--verbose", help="Verbose information", action="store_true")
@@ -807,6 +810,7 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
 
     Players_improvements = []
     Players_Reductions = []
+    player_total_changes=[]
 
     import player_creation
 
@@ -871,9 +875,10 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
         player_age += 1
         player[3] = player_age
 
-        player_contract_length = player[13]
+        player_contract_length = player[12]
         player_contract_length -= 1
-        player[13] = player_contract_length
+        player[12] = player_contract_length
+    #player_creation.print_nicer_output_default_squad(my_squad)
     print("All players have Aged +1 and had their contract -1")
 
     # training_increase & decrease
@@ -932,7 +937,7 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
             how_lucky_are_we_feeling_skill_change = random.randint(
                 build_player_score, 2
             )
-        #print(how_lucky_are_we_feeling_skill_change)
+        #print(player_training[1],player_training[2],"Player build player score = ",how_lucky_are_we_feeling_skill_change)
         player_gk_skill = player_training[4]
         player_tackle_skill = player_training[5]
         player_pass_skill = player_training[6]
@@ -952,15 +957,33 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
             and player_fitness_skill
             and player_pace_skill
         ):
-            new_skill_level = player_training[4] + -build_player_score
+            new_skill_level = player_training[4] + how_lucky_are_we_feeling_skill_change
             if new_skill_level < 0:
                 new_skill_level = 1
+            if new_skill_level > 20:
+                new_skill_level = 20
             player_training[4] = new_skill_level
         else:
-            new_skill_level = player_training[8] + -build_player_score
-            if new_skill_level < 0:
-                new_skill_level = 1
-            player_training[8] = new_skill_level
+            # loop through each 'how luck are we feeling skill change '
+            # abs turns a positive into a negative number
+            #randomly take a skill to reduce
+
+            #help work our what incrementtor we should use
+            if how_lucky_are_we_feeling_skill_change > 0:
+                incremental_skill_change=1
+            else:
+                incremental_skill_change=-1
+            for _ in range(abs(how_lucky_are_we_feeling_skill_change)):
+                random_number_of_skill_to_change=random.randint(4,9)
+                new_skill_level = player_training[random_number_of_skill_to_change] + incremental_skill_change
+                if new_skill_level < 0:
+                    new_skill_level = 1
+                if new_skill_level > 20:
+                    new_skill_level = 20
+                    print ("Er players skill has hit 20",player_training)
+                    print ("*** i need some better logic here to try permission change else where",player_training)
+                player_training[random_number_of_skill_to_change] = new_skill_level
+                #print(player_training)
         #print("New player overall...")
         #print(player_training)
         #breakpoint()
@@ -970,23 +993,68 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
         #player_creation.player_rating(self, final_player_position="GK")
         new_overall_rating=player_creation.create_player_player_rating( 
         final_player_position_in=player_position,
-        random_skill_gk_in=player_gk_skill,
-        random_skill_tackle_in=player_tackle_skill,
-        random_skill_passing_in=player_pass_skill,
-        random_skill_shooting_in=player_shoot_skill,
-        random_skill_fitness_in=player_fitness_skill,
-        random_skill_pace_in=player_pace_skill,
-        random_skill_special_skill_in=player_special_skill)
+        random_skill_gk_in=player_training[4],
+        random_skill_tackle_in=player_training[5],
+        random_skill_passing_in=player_training[6],
+        random_skill_shooting_in=player_training[7],
+        random_skill_fitness_in=player_training[8],
+        random_skill_pace_in=player_training[9],
+        random_skill_special_skill_in=player_training[13])
         #print("New Overall score...",new_overall_rating)
 
-        if new_overall_rating==player_current_overall:
-            print ( player_training, " No Change")
-        else:
-            print ( player_training, " New Overall=",new_overall_rating, " old Overall=",player_current_overall)
+        #if new_overall_rating==player_current_overall:
+        #    print ( player_training[0], player_training[1], player_training[2], player_training[3], player_training[10], " No Change")
+        #else:
+        #    print (player_training[0], player_training[1], player_training[2], player_training[3], player_training[10], "Change -New overall = ",new_overall_rating )
+        temp_build=[player_training[0],player_training[1], player_training[2], player_training[3], player_training[10],new_overall_rating]
+        #breakpoint()
+        player_total_changes.append(temp_build)
 
         # print (player_training)
         # print("Score=",build_player_score)
+    print_nicer_output_players_change_from_training(squad_to_print=player_total_changes)
     input("press enter to continue")
+
+
+def print_nicer_output_players_change_from_training(squad_to_print):
+        """a function to print the players changes into a nice format
+           input = List of players to print
+           output =  print to screen
+        """
+        #if False:
+        #if args.verbose:
+        #    print("About to print...", squad_to_print)
+        print(
+            "PST    Name                  AGE |Old_Overall   New_Overall Change "
+        )
+        print(
+            "================================================================================================================"
+        )
+        for k in squad_to_print:
+            # for k in squad_of_players_list:
+            try:
+                fullname=str(k[1])+" "+str(k[2])
+                change_in_skill=int(k[5])-int(k[4])
+
+                # print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
+                #print('{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}'.format(str(k[0]), str(k[1]), str(k[2]), str(k[3]), str(k[4])))
+                print('{:<6s}{:<18s}{:>7s}  | {:>2s}{:>12s}{:>13s}'.format(str(k[0]), fullname, str(k[3]), str(k[4]),str(k[5]),str(change_in_skill)),end =" ")
+                if change_in_skill > 2:
+                    print(colored("Big training boost ", "green"))
+                elif change_in_skill < -2:
+                    print(colored("Large training loss ", "red"))
+                else:
+                    print(colored("Average ", "yellow"))
+
+                #        str(k[1]),
+                #        str(k[2]),
+                #        str(k[3]),
+                #        str(k[4]))
+            except Exception as e:
+                breakpoint
+                print("Error=",e)
+                raise Exception("207  i errored - printing squad output player=", k)
+
 
 
 if __name__ == "__main__":
@@ -997,4 +1065,5 @@ if __name__ == "__main__":
     import banner
 
     banner.banner_status(colored_status="cs", season_num=1)
+    player_creation.print_nicer_output_default_squad(player_squad)
     main_run(player_squad, team_chosen[0], "np")
