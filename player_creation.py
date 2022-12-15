@@ -463,6 +463,7 @@ def create_player_player_rating(
             )
         else:
             print("Unexpected player position=", final_player_position_in)
+            breakpoint()
             raise Exception(
                 "108 i Errored - Unexpected player position=", final_player_position_in
             )

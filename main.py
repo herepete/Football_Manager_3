@@ -82,7 +82,7 @@ for i in range(1, season_to_play):
     banner.banner_status(colored_status="cs", season_num=i)
     import season_wind_down
 
-    season_wind_down.main_run(player_squad)
+    season_wind_down.main_run(player_squad,team_chosen,"np")
     banner.banner_status(colored_status="d", season_num=i)
     import end_of_season_draft
 

@@ -759,6 +759,12 @@ if args.verbose:
 
 def to_add():
 
+    """
+        temp dumping ground for general notes, will be deleted later on before go live
+        input =none
+        output print information to screen
+    """
+
     print("I need to add:")
     print("==============")
     print("Reduce player contracts - 1 year #done")
@@ -782,7 +788,13 @@ def to_add():
 
 def main_run(my_squad, my_firstx1, season_result):
 
-    """values for season np=no playoffs dg=divisonal game cg=championship game, w=winners"""
+    """ This it the bulk of the module contract,age,expirence and training changes are made, 
+values for season np=no playoffs dg=divisonal game cg=championship game, w=winners
+    input= mysquad,myfirstx1, season result (see above)
+    output = change to squad
+
+
+"""
     to_add()
     # Age +1
     # Contract -1
@@ -797,7 +809,7 @@ def main_run(my_squad, my_firstx1, season_result):
 
     import player_creation
 
-    initaiate_player_creation = player_creation.create_player()
+    #initaiate_player_creation = player_creation.create_player()
 
     # experience
     np_exp_gained_in_first_11 = 2
@@ -822,6 +834,7 @@ def main_run(my_squad, my_firstx1, season_result):
             except Exception as e:
                 print(e)
                 print("Woops")
+                breakpoint()
                 raise Exception("103 i Errored - player id seems to be missing")
         # squad player
         if player_found == 0:
@@ -865,9 +878,14 @@ def main_run(my_squad, my_firstx1, season_result):
     # training_increase & decrease
     for player_training in my_squad:
         # create player score based on age,training speed and char
+        player_position=player_training[0]
+        #if type(player_position)==list :
+        #    player_position=player_position[0]
+            
         player_age_i = player_training[3]
         player_char = player_training[14]
         player_training_speed = player_training[15]
+        player_current_overall= player_training[10]
         perfect_age = 25
         build_player_score = perfect_age - player_age_i
         if player_char == "Avg":
@@ -913,17 +931,19 @@ def main_run(my_squad, my_firstx1, season_result):
             how_lucky_are_we_feeling_skill_change = random.randint(
                 build_player_score, 2
             )
-        print(how_lucky_are_we_feeling_skill_change)
+        #print(how_lucky_are_we_feeling_skill_change)
         player_gk_skill = player_training[4]
         player_tackle_skill = player_training[5]
         player_pass_skill = player_training[6]
         player_shoot_skill = player_training[7]
         player_fitness_skill = player_training[8]
         player_pace_skill = player_training[9]
+        player_special_skill = player_training[13]
+
 
         # determine which skill is highest
-        print("before skill change")
-        print(player_training)
+        #print("before skill change...")
+        #print(player_training)
         if player_gk_skill >= (
             player_tackle_skill
             and player_pass_skill
@@ -940,12 +960,28 @@ def main_run(my_squad, my_firstx1, season_result):
             if new_skill_level < 0:
                 new_skill_level = 1
             player_training[8] = new_skill_level
-        print(player_training)
-        breakpoint()
+        #print("New player overall...")
+        #print(player_training)
+        #breakpoint()
 
         # get new player rating
 
-        initaiate_player_creation.player_rating(self, final_player_position="GK")
+        #player_creation.player_rating(self, final_player_position="GK")
+        new_overall_rating=player_creation.create_player_player_rating( 
+        final_player_position_in=player_position,
+        random_skill_gk_in=player_gk_skill,
+        random_skill_tackle_in=player_tackle_skill,
+        random_skill_passing_in=player_pass_skill,
+        random_skill_shooting_in=player_shoot_skill,
+        random_skill_fitness_in=player_fitness_skill,
+        random_skill_pace_in=player_pace_skill,
+        random_skill_special_skill_in=player_special_skill)
+        #print("New Overall score...",new_overall_rating)
+
+        if new_overall_rating==player_current_overall:
+            print ( player_training, " No Change")
+        else:
+            print ( player_training, " New Overall=",new_overall_rating, " old Overall=",player_current_overall)
 
         # print (player_training)
         # print("Score=",build_player_score)
