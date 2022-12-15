@@ -783,6 +783,7 @@ def to_add():
     )
     print("Sell players")
     print("Buy players?")
+    print("Retirement?")
     input()
 
 
@@ -985,6 +986,7 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
 
         # print (player_training)
         # print("Score=",build_player_score)
+    input("press enter to continue")
 
 
 if __name__ == "__main__":

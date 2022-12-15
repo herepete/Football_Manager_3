@@ -73,7 +73,6 @@ for i in range(1, season_to_play):
     team_chosen, team_stats_chosen = pre_season.starting_preseason(squad=player_squad)
     # fixing a bug where list is to nested
     team_chosen=team_chosen[0]
-    breakpoint()
     # import team_rating
     # season_formation=team_rating.team_formation()
     # type_of_team=team_rating.best_team()
