@@ -773,11 +773,8 @@ def to_add():
     print("I need to add:")
     print("==============")
     print("Edit player Training Skill and remove 5 Star Recruit if over 26")
-    print("work on logic at the end, need a fair way to dock/increase player skills almost like we have x points to distrubute around, then get new player overall and flag changes,also need function for max and min checks (0 and 20) , maybe any skills not maxed or 0 add to list, get random item from list and deduct x , keep going until all points taken")
-    print("==============")
     print("Sell players")
-    print("Buy players?")
-    print("Retirement?")
+    print("Expiring contracts")
     input()
 
 
@@ -858,7 +855,7 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
 
         # print(player)
     print ("As the season has drawen to a close, life moves on and these changes have been made:")
-    print("All players have had their experience increase (factors include, play off progresion and if in first X1")
+    print("All players have had their experience increase (factors include, play off progresion and if in first X1)")
 
     # age+1 and contract-1
     for player in my_squad:
@@ -873,6 +870,8 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
     print("All Players have Aged +1")
     print ("All Players have had their contract -1")
     print ("All Players as a result of Age,Luck and personal traits have had change in their skill sets...")
+    print ("Training")
+    print ("=========")
 
 
     # training_increase & decrease
@@ -1018,9 +1017,61 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
     print_nicer_output_players_change_from_training(squad_to_print=player_total_changes)
 
     my_squad_after_retirment=time_to_retire(my_squad)
+    tweak_training_and_personality(my_squad_after_retirment)
     input("press enter to continue")
     
 
+def tweak_training_and_personality(squad_in_ttandp):
+
+    """ function to tweak play training speed and character based on age
+        input = squad
+        output = squad (With some changes)
+    """
+    changes_made=0
+    for player in squad_in_ttandp:
+        player_age=player[3]
+        player_char=player[14]
+        player_training_speed=player[15]
+        #age 27 
+        #reduce training speed by 1
+        #change from 5 star recurit to something else
+        if int(player_age) ==27:
+            if changes_made==0:
+                print("==================================================")
+                print("Players with tweaks to training speed and Character")
+                print("==================================================")
+            print("Before change..",player)
+            if len(player_training_speed) > 1:
+                new_training_speed= len(player_training_speed)-1
+                new_training_speed_as_stars="*" *  new_training_speed
+                player[15]=new_training_speed_as_stars
+                changes_made+=1
+                print("After change..",player)
+            if player_char == "5-Star":
+                special_traits_random_number = random.randint(1, 4)
+                if special_traits_random_number == 1:
+                    # Leader
+                    player_special_trait = "Leader"
+                elif special_traits_random_number == 2:
+                    # Team Player
+                    player_special_trait = "Team P"
+                elif special_traits_random_number == 3:
+                    player_special_trait = "Fighter"
+                else:
+                    player_special_trait = "Avg"
+                changes_made+=1
+                player[14]=player_special_trait
+                print("After change..",player)
+    if changes_made!=0:
+        pass
+        #print ("players char or training speed changed")
+    else:
+        print ("No players char or training speed changed")
+        
+    return(squad_in_ttandp)
+        
+        
+                
 
 def time_to_retire(squad_in):
     """ a function to decide if players want to retire
@@ -1030,6 +1081,9 @@ def time_to_retire(squad_in):
     """
     old_age=game_settings.start_thinking_about_retirement_age
     players_retired=0
+    print ("===========")
+    print ("Retirement")
+    print ("===========")
     for player in squad_in:
         players_age=player[3]
         players_position=player[0]
@@ -1049,7 +1103,10 @@ def time_to_retire(squad_in):
 
     if  players_retired == 0:
         print("No players wanted to Retire :) ")
+        return squad_in
         #player_creation.print_nicer_output_default_squad(updated_squad)
+
+    return updated_squad
         
 
 
@@ -1140,5 +1197,5 @@ if __name__ == "__main__":
 
     banner.banner_status(colored_status="cs", season_num=1)
     to_add()
-    player_creation.print_nicer_output_default_squad(player_squad)
+    #player_creation.print_nicer_output_default_squad(player_squad)
     main_run(player_squad, team_chosen[0], "np")
