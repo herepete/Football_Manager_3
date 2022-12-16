@@ -15,6 +15,8 @@ free_agency_d_max =4
 free_agency_m_max =4
 free_agency_a_max =4
 
+start_thinking_about_retirement_age=36
+
 Start_up_parameters = {
     "age_min": "17",
     "age_max": "37",
@@ -27,6 +29,14 @@ Free_Agency_parameters = {
     "skill_min": "12",
     "skill_max": "20",
 }
+
+Random_poor_parameters = {
+    "age_min": "24",
+    "age_max": "35",
+    "skill_min": "10",
+    "skill_max": "14",
+}
+
 
 first_name_list_memory = [
     "Peter",

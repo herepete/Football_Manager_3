@@ -17,6 +17,7 @@ wage_limit=game_settings.Total_Wage_Limit
 avalible_poistions=game_settings.avalible_poistions
 Start_up_parameters=game_settings.Start_up_parameters
 Free_Agency_parameters=game_settings.Free_Agency_parameters
+Random_poor_parameters=game_settings.Random_poor_parameters
 first_name_list_memory=game_settings.first_name_list_memory
 last_name_list_memory=game_settings.last_name_list_memory
 
@@ -470,12 +471,12 @@ def create_player_player_rating(
         return (overall_score)
         
 
-def create_player_player_creation(play_position, type_of_player):
+def create_player_player_creation(play_position, type_of_player, return_player=0):
         """ Where all the magic happens to create a Squad
          the order is quite important here as variables are reliant on previous functions 
-        input = play_position i.e GK, type_of_player (Start Up,Free Agency or else) to determine parameters
+        input = play_position i.e GK, type_of_player (Start Up,Free Agency or else) to determine parameters,return_player default to 0 if 1 a player is returned-used when players being created outside this script and a player is wanted)
         output = a squad of players """
-        global age_min, age_max, skill_min, skill_max, overall_score
+        global age_min, age_max, skill_min, skill_max, overall_score,squad_of_players_list
         if type_of_player == "Start Up":
             age_min = int(Start_up_parameters["age_min"])
             age_max = int(Start_up_parameters["age_max"])
@@ -486,6 +487,14 @@ def create_player_player_creation(play_position, type_of_player):
             age_max = int(Free_Agency_parameters["age_max"])
             skill_min = int(Free_Agency_parameters["skill_min"])
             skill_max = int(Free_Agency_parameters["skill_max"])
+
+        elif type_of_player == "Random Poor":
+            age_min = int(Random_poor_parameters["age_min"])
+            age_max = int(Random_poor_parameters["age_max"])
+            skill_min = int(Random_poor_parameters["skill_min"])
+            skill_max = int(Random_poor_parameters["skill_max"])
+            squad_of_players_list=[]
+
         else:
             age_min = int(Start_up_parameters["age_min"])
             age_max = int(Start_up_parameters["age_max"])
@@ -505,8 +514,12 @@ def create_player_player_creation(play_position, type_of_player):
         shooting_skill_created=create_player_player_skill_shooting()
 
         age_created=create_player_player_age()
-        #play_position = play_position
-        player_position_created=create_player_create_position(play_position)
+
+        #if Random Poor i am going to force a particular position
+        if type_of_player=="Random Poor":
+            player_position_created=play_position
+        else:    
+            player_position_created=create_player_create_position(play_position)
         player_contract_created=create_player_random_contract()
         training_speed_created=create_player_player_training_speed(age_created)
         special_trait_skill_created=create_player_special_traits(age_created)
@@ -581,6 +594,7 @@ def create_player_player_creation(play_position, type_of_player):
         except Exception as e:
             print("oops something went wrong when creating the squad")
             print("Error reads=", e)
+            breakpoint()
             raise Exception(
                 "115 i Errored - something went wrong when creating the squad"
             )
@@ -593,6 +607,8 @@ def create_player_player_creation(play_position, type_of_player):
                 raise Exception(
                     "110 i Errored - Type of player =Free agencey and i could returned squad of players list"
                 )
+        if return_player==1:
+            return (squad_of_players_list)
 
 
 def Squad_stats_and_feedback_cost_of_squad(squad_to_check):

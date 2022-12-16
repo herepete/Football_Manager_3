@@ -2,6 +2,8 @@
 import argparse
 import logging
 import player_creation
+import game_settings
+import random
 from termcolor import colored
 
 
@@ -770,20 +772,9 @@ def to_add():
 
     print("I need to add:")
     print("==============")
-    print("Reduce player contracts - 1 year #done")
-    print("Age + 1 year #done ")
     print("Edit player Training Skill and remove 5 Star Recruit if over 26")
-    print("Player training +- dependant on age and Special skill & TS #done")
-    print(
-        "working on players creation to allow overall rating to be called externally (See commented out line where values are passed in rather than using self)"
-    )
-    print(
-        "work on logic at the end, need a fair way to dock/increase player skills almost like we have x points to distrubute around, then get new player overall and flag changes,also need function for max and min checks (0 and 20) , maybe any skills not maxed or 0 add to list, get random item from list and deduct x , keep going until all points taken"
-    )
+    print("work on logic at the end, need a fair way to dock/increase player skills almost like we have x points to distrubute around, then get new player overall and flag changes,also need function for max and min checks (0 and 20) , maybe any skills not maxed or 0 add to list, get random item from list and deduct x , keep going until all points taken")
     print("==============")
-    print(
-        "renew contracts non renew player get replace by a random, wage of player reflected by overall rating"
-    )
     print("Sell players")
     print("Buy players?")
     print("Retirement?")
@@ -799,7 +790,6 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
 
 
 """
-    to_add()
     # Age +1
     # Contract -1
     # Improve Skills
@@ -867,7 +857,8 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
                 print("not sure what kind of season this was")
 
         # print(player)
-    print("experience applied to all players")
+    print ("As the season has drawen to a close, life moves on and these changes have been made:")
+    print("All players have had their experience increase (factors include, play off progresion and if in first X1")
 
     # age+1 and contract-1
     for player in my_squad:
@@ -879,7 +870,10 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
         player_contract_length -= 1
         player[12] = player_contract_length
     #player_creation.print_nicer_output_default_squad(my_squad)
-    print("All players have Aged +1 and had their contract -1")
+    print("All Players have Aged +1")
+    print ("All Players have had their contract -1")
+    print ("All Players as a result of Age,Luck and personal traits have had change in their skill sets...")
+
 
     # training_increase & decrease
     for player_training in my_squad:
@@ -974,7 +968,27 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
             else:
                 incremental_skill_change=-1
             for _ in range(abs(how_lucky_are_we_feeling_skill_change)):
-                random_number_of_skill_to_change=random.randint(4,9)
+                #build list of skills to increase
+                random_list_source=[]
+                if player_training[4] !=20:
+                    random_list_source.append(4)
+                if player_training[5] !=20:
+                    random_list_source.append(5)
+                if player_training[6] !=20:
+                    random_list_source.append(6)
+                if player_training[7] !=20:
+                    random_list_source.append(7)
+                if player_training[8] !=20:
+                    random_list_source.append(8)
+                if player_training[9] !=20:
+                    random_list_source.append(9)
+                if not random_list_source:
+                    print("ahhh no skills i can increase, what do to?")
+                    breakpoint()
+                
+
+        
+                random_number_of_skill_to_change=random.choice(random_list_source)
                 new_skill_level = player_training[random_number_of_skill_to_change] + incremental_skill_change
                 if new_skill_level < 0:
                     new_skill_level = 1
@@ -983,10 +997,6 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
                     print ("Er players skill has hit 20",player_training)
                     print ("*** i need some better logic here to try permission change else where",player_training)
                 player_training[random_number_of_skill_to_change] = new_skill_level
-                #print(player_training)
-        #print("New player overall...")
-        #print(player_training)
-        #breakpoint()
 
         # get new player rating
 
@@ -1002,18 +1012,82 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
         random_skill_special_skill_in=player_training[13])
         #print("New Overall score...",new_overall_rating)
 
-        #if new_overall_rating==player_current_overall:
-        #    print ( player_training[0], player_training[1], player_training[2], player_training[3], player_training[10], " No Change")
-        #else:
-        #    print (player_training[0], player_training[1], player_training[2], player_training[3], player_training[10], "Change -New overall = ",new_overall_rating )
         temp_build=[player_training[0],player_training[1], player_training[2], player_training[3], player_training[10],new_overall_rating]
-        #breakpoint()
         player_total_changes.append(temp_build)
 
-        # print (player_training)
-        # print("Score=",build_player_score)
     print_nicer_output_players_change_from_training(squad_to_print=player_total_changes)
+
+    my_squad_after_retirment=time_to_retire(my_squad)
     input("press enter to continue")
+    
+
+
+def time_to_retire(squad_in):
+    """ a function to decide if players want to retire
+        logic- if player is older than 'old age' as per game_settings file,player has a 50:50 chance of retiring and been replaced by a random 
+        input -squad_in  (squad after age,contract and training have taken effect)
+        output- squad_out (squad + any retirements)
+    """
+    old_age=game_settings.start_thinking_about_retirement_age
+    players_retired=0
+    for player in squad_in:
+        players_age=player[3]
+        players_position=player[0]
+        player_id=player[18]
+        #if type(players_position) == list:
+        #    players_position=players_position[0]
+        if players_age > old_age:
+            shall_i_retire = random.randint (0,1)
+            if shall_i_retire==1:
+                print("Player has decided to retire...",player[0],player[1],player[2],player[3],player[10])
+                new_random_player_returned=new_player_needed(position_in_need=players_position)
+                updated_squad=replace_player(squad_in=squad_in,player_to_replace_uniqee_id=player_id,new_player=new_random_player_returned)
+                players_retired+=1
+            else:
+                pass
+                #print("Player has decided not to retire...",player)
+
+    if  players_retired == 0:
+        print("No players wanted to Retire :) ")
+        #player_creation.print_nicer_output_default_squad(updated_squad)
+        
+
+
+def new_player_needed(position_in_need):
+    """a function to help create a new player, typically used when a player leaves through retirement/selling or out of contract
+    input - position in need i.e GK as we will be swapping like for like to keep the squad in good shape
+    output -new random player
+    """
+
+    new_random_player=[]
+    new_random_player=player_creation.create_player_player_creation(play_position=position_in_need, type_of_player="Random Poor",return_player=1)
+    try:
+        print("here is the replacement...",new_random_player[0][0],new_random_player[0][1],new_random_player[0][2],new_random_player[0][3],new_random_player[0][10])
+    except:
+        breakpoint()
+    return (new_random_player)
+
+
+def replace_player(squad_in,player_to_replace_uniqee_id,new_player):
+    """a function to remove 1 player and insert a new one
+    input = squad, player to replace unique id , new player
+    output = new squad
+    """
+    index_of_player=0
+    player_to_replace_index_number=0
+    for player in squad_in:
+        if player[18] == player_to_replace_uniqee_id:
+            player_to_replace_index_number=index_of_player
+        else:
+            index_of_player+=1
+
+    #player_creation.print_nicer_output_default_squad(squad_in[0])
+    del squad_in[player_to_replace_index_number]
+    squad_in.insert(player_to_replace_index_number,new_player[0])
+    #player_creation.print_nicer_output_default_squad(squad_in[0])
+    return (squad_in)
+    
+    
 
 
 def print_nicer_output_players_change_from_training(squad_to_print):
@@ -1021,9 +1095,6 @@ def print_nicer_output_players_change_from_training(squad_to_print):
            input = List of players to print
            output =  print to screen
         """
-        #if False:
-        #if args.verbose:
-        #    print("About to print...", squad_to_print)
         print(
             "PST    Name                  AGE |Old_Overall   New_Overall Change "
         )
@@ -1065,5 +1136,6 @@ if __name__ == "__main__":
     import banner
 
     banner.banner_status(colored_status="cs", season_num=1)
+    to_add()
     player_creation.print_nicer_output_default_squad(player_squad)
     main_run(player_squad, team_chosen[0], "np")
