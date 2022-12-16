@@ -1105,11 +1105,14 @@ def print_nicer_output_players_change_from_training(squad_to_print):
             # for k in squad_of_players_list:
             try:
                 fullname=str(k[1])+" "+str(k[2])
+                position_to_print=k[0]
+                if type(position_to_print) == list:
+                    position_to_print=position_to_print[0]
                 change_in_skill=int(k[5])-int(k[4])
 
                 # print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
                 #print('{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}'.format(str(k[0]), str(k[1]), str(k[2]), str(k[3]), str(k[4])))
-                print('{:<6s}{:<18s}{:>7s}  | {:>2s}{:>12s}{:>13s}'.format(str(k[0]), fullname, str(k[3]), str(k[4]),str(k[5]),str(change_in_skill)),end =" ")
+                print('{:<6s}{:<18s}{:>7s}  | {:>2s}{:>12s}{:>13s}'.format(str(position_to_print), fullname, str(k[3]), str(k[4]),str(k[5]),str(change_in_skill)),end =" ")
                 if change_in_skill > 2:
                     print(colored("Big training boost ", "green"))
                 elif change_in_skill < -2:
