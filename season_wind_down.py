@@ -1017,7 +1017,9 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
     print_nicer_output_players_change_from_training(squad_to_print=player_total_changes)
 
     my_squad_after_retirment=time_to_retire(my_squad)
-    tweak_training_and_personality(my_squad_after_retirment)
+    my_squad_after_training_tweaks=tweak_training_and_personality(my_squad_after_retirment)
+    #input("press enter to continue")
+    expiring_contract(squad_in=my_squad_after_training_tweaks)
     input("press enter to continue")
     
 
@@ -1127,7 +1129,7 @@ def new_player_needed(position_in_need):
 
 def replace_player(squad_in,player_to_replace_uniqee_id,new_player):
     """a function to remove 1 player and insert a new one
-    input = squad, player to replace unique id , new player
+    input = squad, player to replace unique id , new player (output of new_player_needed function call)
     output = new squad
     """
     index_of_player=0
@@ -1144,7 +1146,153 @@ def replace_player(squad_in,player_to_replace_uniqee_id,new_player):
     #player_creation.print_nicer_output_default_squad(squad_in[0])
     return (squad_in)
     
+def expiring_contract(squad_in):
+
+    """function to deal with out of contract players
+    input = squad
+    output =squad (with ammeneded contracts or replacement players)
+
+    """
+
+    print("======================================")
+    print("Lets check out of contract players...")
+    print("======================================")
+    #out_of_contract_players_offers=[]
+    while True:
+        out_of_contract_players=[]
+        for ex_player in squad_in:
+            player_contract_length=ex_player[12]
+            if  player_contract_length ==0:
+                out_of_contract_players.append(ex_player)
+                #player_name=ex_player[1] + " " + ex_player[2]
+                #player_overall=ex_player[10]
+                #player_current_wage=ex_player[11]
+                #player_id=ex_player[18]
+                #player_1_year_contract=4
+                #player_2_year_contract=5
+                #player_3_year_contract=6
+                #player_4_year_contract=7
+                #temp_dict_player_offer={"Name":player_name,"player_overall":player_overall,"player_wage": player_current_wage,"player_id": player_id,"1 year contract": player_1_year_contract,"2 year contract": player_2_year_contract,"3 year contract": player_3_year_contract,"4 Year contact":player_4_year_contract}
+                #breakpoint()
+                
+        if len(out_of_contract_players) == 0:
+            print("No out of contract players")
+            return(squad_in)
+        player_creation.print_nicer_output_default_squad(out_of_contract_players,print_index="y")
+        try:
+            user_input_ex=input("press an (index) number to interact with the player or press (r) to release all players ")
+            if user_input_ex=="r":
+                print("Release them all")
+                for each_player in out_of_contract_players:
+                    npn=new_player_needed(each_player[0])
+                    replace_player(squad_in,each_player[18],npn)
+                input("All outstanding players releasted, press enter to continue")
+                continue
+            min_range=1
+            max_range=len(out_of_contract_players)
+            if max_range >= int(user_input_ex)  >= min_range:
+                pass
+            else:
+                print("You did not select a valid number")
+                breakpoint()
+                input("Press enter to continue")
+                continue
+        except:
+            print ("Invalid input , please try again")
+            input("Press enter to continue")
+            continue
+        players_choice=input ("Do you want to (offer a new contract(n)  or release the player(r)")
+        #maybe include some kind of squad overview so we can inderstand how import the player is
+        if players_choice != "n" and  players_choice != "r":
+            print ("Invalid input , please try again")
+            input("Press enter to continue")
+        if players_choice == "r":
+            input_release=input("are you sure you want to relase this player?(y/n)")
+            if input_release =="y":
+                player_index_to_delete=int(user_input_ex)-1
+                player_to_release_id=out_of_contract_players[player_index_to_delete][18]
+                player_position_to_replace=out_of_contract_players[player_index_to_delete][0]
+
+                new_random_player_returned=new_player_needed(position_in_need= player_position_to_replace)
+                updated_squad=replace_player(squad_in=squad_in,player_to_replace_uniqee_id= player_to_release_id,new_player=new_random_player_returned)
+                input("The player has been replaced, please press enter to continue") 
+                
+            else:
+                print("Release not confirmed")
+                breakpoint()
+                continue
+        if players_choice == "n":
+
+            #get the players variables
+            player_index_to_renew=int(user_input_ex)-1
+            player_id_to_renew=out_of_contract_players[player_index_to_renew][18]
+            player_overall_to_renew=out_of_contract_players[player_index_to_renew][10]
+            player_current_wage_to_renew=out_of_contract_players[player_index_to_renew][11]
+        
+            #build contract offer
+            one_year_offer=int(player_current_wage_to_renew)
+            two_year_offer=int(player_current_wage_to_renew)+2
+            three_year_offer=int(player_current_wage_to_renew)+3
+            four_year_offer=int(player_current_wage_to_renew)+4
+            
+            #offer contract
+            print ("1) -one year contract wage=",one_year_offer)
+            print ("2) -two year contract wage=",two_year_offer)
+            print ("3) -three year contract wage=",three_year_offer)
+            print ("4) -four year contract wage=",four_year_offer)
+        
+            user_contract_input=input("please enter a choice of 1-4 ")
+            #sanity check user input
+            try:
+                user_contract_input_int=int(user_contract_input)
+                if user_contract_input_int not in (1,2,3,4):
+                    print("bad input lets try again")
+                    input ("press enter to continue")
+                    continue
+            except:
+                print ("bad input lets try again")
+                input ("press enter to continue")
+                continue
+
+            #check index of player 
+            index_of_player=0
+            player_to_replace_index_number=0
+            for player in squad_in:
+                if player[18] == player_id_to_renew:
+                    player_to_replace_index_number=index_of_player
+                else:
+                    index_of_player+=1
+
+            #set new wage and length of contract
+            if user_contract_input=="1":
+                new_wage=one_year_offer
+            elif user_contract_input=="2":
+                new_wage=two_year_offer
+            elif user_contract_input=="3":
+                new_wage=three_year_offer
+            elif user_contract_input=="4":
+                new_wage=four_year_offer
+            else:
+                print ("something odd happened")
+                breakpoint()
+            
+            squad_in[player_to_replace_index_number][11]=new_wage
+            squad_in[player_to_replace_index_number][12]=user_contract_input
+            print("Changes made")
+            input ("press enter to continue")
+            player_creation.print_nicer_output_default_squad(squad_in)
+            input ("press enter to continue")
+
+            
+
+            
+            #update players contract and length
+
+            
     
+    breakpoint()
+
+ 
 
 
 def print_nicer_output_players_change_from_training(squad_to_print):

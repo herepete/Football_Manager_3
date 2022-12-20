@@ -50,66 +50,125 @@ def argparse_calls():
     except:
         pass
 
-def print_nicer_output_default_squad(squad_to_print):
+def print_nicer_output_default_squad(squad_to_print,print_index="n"):
         """a function to print the squad into a nice format
-           input = List of players to print
+           input = List of players to print, print index (enumeration) used in contract renewal
            output =  print to screen
         """
-        #if False:
-        #if args.verbose:
-        #    print("About to print...", squad_to_print)
-        print(
-            "PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    "
-        )
-        print(
-            "                                 |GK   TA   PAS  SHO |FT  PA  | OVE  |COS   CL | SPE    CHA   TS  | EX HI"
-        )
-        print(
-            "================================================================================================================"
-        )
-        for k in squad_to_print:
-            # for k in squad_of_players_list:
-            try:
-                #if args.verbose:
-                #    print("working on...", k)
-                if type(k[0]) == str:
-                    temp_position = k[0]
-                    player_name = k[1] + " " + k[2]
-                    #if args.verbose:
-                    #    print("ko=", k[0])
-                    #    print("ko zero string hit")
-                else:
-                    temp_position = " ".join(k[0])
-                    player_name = k[1] + " " + k[2]
-                    #if args.verbose:
-                     #   print("ko zero string hit")
 
-                # print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
-                print(
-                    "{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}{:>5s}{:>5s}  |{:>2s}  {:>2s}  |{:>4s}  |{:>2s}{:>5s}  |{:>3s}{:>8s}{:>6s} |{:>3s}{:>3s}".format(
-                        temp_position,
-                        player_name,
-                        str(k[3]),
-                        str(k[4]),
-                        str(k[5]),
-                        str(k[6]),
-                        str(k[7]),
-                        str(k[8]),
-                        str(k[9]),
-                        str(k[10]),
-                        str(k[11]),
-                        str(k[12]),
-                        str(k[13]),
-                        str(k[14]),
-                        str(k[15]),
-                        str(k[16]),
-                        str(k[17]),
-                        str(k[18]),
+
+        if print_index=="y":        
+        #we will print very similar to no but just with an index, this can be used to help the user select a certain player
+            print(
+                "Index PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    "
+            )
+            print(
+                "                                       |GK   TA   PAS  SHO |FT  PA  | OVE  |COS   CL | SPE    CHA   TS  | EX HI"
+            )
+            print(
+                "================================================================================================================"
+            )
+            index_number=1
+            for k in squad_to_print:
+                # for k in squad_of_players_list:
+                try:
+                    #if args.verbose:
+                    #    print("working on...", k)
+                    if type(k[0]) == str:
+                        temp_position = k[0]
+                        player_name = k[1] + " " + k[2]
+                        #if args.verbose:
+                        #    print("ko=", k[0])
+                        #    print("ko zero string hit")
+                    else:
+                        temp_position = " ".join(k[0])
+                        player_name = k[1] + " " + k[2]
+                        #if args.verbose:
+                         #   print("ko zero string hit")
+
+                    # print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
+                    print(
+                        "{:<6s}{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}{:>5s}{:>5s}  |{:>2s}  {:>2s}  |{:>4s}  |{:>2s}{:>5s}  |{:>3s}{:>8s}{:>6s} |{:>3s}{:>3s}".format(
+                            str(index_number),
+                            temp_position,
+                            player_name,
+                            str(k[3]),
+                            str(k[4]),
+                            str(k[5]),
+                            str(k[6]),
+                            str(k[7]),
+                            str(k[8]),
+                            str(k[9]),
+                            str(k[10]),
+                            str(k[11]),
+                            str(k[12]),
+                            str(k[13]),
+                            str(k[14]),
+                            str(k[15]),
+                            str(k[16]),
+                            str(k[17]),
+                            str(k[18]),
+                        )
                     )
-                )
-            except Exception as e:
-                print("Error=",e)
-                raise Exception("107 i errored - printing squad output player=", k)
+                    index_number+=1
+                except Exception as e:
+                    print("Error=",e)
+                    raise Exception("107-A i errored - printing squad output player=", k)
+
+        else:
+            print(
+                "PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    "
+            )
+            print(
+                "                                 |GK   TA   PAS  SHO |FT  PA  | OVE  |COS   CL | SPE    CHA   TS  | EX HI"
+            )
+            print(
+                "================================================================================================================"
+            )
+            for k in squad_to_print:
+                # for k in squad_of_players_list:
+                try:
+                    #if args.verbose:
+                    #    print("working on...", k)
+                    if type(k[0]) == str:
+                        temp_position = k[0]
+                        player_name = k[1] + " " + k[2]
+                        #if args.verbose:
+                        #    print("ko=", k[0])
+                        #    print("ko zero string hit")
+                    else:
+                        temp_position = " ".join(k[0])
+                        player_name = k[1] + " " + k[2]
+                        #if args.verbose:
+                         #   print("ko zero string hit")
+
+                    # print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
+                    print(
+                        "{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}{:>5s}{:>5s}  |{:>2s}  {:>2s}  |{:>4s}  |{:>2s}{:>5s}  |{:>3s}{:>8s}{:>6s} |{:>3s}{:>3s}".format(
+                            temp_position,
+                            player_name,
+                            str(k[3]),
+                            str(k[4]),
+                            str(k[5]),
+                            str(k[6]),
+                            str(k[7]),
+                            str(k[8]),
+                            str(k[9]),
+                            str(k[10]),
+                            str(k[11]),
+                            str(k[12]),
+                            str(k[13]),
+                            str(k[14]),
+                            str(k[15]),
+                            str(k[16]),
+                            str(k[17]),
+                            str(k[18]),
+                        )
+                    )
+                except Exception as e:
+                    print("Error=",e)
+                    raise Exception("107-B i errored - printing squad output player=", k)
+
 
 def print_nicer_output_print_key():
         """a function to print the squad key
