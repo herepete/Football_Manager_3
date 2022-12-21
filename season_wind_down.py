@@ -1158,6 +1158,7 @@ def expiring_contract(squad_in):
     print("Lets check out of contract players...")
     print("======================================")
     #out_of_contract_players_offers=[]
+    number_or_runs=0
     while True:
         out_of_contract_players=[]
         for ex_player in squad_in:
@@ -1175,18 +1176,20 @@ def expiring_contract(squad_in):
                 #temp_dict_player_offer={"Name":player_name,"player_overall":player_overall,"player_wage": player_current_wage,"player_id": player_id,"1 year contract": player_1_year_contract,"2 year contract": player_2_year_contract,"3 year contract": player_3_year_contract,"4 Year contact":player_4_year_contract}
                 #breakpoint()
                 
-        if len(out_of_contract_players) == 0:
+        if len(out_of_contract_players) == 0 and number_or_runs==0:
             print("No out of contract players")
+        if len(out_of_contract_players) == 0:
             return(squad_in)
         player_creation.print_nicer_output_default_squad(out_of_contract_players,print_index="y")
         try:
+            number_or_runs+=1
             user_input_ex=input("press an (index) number to interact with the player or press (r) to release all players ")
             if user_input_ex=="r":
                 print("Release them all")
                 for each_player in out_of_contract_players:
                     npn=new_player_needed(each_player[0])
                     replace_player(squad_in,each_player[18],npn)
-                input("All outstanding players releasted, press enter to continue")
+                input("All outstanding players released, press enter to continue")
                 continue
             min_range=1
             max_range=len(out_of_contract_players)

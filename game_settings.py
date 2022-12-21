@@ -2,7 +2,7 @@
 
 #can be changed
 Total_Wage_Limit = 200
-time_out_between_games=1
+time_out_between_games=0.1
 
 #at the moemnt only min values are used during testing but i expect a random number to be created beween min and max
 free_agency_gk_min =2

@@ -653,7 +653,7 @@ def check_current_squad_cost(incoming_squad, return_or_print):
         return current_squad_cost
 
 
-def add_free_agency(fa_incoming_squad):
+def add_free_agency(fa_incoming_squad,our_squad_in):
 
     """menu for free agencey
     input = free agents
@@ -661,16 +661,18 @@ def add_free_agency(fa_incoming_squad):
 
     while True:
         print("To find...")
-        print("G for GK")
+        print("G for GK",end=" ")
         # print ("LB for LB , RB for RB , CB for CB")
-        print("D for Defender")
-        print("M for Midfielers")
-        print("S for Stickers")
-        print("B for Best players avaliable")
-        print("Y for Good Youth prospects")
+        print("D for Defender",end=" ")
+        print("M for Midfielers",end=" ")
+        print("S for Stickers",end=" ")
+        print("B for Best players avaliable",end=" ")
+        print("Y for Good Youth prospects",end=" ")
         print("P for Special Skills")
 
-        user_input = input("Do you wish to sign a free agent?(y/n)")
+        user_input = input("Do you wish to sign a free agent?(y/n) or continue to the next step of the game (c) ")
+        if user_input =="c":
+            return our_squad_in
         Current_Squad_cost = check_current_squad_cost(
             fa_incoming_squad, return_or_print="r"
         )
@@ -680,27 +682,30 @@ def add_free_agency(fa_incoming_squad):
             )
             break
         elif user_input == "n":
-            break
+            return our_squad_in
         elif user_input == "y":
-            options_avaliable_fa = []
-            for index, item in enumerate(free_agency_list, start=0):
-                print(index, item)
-                options_avaliable_fa.append(index)
+            #options_avaliable_fa = []
+            player_creation.print_nicer_output_default_squad(fa_incoming_squad,print_index="y")
+            #for index, item in enumerate(fa_incoming_squad, start=0):
+            #    print(index, item)
+            #    options_avaliable_fa.append(index)
             # get and check the input
             try:
-                get_player = input("which player do you want to sign?")
-                if int(get_player) not in options_avaliable_fa:
+                get_player = input("which player do you want to sign? ")    
+                if len(fa_incoming_squad)>= int(get_player) >>0:
+                    pass
+                else:
                     input("Incorrect Value, please try again")
                     continue
             except:
                 input("Invalid input detected,please press a button to continue")
                 continue
-            get_player_position = free_agency_list[int(get_player)][0]
+            get_player_position = fa_incoming_squad[int(get_player)-1][0]
             # GK are in a list so convert for ease of use later
             if type(get_player_position) is list:
                 get_player_position = get_player_position[0]
             options_avaliable = []
-            for index, item in enumerate(fa_incoming_squad, start=0):
+            for index, item in enumerate(our_squad_in, start=0):
                 # if an exact match print
                 if get_player_position in (item[0]):
                     print(index, item)
@@ -728,7 +733,7 @@ def add_free_agency(fa_incoming_squad):
             try:
                 get_player1 = int(
                     input(
-                        "which player do you want to replace in your squad? (or press e to exit)"
+                        "which player do you want to replace in your squad? (or press e to exit) "
                     )
                 )
                 if int(get_player1) not in options_avaliable:
@@ -737,9 +742,9 @@ def add_free_agency(fa_incoming_squad):
                 else:
                     # NEED check for minimum squad postions
                     print("Are you you want to sign...(y/n)")
-                    print(free_agency_list[int(get_player1)])
+                    print(fa_incoming_squad[int(get_player)-1])
                     print("and Release...")
-                    print(fa_incoming_squad[int(get_player)])
+                    print(our_squad_in[int(get_player1)])
                     are_you_sure = input("")
                     if are_you_sure is "x":
                         breakpoint()
@@ -750,22 +755,23 @@ def add_free_agency(fa_incoming_squad):
                         )
                         continue
 
-                    # delete player from squad
-                    del fa_incoming_squad[int(get_player1)]
+                    # delete player from our squad
+                    del our_squad_in[int(get_player1)]
                     # insert Free Agent into Squad
-                    fa_incoming_squad.insert(
-                        int(get_player1), free_agency_list[int(get_player)]
+                    our_squad_in.insert(
+                        int(get_player1), fa_incoming_squad[int(get_player)]
                     )
                     # delete player from free agency so we cannot resign them
-                    del free_agency_list[int(get_player)]
+                    del fa_incoming_squad[int(get_player)-1]
                     print("player switched")
+                    continue
 
             except Exception as e:
                 input("Bad input please try again")
+                print(e)
+                breakpoint()
                 raise Exception("101 i Errored - i expected a different input")
 
-                breakpoint()
-                print(e)
                 continue
 
             if get_player == "e":
@@ -776,8 +782,6 @@ def add_free_agency(fa_incoming_squad):
         else:
             input("Bad Input please try again ")
 
-    pass
-
 
 def create_free_agency():
 
@@ -785,7 +789,7 @@ def create_free_agency():
     input =none 
     output = free agencey players """
 
-    global free_agency_list
+    #global free_agency_list
     
     default_squad_GK = game_settings.free_agency_gk_min
     default_squad_DEF = game_settings.free_agency_d_min
@@ -808,9 +812,7 @@ def create_free_agency():
         free_agency_list =  player_creation.create_player_player_creation(
             play_position="ATA", type_of_player="Free Agency"
         )
-    # for i in free_agency_list:
-    #    print(i)
-    return
+    return free_agency_list
 
 
 # create_free_agency()
@@ -832,11 +834,12 @@ def main_run(our_squad):
     squad_feedback(our_squad)
     rv1, rv2 = safety_check_squad_size(our_squad)
     # print(f"***Squad check is {rv1} and feedback is {rv2}****")
-    create_free_agency()
+    fa_list=create_free_agency()
     check_current_squad_cost(our_squad, return_or_print="r")
-    add_free_agency(our_squad)
+    returned_squad=add_free_agency(fa_list,our_squad)
     print("Allowed Squad Cost=", allowed_squad_cost)
     print("Wage Left=", allowed_squad_cost - current_squad_cost)
+    return(returned_squad)
 
 
 if __name__ == "__main__":
