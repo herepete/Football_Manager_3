@@ -5,6 +5,7 @@ import player_creation
 import game_settings
 import random
 from termcolor import colored
+import time
 
 
 parser = argparse.ArgumentParser()
@@ -778,7 +779,7 @@ def to_add():
     input()
 
 
-def main_run(my_squad, my_firstx1, season_result):
+def main_run(my_squad, my_firstx1, season_result,season_we_are_in):
 
     """ This it the bulk of the module contract,age,expirence and training changes are made, 
 values for season np=no playoffs dg=divisonal game cg=championship game, w=winners
@@ -793,7 +794,6 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
     # Reduce Skills
     # Change Training Speed
     # Change Charasteics
-    import random
 
     Players_improvements = []
     Players_Reductions = []
@@ -854,173 +854,208 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
                 print("not sure what kind of season this was")
 
         # print(player)
-    print ("As the season has drawen to a close, life moves on and these changes have been made:")
-    print("All players have had their experience increase (factors include, play off progresion and if in first X1)")
-
-    # age+1 and contract-1
-    for player in my_squad:
-        player_age = player[3]
-        player_age += 1
-        player[3] = player_age
-
-        player_contract_length = player[12]
-        player_contract_length -= 1
-        player[12] = player_contract_length
-    #player_creation.print_nicer_output_default_squad(my_squad)
-    print("All Players have Aged +1")
-    print ("All Players have had their contract -1")
-    print ("All Players as a result of Age,Luck and personal traits have had change in their skill sets...")
-    print ("Training")
-    print ("=========")
-
-
-    # training_increase & decrease
-    for player_training in my_squad:
-        # create player score based on age,training speed and char
-        player_position=player_training[0]
-        #if type(player_position)==list :
-        #    player_position=player_position[0]
+    #print ("As the season has drawen to a close, life moves on and these changes have been made:")
+    list_of_jobs=["All players have had their experience increase (factors include, play off progresion and if in first X1)","All Players have Aged +1","All Players have had their contract -1","All Players as a result of Age,Luck and personal traits have had change in their skill sets...","Training","Player Retirement","Training Tweaks","expiring contract"]
+    done_list=[]
+    for i in list_of_jobs:
+        #print ("As the season has drawen to a close, life moves on and these changes have been made:")
+        done_list.append(i)
+        time.sleep(1)
+        banner.banner_status(colored_status="cs", season_num=1)
+        print ("As the season has drawen to a close, life moves on and these changes have been made:")
+        for j in done_list: 
+            print(j,u'\u2713')
+            #time.sleep(0.5)
             
-        player_age_i = player_training[3]
-        player_char = player_training[14]
-        player_training_speed = player_training[15]
-        player_current_overall= player_training[10]
-        perfect_age = 25
-        build_player_score = perfect_age - player_age_i
-        if player_char == "Avg":
-            build_player_score += 1
-        elif player_char == "Leader":
-            build_player_score += 3
-        elif player_char == "5-Star":
-            build_player_score += 7
-        elif player_char == "Team P":
-            build_player_score += 2
-        elif player_char == "Fighter":
-            build_player_score += 4
-        elif player_char == "Laid B":
-            build_player_score -= 1
-        else:
-            print("pass not sure what char you are...")
-            raise Exception(
-                "104 i Errored - Unexpected Player Charastric player=", player_training
-            )
-            print()
-        # check length but could of also done if player_training_speed="*":
-        if len(player_training_speed) == 1:
-            build_player_score -= 1
-        elif len(player_training_speed) == 2:
-            build_player_score -= 0
-        elif len(player_training_speed) == 3:
-            build_player_score += 2
-        elif len(player_training_speed) == 4:
-            build_player_score += 4
-        elif len(player_training_speed) == 5:
-            build_player_score += 5
-        else:
-            print("pass not sure what training speed  you are...")
+            if i == "All players have had their experience increase (factors include, play off progresion and if in first X1)": 
+    
+                # age+1 and contract-1
+                for player in my_squad:
+                    player_age = player[3]
+                    player_age += 1
+                    player[3] = player_age
 
-        # create a random number taking into account build_player_score
-        # positive score
-        if build_player_score > 0:
-            how_lucky_are_we_feeling_skill_change = random.randint(
-                0, build_player_score
-            )
-        # negative score
-        else:
-            how_lucky_are_we_feeling_skill_change = random.randint(
-                build_player_score, 2
-            )
-        #print(player_training[1],player_training[2],"Player build player score = ",how_lucky_are_we_feeling_skill_change)
-        player_gk_skill = player_training[4]
-        player_tackle_skill = player_training[5]
-        player_pass_skill = player_training[6]
-        player_shoot_skill = player_training[7]
-        player_fitness_skill = player_training[8]
-        player_pace_skill = player_training[9]
-        player_special_skill = player_training[13]
+                    player_contract_length = player[12]
+                    player_contract_length -= 1
+                    player[12] = player_contract_length
+                continue
+            elif i == "All Players have Aged +1": 
+                continue
+            
+    #player_creation.print_nicer_output_default_squad(my_squad)
+
+            elif i == "All Players have had their contract -1":
+                continue
+            elif i ==  "All Players as a result of Age,Luck and personal traits have had change in their skill sets...":
+                continue
+            elif i == "Training":
+                print ("=========")
+
+                # training_increase & decrease
+                for player_training in my_squad:
+                    # create player score based on age,training speed and char
+                    player_position=player_training[0]
+                    #if type(player_position)==list :
+                    #    player_position=player_position[0]
+            
+                    player_age_i = player_training[3]
+                    player_char = player_training[14]
+                    player_training_speed = player_training[15]
+                    player_current_overall= player_training[10]
+                    perfect_age = 25
+                    build_player_score = perfect_age - player_age_i
+                    if player_char == "Avg":
+                        build_player_score += 1
+                    elif player_char == "Leader":
+                        build_player_score += 3
+                    elif player_char == "5-Star":
+                        build_player_score += 7
+                    elif player_char == "Team P":
+                        build_player_score += 2
+                    elif player_char == "Fighter":
+                        build_player_score += 4
+                    elif player_char == "Laid B":
+                        build_player_score -= 1
+                    else:
+                        print("pass not sure what char you are...")
+                        raise Exception(
+                        "104 i Errored - Unexpected Player Charastric player=", player_training
+                    )
+                        print()
+                    # check length but could of also done if player_training_speed="*":
+                    if len(player_training_speed) == 1:
+                        build_player_score -= 1
+                    elif len(player_training_speed) == 2:
+                        build_player_score -= 0
+                    elif len(player_training_speed) == 3:
+                        build_player_score += 2
+                    elif len(player_training_speed) == 4:
+                        build_player_score += 4
+                    elif len(player_training_speed) == 5:
+                        build_player_score += 5
+                    else:
+                        print("pass not sure what training speed  you are...")
+
+                    # create a random number taking into account build_player_score
+                    # positive score
+                    if build_player_score > 0:
+                        how_lucky_are_we_feeling_skill_change = random.randint(
+                            0, build_player_score
+                        )
+                    # negative score
+                    else:
+                        how_lucky_are_we_feeling_skill_change = random.randint(
+                            build_player_score, 2
+                        )
+                    #print(player_training[1],player_training[2],"Player build player score = ",how_lucky_are_we_feeling_skill_change)
+                    player_gk_skill = player_training[4]
+                    player_tackle_skill = player_training[5]
+                    player_pass_skill = player_training[6]
+                    player_shoot_skill = player_training[7]
+                    player_fitness_skill = player_training[8]
+                    player_pace_skill = player_training[9]
+                    player_special_skill = player_training[13]
 
 
-        # determine which skill is highest
-        #print("before skill change...")
-        #print(player_training)
-        if player_gk_skill >= (
-            player_tackle_skill
-            and player_pass_skill
-            and player_shoot_skill
-            and player_fitness_skill
-            and player_pace_skill
-        ):
-            new_skill_level = player_training[4] + how_lucky_are_we_feeling_skill_change
-            if new_skill_level < 0:
-                new_skill_level = 1
-            if new_skill_level > 20:
-                new_skill_level = 20
-            player_training[4] = new_skill_level
-        else:
-            # loop through each 'how luck are we feeling skill change '
-            # abs turns a positive into a negative number
-            #randomly take a skill to reduce
+                    # determine which skill is highest
+                    #print("before skill change...")
+                    #print(player_training)
+                    if player_gk_skill >= (
+                        player_tackle_skill
+                        and player_pass_skill
+                        and player_shoot_skill
+                        and player_fitness_skill
+                        and player_pace_skill
+                    ):
+                        new_skill_level = player_training[4] + how_lucky_are_we_feeling_skill_change
+                        if new_skill_level < 0:
+                            new_skill_level = 1
+                        if new_skill_level > 20:
+                            new_skill_level = 20
+                        player_training[4] = new_skill_level
+                    else:
+                        # loop through each 'how luck are we feeling skill change '
+                        # abs turns a positive into a negative number
+                        #randomly take a skill to reduce
 
-            #help work our what incrementtor we should use
-            if how_lucky_are_we_feeling_skill_change > 0:
-                incremental_skill_change=1
-            else:
-                incremental_skill_change=-1
-            for _ in range(abs(how_lucky_are_we_feeling_skill_change)):
-                #build list of skills to increase
-                random_list_source=[]
-                if player_training[4] !=20:
-                    random_list_source.append(4)
-                if player_training[5] !=20:
-                    random_list_source.append(5)
-                if player_training[6] !=20:
-                    random_list_source.append(6)
-                if player_training[7] !=20:
-                    random_list_source.append(7)
-                if player_training[8] !=20:
-                    random_list_source.append(8)
-                if player_training[9] !=20:
-                    random_list_source.append(9)
-                if not random_list_source:
-                    print("ahhh no skills i can increase, what do to?")
-                    breakpoint()
+                        #help work our what incrementtor we should use
+                        if how_lucky_are_we_feeling_skill_change > 0:
+                            incremental_skill_change=1
+                        else:
+                            incremental_skill_change=-1
+                        for _ in range(abs(how_lucky_are_we_feeling_skill_change)):
+                            #build list of skills to increase
+                            random_list_source=[]
+                            if player_training[4] !=20:
+                                random_list_source.append(4)
+                            if player_training[5] !=20:
+                                random_list_source.append(5)
+                            if player_training[6] !=20:
+                                random_list_source.append(6)
+                            if player_training[7] !=20:
+                                random_list_source.append(7)
+                            if player_training[8] !=20:
+                                random_list_source.append(8)
+                            if player_training[9] !=20:
+                                random_list_source.append(9)
+                            if not random_list_source:
+                                print("ahhh no skills i can increase, what do to?")
+                                breakpoint()
                 
 
         
-                random_number_of_skill_to_change=random.choice(random_list_source)
-                new_skill_level = player_training[random_number_of_skill_to_change] + incremental_skill_change
-                if new_skill_level < 0:
-                    new_skill_level = 1
-                if new_skill_level > 20:
-                    new_skill_level = 20
-                    print ("Er players skill has hit 20",player_training)
-                    print ("*** i need some better logic here to try permission change else where",player_training)
-                player_training[random_number_of_skill_to_change] = new_skill_level
+                            random_number_of_skill_to_change=random.choice(random_list_source)
+                            new_skill_level = player_training[random_number_of_skill_to_change] + incremental_skill_change
+                            if new_skill_level < 0:
+                                new_skill_level = 1
+                            if new_skill_level > 20:
+                                new_skill_level = 20
+                                print ("Er players skill has hit 20",player_training)
+                                print ("*** i need some better logic here to try permission change else where",player_training)
+                            player_training[random_number_of_skill_to_change] = new_skill_level
 
-        # get new player rating
+                    # get new player rating
+    
+                    #player_creation.player_rating(self, final_player_position="GK")
+                    new_overall_rating=player_creation.create_player_player_rating( 
+                    final_player_position_in=player_position,
+                    random_skill_gk_in=player_training[4],
+                    random_skill_tackle_in=player_training[5],
+                    random_skill_passing_in=player_training[6],
+                    random_skill_shooting_in=player_training[7],
+                    random_skill_fitness_in=player_training[8],
+                    random_skill_pace_in=player_training[9],
+                    random_skill_special_skill_in=player_training[13])
+                    #print("New Overall score...",new_overall_rating)
 
-        #player_creation.player_rating(self, final_player_position="GK")
-        new_overall_rating=player_creation.create_player_player_rating( 
-        final_player_position_in=player_position,
-        random_skill_gk_in=player_training[4],
-        random_skill_tackle_in=player_training[5],
-        random_skill_passing_in=player_training[6],
-        random_skill_shooting_in=player_training[7],
-        random_skill_fitness_in=player_training[8],
-        random_skill_pace_in=player_training[9],
-        random_skill_special_skill_in=player_training[13])
-        #print("New Overall score...",new_overall_rating)
+                    temp_build=[player_training[0],player_training[1], player_training[2], player_training[3], player_training[10],new_overall_rating]
+                    player_total_changes.append(temp_build)
+                print_nicer_output_players_change_from_training(squad_to_print=player_total_changes)
+                input("Press enter to continue")
+                #breakpoint()
+                break
+            #break
 
-        temp_build=[player_training[0],player_training[1], player_training[2], player_training[3], player_training[10],new_overall_rating]
-        player_total_changes.append(temp_build)
+            elif i == "Player Retirement":
+                
+                my_squad_after_retirment=time_to_retire(my_squad)
+                input("Press enter to continue")
+                break
+    
+            elif i == "Training Tweaks":
+    
+                my_squad_after_training_tweaks=tweak_training_and_personality(my_squad_after_retirment)
+                input("Press enter to continue")
+                break
 
-    print_nicer_output_players_change_from_training(squad_to_print=player_total_changes)
+            elif i == "expiring contract":
+                #input("press enter to continue")
+                expiring_contract(squad_in=my_squad_after_training_tweaks)
+                input("Press enter to continue")
+                break
 
-    my_squad_after_retirment=time_to_retire(my_squad)
-    my_squad_after_training_tweaks=tweak_training_and_personality(my_squad_after_retirment)
-    #input("press enter to continue")
-    expiring_contract(squad_in=my_squad_after_training_tweaks)
-    input("press enter to continue")
+            else:
+                input("press enter to continue")
     
 
 def tweak_training_and_personality(squad_in_ttandp):
@@ -1347,6 +1382,6 @@ if __name__ == "__main__":
     import banner
 
     banner.banner_status(colored_status="cs", season_num=1)
-    to_add()
+    #to_add()
     #player_creation.print_nicer_output_default_squad(player_squad)
-    main_run(player_squad, team_chosen[0], "np")
+    main_run(player_squad, team_chosen[0], "np",2)
