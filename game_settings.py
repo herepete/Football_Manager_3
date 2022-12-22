@@ -33,8 +33,8 @@ Free_Agency_parameters = {
 Random_poor_parameters = {
     "age_min": "24",
     "age_max": "35",
-    "skill_min": "10",
-    "skill_max": "14",
+    "skill_min": "12",
+    "skill_max": "15",
 }
 
 

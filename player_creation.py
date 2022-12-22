@@ -144,7 +144,7 @@ def print_nicer_output_default_squad(squad_to_print,print_index="n"):
 
                     # print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
                     print(
-                        "{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}{:>5s}{:>5s}  |{:>2s}  {:>2s}  |{:>4s}  |{:>2s}{:>5s}  |{:>3s}{:>8s}{:>6s} |{:>3s}{:>3s}".format(
+                        "{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}{:>5s}{:>5s}  |{:>2s}  {:>2s}  |{:>4s}  |{:>2s}{:>5s}  |{:>3s}{:>8s}{:>6s} |{:>3s} {:>3s}".format(
                             temp_position,
                             player_name,
                             str(k[3]),
@@ -167,6 +167,7 @@ def print_nicer_output_default_squad(squad_to_print,print_index="n"):
                     )
                 except Exception as e:
                     print("Error=",e)
+                    breakpoint()
                     raise Exception("107-B i errored - printing squad output player=", k)
 
 
@@ -533,7 +534,10 @@ def create_player_player_rating(
 def create_player_player_creation(play_position, type_of_player, return_player=0):
         """ Where all the magic happens to create a Squad
          the order is quite important here as variables are reliant on previous functions 
-        input = play_position i.e GK, type_of_player (Start Up,Free Agency or else) to determine parameters,return_player default to 0 if 1 a player is returned-used when players being created outside this script and a player is wanted)
+        input = 
+            play_position i.e GK, 
+            type_of_player (Start Up,Free Agency,Draft or else) -this effects player history and skill of player 
+            return_player default to 0 if 1 a player is returned-used when players being created outside this script and a player is wanted)
         output = a squad of players """
         global age_min, age_max, skill_min, skill_max, overall_score,squad_of_players_list
         if type_of_player == "Start Up":
@@ -584,7 +588,16 @@ def create_player_player_creation(play_position, type_of_player, return_player=0
         special_trait_skill_created=create_player_special_traits(age_created)
         player_id_created=create_player_player_id()
         player_experience_created=create_player_player_experience("1")
-        player_history_created=create_player_player_history = "DP"
+        #print("type of player=",type_of_player)
+        #input()
+        if type_of_player=="Random Poor":
+            player_history_created=create_player_player_history = "Replacement"
+        elif type_of_player=="Start Up":
+            player_history_created=create_player_player_history = "DP"
+        elif type_of_player=="Draft":
+            player_history_created=create_player_player_history = "Draft"
+        else:
+            player_history_created=create_player_player_history = "UN"
         player_special_skill_created=create_player_player_skill_special_skill(special_trait_skill_created,player_experience_created)
         try:
             player_overall_score_created=create_player_player_rating(

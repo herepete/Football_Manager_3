@@ -6,6 +6,7 @@ import game_settings
 import random
 from termcolor import colored
 import time
+import banner
 
 
 parser = argparse.ArgumentParser()
@@ -863,11 +864,13 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
         time.sleep(1)
         banner.banner_status(colored_status="cs", season_num=1)
         print ("As the season has drawen to a close, life moves on and these changes have been made:")
-        for j in done_list: 
+        #this prints a nice summary of where we are with a tick as we progress through the list_of_jobs
+        for j in done_list:
+            #breakpoint() 
             print(j,u'\u2713')
             #time.sleep(0.5)
             
-            if i == "All players have had their experience increase (factors include, play off progresion and if in first X1)": 
+        if i == "All players have had their experience increase (factors include, play off progresion and if in first X1)": 
     
                 # age+1 and contract-1
                 for player in my_squad:
@@ -879,16 +882,16 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
                     player_contract_length -= 1
                     player[12] = player_contract_length
                 continue
-            elif i == "All Players have Aged +1": 
+        elif i == "All Players have Aged +1": 
                 continue
             
     #player_creation.print_nicer_output_default_squad(my_squad)
 
-            elif i == "All Players have had their contract -1":
+        elif i == "All Players have had their contract -1":
                 continue
-            elif i ==  "All Players as a result of Age,Luck and personal traits have had change in their skill sets...":
+        elif i ==  "All Players as a result of Age,Luck and personal traits have had change in their skill sets...":
                 continue
-            elif i == "Training":
+        elif i == "Training":
                 print ("=========")
 
                 # training_increase & decrease
@@ -1028,34 +1031,35 @@ values for season np=no playoffs dg=divisonal game cg=championship game, w=winne
                     random_skill_special_skill_in=player_training[13])
                     #print("New Overall score...",new_overall_rating)
 
-                    temp_build=[player_training[0],player_training[1], player_training[2], player_training[3], player_training[10],new_overall_rating]
+                    temp_build=[player_training[0],player_training[1], player_training[2], player_training[3], player_training[10],new_overall_rating,player_training[14],player_training[15]]
                     player_total_changes.append(temp_build)
+
+
+                    #write change back to list
+                    player_training[10]=new_overall_rating
                 print_nicer_output_players_change_from_training(squad_to_print=player_total_changes)
                 input("Press enter to continue")
-                #breakpoint()
-                break
-            #break
 
-            elif i == "Player Retirement":
+        elif i == "Player Retirement":
                 
                 my_squad_after_retirment=time_to_retire(my_squad)
                 input("Press enter to continue")
-                break
+                #break
     
-            elif i == "Training Tweaks":
+        elif i == "Training Tweaks":
     
                 my_squad_after_training_tweaks=tweak_training_and_personality(my_squad_after_retirment)
                 input("Press enter to continue")
-                break
+                #break
 
-            elif i == "expiring contract":
+        elif i == "expiring contract":
                 #input("press enter to continue")
                 expiring_contract(squad_in=my_squad_after_training_tweaks)
                 input("Press enter to continue")
-                break
+                #break
 
-            else:
-                input("press enter to continue")
+        else:
+                input("Season Wind down finished ,press enter to continue")
     
 
 def tweak_training_and_personality(squad_in_ttandp):
@@ -1072,18 +1076,22 @@ def tweak_training_and_personality(squad_in_ttandp):
         #age 27 
         #reduce training speed by 1
         #change from 5 star recurit to something else
-        if int(player_age) ==27:
+        if (int(player_age) ==27 or int(player_age) ==30 or int(player_age) ==34) and len(player_training_speed)!=1:
             if changes_made==0:
                 print("==================================================")
                 print("Players with tweaks to training speed and Character")
                 print("==================================================")
-            print("Before change..",player)
+            print()
+            print("Before change..")
+            player_creation.print_nicer_output_default_squad([player],print_index="n")
             if len(player_training_speed) > 1:
                 new_training_speed= len(player_training_speed)-1
                 new_training_speed_as_stars="*" *  new_training_speed
                 player[15]=new_training_speed_as_stars
                 changes_made+=1
-                print("After change..",player)
+                print()
+                print("After change..")
+                player_creation.print_nicer_output_default_squad([player],print_index="n")
             if player_char == "5-Star":
                 special_traits_random_number = random.randint(1, 4)
                 if special_traits_random_number == 1:
@@ -1098,7 +1106,12 @@ def tweak_training_and_personality(squad_in_ttandp):
                     player_special_trait = "Avg"
                 changes_made+=1
                 player[14]=player_special_trait
-                print("After change..",player)
+                print()
+                print("After change..")
+                player_creation.print_nicer_output_default_squad([player],print_index="n")
+            #else:
+            #    print("Else hit , not sure why?")
+            #    breakpoint()
     if changes_made!=0:
         pass
         #print ("players char or training speed changed")
@@ -1124,14 +1137,22 @@ def time_to_retire(squad_in):
     for player in squad_in:
         players_age=player[3]
         players_position=player[0]
-        player_id=player[18]
+        try:
+            player_id=player[18]
+        except:
+            breakpoint()
         #if type(players_position) == list:
         #    players_position=players_position[0]
         if players_age > old_age:
             shall_i_retire = random.randint (0,1)
             if shall_i_retire==1:
-                print("Player has decided to retire...",player[0],player[1],player[2],player[3],player[10])
+                #999
+                #print_nicer_output_retiring_players(position,fname,sname,age,overall,print_header=0)
+                #print("Player has decided to retire...",player[0],player[1],player[2],player[3],player[10])
+                print_nicer_output_retiring_players(position=player[0],fname=player[1],sname=player[2],age=player[3],overall=player[10],print_header=1,note="Retiring")
                 new_random_player_returned=new_player_needed(position_in_need=players_position)
+                #breakpoint()
+                print_nicer_output_retiring_players(position=new_random_player_returned[0][0],fname=new_random_player_returned[0][1],sname=new_random_player_returned[0][2],age=new_random_player_returned[0][3],overall=new_random_player_returned[0][10],print_header=0,note="Replacement")
                 updated_squad=replace_player(squad_in=squad_in,player_to_replace_uniqee_id=player_id,new_player=new_random_player_returned)
                 players_retired+=1
             else:
@@ -1155,10 +1176,10 @@ def new_player_needed(position_in_need):
 
     new_random_player=[]
     new_random_player=player_creation.create_player_player_creation(play_position=position_in_need, type_of_player="Random Poor",return_player=1)
-    try:
-        print("here is the replacement...",new_random_player[0][0],new_random_player[0][1],new_random_player[0][2],new_random_player[0][3],new_random_player[0][10])
-    except:
-        breakpoint()
+    #try:
+    #    print("here is the replacement...",new_random_player[0][0],new_random_player[0][1],new_random_player[0][2],new_random_player[0][3],new_random_player[0][10])
+    #except:
+    #    breakpoint()
     return (new_random_player)
 
 
@@ -1330,7 +1351,26 @@ def expiring_contract(squad_in):
     
     breakpoint()
 
- 
+def print_nicer_output_retiring_players(position,fname,sname,age,overall,print_header=0,note=""):
+        """a function to print the retired players changes into a nice format
+           input = position,fname,sname,age,overall,header=0(if 0 no header printed)
+           output =  print to screen
+        """
+        if print_header==1:
+            print()
+            print(
+                "PST    Name                  AGE |Overall Notes "
+                )
+            print(
+                "=========================================="
+            )
+        fullname=str(fname)+" "+str(sname)
+        try:
+            print('{:<6s}{:<18s}{:>7s}  | {:>2s} {:>2}'.format(str(position), str(fullname), str(age),str(overall),note))
+
+        except:
+            breakpoint()
+
 
 
 def print_nicer_output_players_change_from_training(squad_to_print):
@@ -1339,7 +1379,7 @@ def print_nicer_output_players_change_from_training(squad_to_print):
            output =  print to screen
         """
         print(
-            "PST    Name                  AGE |Old_Overall   New_Overall Change "
+            "PST    Name                  AGE   CHA      TS   |Old_Overall   New_Overall Change "
         )
         print(
             "================================================================================================================"
@@ -1355,7 +1395,7 @@ def print_nicer_output_players_change_from_training(squad_to_print):
 
                 # print('{:<12s}{:<15s}{:>10s}{:>5s}{:>5s}{:>15s}{:>12s}{:>5s}{:>5s}'.format(temp_position,player_name,str(k[3]),str(k[4]),str(k[5]),str(k[6]),str(k[7]),str(k[8]),str(k[9]),str(k[10])))
                 #print('{:<6s}{:<18s}{:>7s}  |{:>2s}{:>5s}'.format(str(k[0]), str(k[1]), str(k[2]), str(k[3]), str(k[4])))
-                print('{:<6s}{:<18s}{:>7s}  | {:>2s}{:>12s}{:>13s}'.format(str(position_to_print), fullname, str(k[3]), str(k[4]),str(k[5]),str(change_in_skill)),end =" ")
+                print('{:<6s}{:<18s}{:>7s} {:>7s}{:>7s}   | {:>2s}{:>12s}{:>13s}'.format(str(position_to_print), fullname, str(k[3]),str(k[6]),str(k[7]) ,str(k[4]),str(k[5]),str(change_in_skill)),end =" ")
                 if change_in_skill > 2:
                     print(colored("Big training boost ", "green"))
                 elif change_in_skill < -2:
