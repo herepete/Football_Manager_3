@@ -843,6 +843,7 @@ def create_team_score(first_11, type_of_team):
             fitness_score += player[8]
             special_score += player[13]
         else:
+            
             raise Exception(
                 "106 unexpected player found while trying to score team... player=",
                 player,
@@ -872,8 +873,10 @@ def formation_choice(squad):
         best_blended_team(squad)
         offer_choice_to_user()
     except Exception as e:
+        print(e)
+        breakpoint()
         raise Exception(
-            "106 - while trying to create team from squad failed ,squad=", squad
+            "156 - while trying to create team from squad failed ,squad=", squad
         )
 
 

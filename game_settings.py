@@ -5,10 +5,10 @@ Total_Wage_Limit = 200
 time_out_between_games=0.1
 
 #at the moemnt only min values are used during testing but i expect a random number to be created beween min and max
-free_agency_gk_min =2
-free_agency_d_min =2
-free_agency_m_min =2
-free_agency_a_min =2
+free_agency_gk_min =30
+free_agency_d_min =50
+free_agency_m_min =50
+free_agency_a_min =50
 
 free_agency_gk_max =4
 free_agency_d_max =4

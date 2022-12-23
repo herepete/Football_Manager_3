@@ -50,24 +50,25 @@ def argparse_calls():
     except:
         pass
 
-def print_nicer_output_default_squad(squad_to_print,print_index="n"):
+def print_nicer_output_default_squad(squad_to_print,print_index="n",print_header="y"):
         """a function to print the squad into a nice format
-           input = List of players to print, print index (enumeration) used in contract renewal
+           input = List of players to print, print index (enumeration) used in contract renewal, print_header=y or n (used in checking change of player skills and you want a nice easy comparision)
            output =  print to screen
         """
 
 
         if print_index=="y":        
         #we will print very similar to no but just with an index, this can be used to help the user select a certain player
-            print(
-                "Index PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    "
-            )
-            print(
-                "                                       |GK   TA   PAS  SHO |FT  PA  | OVE  |COS   CL | SPE    CHA   TS  | EX HI"
-            )
-            print(
-                "================================================================================================================"
-            )
+            if print_header=="y":
+                print(
+                    "Index PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    "
+                )
+                print(
+                    "                                       |GK   TA   PAS  SHO |FT  PA  | OVE  |COS   CL | SPE    CHA   TS  | EX HI"
+                )
+                print(
+                    "================================================================================================================"
+                )
             index_number=1
             for k in squad_to_print:
                 # for k in squad_of_players_list:
@@ -116,15 +117,16 @@ def print_nicer_output_default_squad(squad_to_print,print_index="n"):
                     raise Exception("107-A i errored - printing squad output player=", k)
 
         else:
-            print(
-                "PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    "
-            )
-            print(
-                "                                 |GK   TA   PAS  SHO |FT  PA  | OVE  |COS   CL | SPE    CHA   TS  | EX HI"
-            )
-            print(
-                "================================================================================================================"
-            )
+            if print_header=="y":
+                print(
+                    "PST    Name                  AGE |SKILLS             |PHYSICAL|OVERAL|CONTRACT | TRAINING         | HISTORY    "
+                )
+                print(
+                    "                                 |GK   TA   PAS  SHO |FT  PA  | OVE  |COS   CL | SPE    CHA   TS  | EX HI"
+                )
+                print(
+                    "================================================================================================================"
+                )
             for k in squad_to_print:
                 # for k in squad_of_players_list:
                 try:
@@ -422,12 +424,15 @@ def create_player_player_id():
 
 def create_player_player_experience(default):
         """Create a default players experience
-            input = default if '1' experience = 0 else experience = 10 (not sure if the else will ever be hit but it seemed sensible to script for it) """
-        if default == "1":
-            player_experience_level = 0
-        else:
+            input = max default is passed through
+            output =expereince will be a number between 0 and variable passed in"""
+        #if default == "1":
+        #    player_experience_level = 0
+        #else:
             # not expecting this to hit but includding for future use
-            player_experience_level = 10
+         #   player_experience_level = 10
+
+        player_experience_level=random.randint(0,int(default))
 
         return player_experience_level
 
@@ -587,7 +592,15 @@ def create_player_player_creation(play_position, type_of_player, return_player=0
         training_speed_created=create_player_player_training_speed(age_created)
         special_trait_skill_created=create_player_special_traits(age_created)
         player_id_created=create_player_player_id()
-        player_experience_created=create_player_player_experience("1")
+        if type_of_player=="Random Poor":
+            player_experience_created=create_player_player_experience("4")
+        elif type_of_player=="Start Up":
+            player_experience_created=create_player_player_experience("4")
+        elif type_of_player=="Free Agency":
+            player_experience_created=create_player_player_experience("10")
+        else:
+            #including drated and detauy players
+            player_experience_created=create_player_player_experience("1")
         #print("type of player=",type_of_player)
         #input()
         if type_of_player=="Random Poor":
@@ -596,6 +609,8 @@ def create_player_player_creation(play_position, type_of_player, return_player=0
             player_history_created=create_player_player_history = "DP"
         elif type_of_player=="Draft":
             player_history_created=create_player_player_history = "Draft"
+        elif type_of_player=="Free Agency":
+            player_history_created=create_player_player_history = "FA"
         else:
             player_history_created=create_player_player_history = "UN"
         player_special_skill_created=create_player_player_skill_special_skill(special_trait_skill_created,player_experience_created)

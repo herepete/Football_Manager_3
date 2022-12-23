@@ -660,47 +660,96 @@ def add_free_agency(fa_incoming_squad,our_squad_in):
     output =a lot """
 
     while True:
-        print("To find...")
-        print("G for GK",end=" ")
+        #print("To find...")
+        #print("G for GK",end=" ")
         # print ("LB for LB , RB for RB , CB for CB")
-        print("D for Defender",end=" ")
-        print("M for Midfielers",end=" ")
-        print("S for Stickers",end=" ")
-        print("B for Best players avaliable",end=" ")
-        print("Y for Good Youth prospects",end=" ")
-        print("P for Special Skills")
+        #print("D for Defender",end=" ")
+        #print("M for Midfielers",end=" ")
+        #print("S for Stickers",end=" ")
+        #print("B for Best players avaliable",end=" ")
+        #print("Y for Good Youth prospects",end=" ")
+        #print("P for Special Skills")
 
-        user_input = input("Do you wish to sign a free agent?(y/n) or continue to the next step of the game (c) ")
+        user_input = input("Do you wish to sign a free agent?(y) or continue to the next step of the game (c) or (t) to view current squad ")
         if user_input =="c":
             return our_squad_in
+        
         Current_Squad_cost = check_current_squad_cost(
             fa_incoming_squad, return_or_print="r"
         )
+        if user_input == "t":
+                os.system('clear')
+                player_creation.print_nicer_output_default_squad(our_squad_in)
+                squad_feedback(our_squad_in)
+                input("press a button to continue")
+                continue
+            
         if Current_Squad_cost < 0:
             input(
                 "you don't have enough Cash to sign any new players,press a button to continue "
             )
             break
-        elif user_input == "n":
-            return our_squad_in
         elif user_input == "y":
+            user_input2=input("press (a) all, (t) top 10, (tt) top 50, (f)top trainers,(s) top 20 strickers ")
+            if  user_input2=="s":
+                top_s = sorted(fa_incoming_squad, key=lambda x: x[10], reverse=True)
+                top_s_rebuild=[]
+                for si in top_s:
+                    if si[0] =="ST":
+                        top_s_rebuild.append(si)
+                top_st_top_20=top_s_rebuild[:20]
+                player_creation.print_nicer_output_default_squad(top_st_top_20,print_index="y")
+                player_list=top_st_top_20
+
+            elif  user_input2=="a":
+                player_creation.print_nicer_output_default_squad(fa_incoming_squad,print_index="y")
+                #player list is set accordingley so later in the script i can easier get the player id
+                player_list=fa_incoming_squad
+            elif  user_input2=="t":
+                top_10 = sorted(fa_incoming_squad, key=lambda x: x[10], reverse=True)
+                top_10 = top_10[:10]
+                player_creation.print_nicer_output_default_squad(top_10,print_index="y")
+                player_list=top_10
+            elif  user_input2=="tt":
+                top_50 = sorted(fa_incoming_squad, key=lambda x: x[10], reverse=True)
+                top_50 = top_50[:50]
+                player_creation.print_nicer_output_default_squad(top_50,print_index="y")
+                player_list=top_50
+            
+            elif  user_input2=="f":
+                top_trainers=sorted(fa_incoming_squad, key=lambda x: x[15], reverse=True)
+                top_trainers = top_trainers[:10]
+                player_creation.print_nicer_output_default_squad(top_trainers,print_index="y")
+                player_list=top_trainers
+            else:
+                input("Invalid input detected,please press enter to continue")
             #options_avaliable_fa = []
-            player_creation.print_nicer_output_default_squad(fa_incoming_squad,print_index="y")
             #for index, item in enumerate(fa_incoming_squad, start=0):
             #    print(index, item)
             #    options_avaliable_fa.append(index)
             # get and check the input
             try:
-                get_player = input("which player do you want to sign? ")    
-                if len(fa_incoming_squad)>= int(get_player) >>0:
+
+                get_player = input("which player do you want to sign? ")   
+                 
+                if len(player_list)>= int(get_player) >>0:
                     pass
                 else:
                     input("Incorrect Value, please try again")
                     continue
             except:
                 input("Invalid input detected,please press a button to continue")
-                continue
-            get_player_position = fa_incoming_squad[int(get_player)-1][0]
+                break
+
+            #get player
+            player_id=player_list[int(get_player)-1][18]
+            player_index_poistion_in_complete_list=0
+            for player_check in fa_incoming_squad :
+                if  player_check[18] == player_id:
+                    break
+                else:
+                    player_index_poistion_in_complete_list+=1
+            get_player_position = player_list[int(get_player)-1][0]
             # GK are in a list so convert for ease of use later
             if type(get_player_position) is list:
                 get_player_position = get_player_position[0]
@@ -742,7 +791,7 @@ def add_free_agency(fa_incoming_squad,our_squad_in):
                 else:
                     # NEED check for minimum squad postions
                     print("Are you you want to sign...(y/n)")
-                    print(fa_incoming_squad[int(get_player)-1])
+                    print( player_list[int(get_player)-1])
                     print("and Release...")
                     print(our_squad_in[int(get_player1)])
                     are_you_sure = input("")
@@ -759,10 +808,10 @@ def add_free_agency(fa_incoming_squad,our_squad_in):
                     del our_squad_in[int(get_player1)]
                     # insert Free Agent into Squad
                     our_squad_in.insert(
-                        int(get_player1), fa_incoming_squad[int(get_player)]
+                        int(get_player1), fa_incoming_squad[player_index_poistion_in_complete_list]
                     )
                     # delete player from free agency so we cannot resign them
-                    del fa_incoming_squad[int(get_player)-1]
+                    del fa_incoming_squad[player_index_poistion_in_complete_list]
                     print("player switched")
                     continue
 

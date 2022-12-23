@@ -1082,16 +1082,15 @@ def tweak_training_and_personality(squad_in_ttandp):
                 print("Players with tweaks to training speed and Character")
                 print("==================================================")
             print()
-            print("Before change..")
+            print("Before and After change..")
             player_creation.print_nicer_output_default_squad([player],print_index="n")
             if len(player_training_speed) > 1:
                 new_training_speed= len(player_training_speed)-1
                 new_training_speed_as_stars="*" *  new_training_speed
                 player[15]=new_training_speed_as_stars
                 changes_made+=1
-                print()
-                print("After change..")
-                player_creation.print_nicer_output_default_squad([player],print_index="n")
+                #print("After Change...")
+                player_creation.print_nicer_output_default_squad([player],print_index="n",print_header="n")
             if player_char == "5-Star":
                 special_traits_random_number = random.randint(1, 4)
                 if special_traits_random_number == 1:
@@ -1106,9 +1105,8 @@ def tweak_training_and_personality(squad_in_ttandp):
                     player_special_trait = "Avg"
                 changes_made+=1
                 player[14]=player_special_trait
-                print()
-                print("After change..")
-                player_creation.print_nicer_output_default_squad([player],print_index="n")
+                #print("After Change...")
+                player_creation.print_nicer_output_default_squad([player],print_index="n",print_header="n")
             #else:
             #    print("Else hit , not sure why?")
             #    breakpoint()
@@ -1237,9 +1235,20 @@ def expiring_contract(squad_in):
         if len(out_of_contract_players) == 0:
             return(squad_in)
         player_creation.print_nicer_output_default_squad(out_of_contract_players,print_index="y")
+        print()
+        print("=======Squad Stats")
+        player_creation.Squad_stats_and_feedback_cost_of_squad(squad_in)
+        player_creation.Squad_stats_and_feedback_squad_feedback(squad_in)
+        player_creation.Squad_stats_and_feedback_players_per_position(squad_in)
+        player_creation.Squad_stats_and_feedback_char_of_team(squad_in)
+        player_creation.Squad_stats_and_feedback_rating_per_position(squad_in)
         try:
             number_or_runs+=1
-            user_input_ex=input("press an (index) number to interact with the player or press (r) to release all players ")
+            user_input_ex=input("press an (index) number to interact with the player or press (r) to release all players or (s) to view current squad ")
+            if user_input_ex=="s":
+                player_creation.print_nicer_output_default_squad(squad_in)            
+                input("press enter to continue")
+                continue
             if user_input_ex=="r":
                 print("Release them all")
                 for each_player in out_of_contract_players:
@@ -1260,13 +1269,13 @@ def expiring_contract(squad_in):
             print ("Invalid input , please try again")
             input("Press enter to continue")
             continue
-        players_choice=input ("Do you want to (offer a new contract(n)  or release the player(r)")
+        players_choice=input ("Do you want to offer a new contract(n)  or release the player(r) ")
         #maybe include some kind of squad overview so we can inderstand how import the player is
         if players_choice != "n" and  players_choice != "r":
             print ("Invalid input , please try again")
             input("Press enter to continue")
         if players_choice == "r":
-            input_release=input("are you sure you want to relase this player?(y/n)")
+            input_release=input("are you sure you want to release this player?(y/n) ")
             if input_release =="y":
                 player_index_to_delete=int(user_input_ex)-1
                 player_to_release_id=out_of_contract_players[player_index_to_delete][18]
@@ -1300,9 +1309,11 @@ def expiring_contract(squad_in):
             print ("3) -three year contract wage=",three_year_offer)
             print ("4) -four year contract wage=",four_year_offer)
         
-            user_contract_input=input("please enter a choice of 1-4 ")
+            user_contract_input=input("please enter a choice of 1-4 or e to exit ")
             #sanity check user input
             try:
+                if user_contract_input=="e":
+                    input("Exiting from this contract selection..., press enter to continue")
                 user_contract_input_int=int(user_contract_input)
                 if user_contract_input_int not in (1,2,3,4):
                     print("bad input lets try again")
@@ -1338,8 +1349,8 @@ def expiring_contract(squad_in):
             squad_in[player_to_replace_index_number][11]=new_wage
             squad_in[player_to_replace_index_number][12]=user_contract_input
             print("Changes made")
-            input ("press enter to continue")
-            player_creation.print_nicer_output_default_squad(squad_in)
+            #input ("press enter to continue")
+            #player_creation.print_nicer_output_default_squad(squad_in)
             input ("press enter to continue")
 
             
