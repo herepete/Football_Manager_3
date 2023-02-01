@@ -29,6 +29,9 @@ https://user-images.githubusercontent.com/40490116/216011053-385f8066-85f8-4819-
 
 ## Getting setup
 
+Steps 1-3 are optional and only if you want to run the setup in a docker container.
+If not carry on with steps 4-6
+
 1) create docker image `docker run -it amazonlinux`
 2) install python  `yum install python37`
 3) install git `yum install git`
