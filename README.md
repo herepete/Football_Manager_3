@@ -39,5 +39,3 @@ If not carry on with steps 4-6
 5) install dependacies `pip3.7 install termcolor`
 6) run game `./main.py`
 
-
-
